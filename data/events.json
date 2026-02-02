@@ -1,0 +1,125 @@
+[
+  {
+    "id": "E001",
+    "title": "水箱的怪聲",
+    "dayMin": 1,
+    "dayMax": 999,
+    "tags": ["shelter", "maintenance"],
+    "text": "夜裡，你聽見牆後的水箱傳來『嗒…嗒…』的敲擊聲。\n聲音不大，但足夠讓人想像：如果它擴大，會不會把外面的東西引來？\n\n黎霜說：『先修。』\n宋寧說：『先睡，明天再說。』\n夏見把手放在門邊，像在等你一句話。",
+    "choices": [
+      {
+        "label": "立即檢修（花時間、降低噪音）",
+        "cost": {"Med": 0},
+        "outcomes": {
+          "always": {
+            "text": "你們拆開蓋板，找到鬆動的固定栓。聲音止住了。代價是睡眠不足。",
+            "effects": {
+              "status": {"Stress": 5},
+              "resources": {"Noise": -2},
+              "relations": {
+                "liShuang": {"Trust": 3},
+                "songNing": {"Affection": -1}
+              }
+            }
+          }
+        }
+      },
+      {
+        "label": "先忍耐（不增加壓力，但噪音風險上升）",
+        "outcomes": {
+          "always": {
+            "text": "你決定先睡。敲擊聲像是在算時間。",
+            "effects": {
+              "resources": {"Noise": 2},
+              "relations": {
+                "songNing": {"Trust": 2},
+                "liShuang": {"Affection": -1}
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "E002",
+    "title": "罐頭的去向",
+    "dayMin": 2,
+    "dayMax": 999,
+    "tags": ["shelter", "trust"],
+    "text": "早晨清點時，你發現少了一罐高熱量罐頭。\n沒有人承認。\n\n封閉的空間會把人逼到最小的縫隙裡，然後讓縫隙變成裂痕。",
+    "choices": [
+      {
+        "label": "公開搜查（壓住恐慌，但傷關係）",
+        "outcomes": {
+          "always": {
+            "text": "你要求所有人把私人物品攤開。你找到了罐頭，但你也找到了『彼此不信任』。",
+            "effects": {
+              "status": {"Stress": 6},
+              "relations": {
+                "liShuang": {"Trust": 2},
+                "songNing": {"Affection": -3},
+                "xiaJian": {"Trust": -1}
+              }
+            }
+          }
+        }
+      },
+      {
+        "label": "私下談（消耗時間，但保住表面和平）",
+        "outcomes": {
+          "always": {
+            "text": "你一個個聊。你沒有抓到『犯人』，但你抓到了一點點情緒的溫度。",
+            "effects": {
+              "status": {"Stress": 2},
+              "relations": {
+                "songNing": {"Trust": 2},
+                "liShuang": {"Affection": 1}
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "E003",
+    "title": "外面有光",
+    "dayMin": 1,
+    "dayMax": 999,
+    "tags": ["explore", "risk"],
+    "text": "窗縫外有一抹反射光，像是車窗或鏡面。\n夏見說：『出去看看。也許是物資。』\n黎霜皺眉：『我們不需要每個『也許』。』\n\n探索會帶回希望，也會帶回座標。",
+    "choices": [
+      {
+        "label": "派人短探索（+ExploreRisk，可能換到資源）",
+        "outcomes": {
+          "always": {
+            "text": "你們做了最短路線、最快回來。帶回一些物資，也帶回一點風險。",
+            "effects": {
+              "resources": {"Food": 1, "Water": 1, "ExploreRisk": 2, "Noise": 1},
+              "relations": {
+                "xiaJian": {"Affection": 2},
+                "liShuang": {"Trust": -1}
+              }
+            }
+          }
+        }
+      },
+      {
+        "label": "按兵不動（保守降低風險）",
+        "outcomes": {
+          "always": {
+            "text": "你把那抹光當作不存在。\n不冒險，就不會立刻受傷——但也不會立刻變好。",
+            "effects": {
+              "resources": {"ExploreRisk": -1},
+              "relations": {
+                "liShuang": {"Trust": 1},
+                "xiaJian": {"Trust": -1}
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+]

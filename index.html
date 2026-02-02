@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Zombie60 (Prototype)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="title">Zombie60</div>
+      <div class="sub">喪屍末日經營 × 事件小說（原型）</div>
+    </div>
+    <div class="top-actions">
+      <button id="btnNew">新局</button>
+      <button id="btnSave">存檔</button>
+      <button id="btnLoad">讀檔</button>
+      <button id="btnReset" class="danger">重置存檔</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel" id="statusPanel">
+      <h2>狀態</h2>
+      <div id="status"></div>
+      <div class="hint">提示：每天先分配飲食 → 進入事件 → 結算日末（含喪屍壓力檢定）。探索越多，風險越高。</div>
+    </section>
+
+    <section class="panel" id="dietPanel">
+      <h2>今日飲食分配</h2>
+      <div class="diet-grid" id="dietGrid"></div>
+      <div class="row">
+        <button id="btnApplyDiet" class="primary">套用飲食並開始今日</button>
+        <div id="dietNote" class="note"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="eventPanel">
+      <h2>今日事件</h2>
+      <div id="event"></div>
+    </section>
+
+    <section class="panel" id="logPanel">
+      <h2>日誌</h2>
+      <div id="log"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div>Prototype build • 本地可玩 • JSON 事件卡驅動（後續會加任務線/多結局判定）</div>
+  </footer>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

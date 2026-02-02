@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Zombie60 Event",
+  "type": "object",
+  "required": ["id", "title", "text", "choices"],
+  "properties": {
+    "id": {"type": "string"},
+    "title": {"type": "string"},
+    "dayMin": {"type": "integer", "minimum": 1},
+    "dayMax": {"type": "integer", "minimum": 1},
+    "tags": {"type": "array", "items": {"type": "string"}},
+    "text": {"type": "string"},
+    "choices": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["label", "outcomes"],
+        "properties": {
+          "label": {"type": "string"},
+          "cost": {
+            "type": "object",
+            "additionalProperties": {"type": "integer"}
+          },
+          "check": {
+            "type": "object",
+            "properties": {
+              "who": {"type": "string", "description": "characterId or 'any'"},
+              "stat": {"type": "string", "enum": ["STR", "LOG", "CHA", "COM"]},
+              "dc": {"type": "integer", "minimum": 0}
+            },
+            "additionalProperties": false
+          },
+          "outcomes": {
+            "type": "object",
+            "properties": {
+              "success": {"$ref": "#/definitions/outcome"},
+              "fail": {"$ref": "#/definitions/outcome"},
+              "always": {"$ref": "#/definitions/outcome"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "outcome": {
+      "type": "object",
+      "properties": {
+        "text": {"type": "string"},
+        "effects": {
+          "type": "object",
+          "properties": {
+            "resources": {"type": "object", "additionalProperties": {"type": "integer"}},
+            "status": {"type": "object", "additionalProperties": {"type": "integer"}},
+            "relations": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "additionalProperties": {"type": "integer"}
+              }
+            },
+            "flagsSet": {"type": "array", "items": {"type": "string"}},
+            "flagsClear": {"type": "array", "items": {"type": "string"}}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
