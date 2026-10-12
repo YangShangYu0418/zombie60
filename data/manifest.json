@@ -1,0 +1,15 @@
+{
+  "content": [
+    "content/events_core.json",
+    "content/events_shelter.json",
+    "content/events_romance.json",
+    "content/events_world.json",
+    "content/events_loc_east.json",
+    "content/events_loc_central.json",
+    "content/events_loc_west.json",
+    "content/quest_radio.json",
+    "content/quest_hospital.json",
+    "content/quest_alliance.json"
+  ],
+  "flavor": "flavor.json"
+}

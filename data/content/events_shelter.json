@@ -1,0 +1,2465 @@
+{
+  "events": [
+    {
+      "id": "SH_001",
+      "pool": "shelter",
+      "title": "最後一包麵條",
+      "weight": 12,
+      "conditions": {
+        "minDay": 2,
+        "resources": {
+          "Food": {
+            "lte": 2
+          }
+        }
+      },
+      "text": "櫃子底下只剩一包乾麵條，和半罐鹹菜。\n你數了三次，數字還是一樣。\n宋寧把麵條拿在手裡，低頭看那包受潮的袋子，沒有說話。\n夏見先開口：『我搬過兩趟水，最有力氣，我先吃。』\n黎霜咬著筆，冷冷地說：『力氣跟飽不飽沒關係。要吃，先算過每個人吃多少。』",
+      "choices": [
+        {
+          "label": "平均分給四個人，每人一小口（Food -1，士氣 +3）",
+          "outcomes": {
+            "always": {
+              "text": "麵條煮成一鍋糊，四個人分著喝。沒有人說飽，也沒有人說不夠。\n夏見把碗推回來：『我不餓，隊長。』你知道她餓。",
+              "effects": {
+                "resources": {
+                  "Food": -1,
+                  "Morale": 3
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 2
+                  },
+                  "xiaJian": {
+                    "Affection": -1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "讓夏見先吃，她明天還要出去搬水（Food -1）",
+          "outcomes": {
+            "always": {
+              "text": "夏見一口把麵條吞下去，抹抹嘴，對你比了個大拇指。\n宋寧沒說話，只是把自己碗裡的麵夾回了鍋裡。你看見她的手指抖了一下。",
+              "effects": {
+                "resources": {
+                  "Food": -1
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 3,
+                    "Trust": 2
+                  },
+                  "songNing": {
+                    "Trust": -2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "交給宋寧分（CHA 檢定 dc 7）",
+          "check": {
+            "who": "songNing",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "宋寧把麵切成四段，比例拿捏得剛剛好，還笑著說自己不餓。\n角落的黎霜哼了一聲，大概是認可。",
+              "effects": {
+                "resources": {
+                  "Food": -1,
+                  "Morale": 2
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 3
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "宋寧笑得很溫柔，然後把最大的那段放進自己碗裡。\n『我最會算，』她說，『也最會騙人。』大家都假裝沒聽見。",
+              "effects": {
+                "resources": {
+                  "Food": -1,
+                  "Morale": -3
+                },
+                "relations": {
+                  "songNing": {
+                    "Trust": -3
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_002",
+      "pool": "shelter",
+      "title": "洗澡水的爭執",
+      "weight": 10,
+      "conditions": {
+        "minDay": 3,
+        "resources": {
+          "Water": {
+            "lte": 2
+          }
+        }
+      },
+      "text": "宋寧把最後一桶熱水提進浴間，黎霜伸手攔了一下。\n『我今天修了一整天電，』黎霜說，『我要洗頭。』\n『我也在搬箱子，』夏見把毛巾甩上肩，『流了一身汗，臭死了。』\n三個人同時看向你。\n你忽然發現，地下室裡最稀缺的不是水，是一段沒有人盯著看的時間。",
+      "choices": [
+        {
+          "label": "讓黎霜先洗，她修電最辛苦（Water -1）",
+          "outcomes": {
+            "always": {
+              "text": "黎霜不說謝，只把毛巾丟回你懷裡：『欠你一個電壓。』\n夏見在門外嘖了一聲，沒有進來。",
+              "effects": {
+                "resources": {
+                  "Water": -1,
+                  "Morale": 2
+                },
+                "relations": {
+                  "liShuang": {
+                    "Affection": 3
+                  },
+                  "xiaJian": {
+                    "Trust": -2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "做一張輪流表，用 LOG 檢定（dc 5，黎霜）",
+          "check": {
+            "who": "liShuang",
+            "stat": "LOG",
+            "dc": 5
+          },
+          "outcomes": {
+            "success": {
+              "text": "黎霜用三分鐘列出表格，每人排好時段，連剩餘的水量都算進去。\n『數字講道理。』她說。",
+              "effects": {
+                "resources": {
+                  "Morale": 2
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": 3
+                  },
+                  "xiaJian": {
+                    "Affection": 1
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "表格被夏見一把抽走，說要自己排。結果排到半夜，三個人都沒睡好。",
+              "effects": {
+                "resources": {
+                  "Morale": -3
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Trust": -2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "請宋寧來分（代價：她自己少洗了，夏見不服）",
+          "outcomes": {
+            "always": {
+              "text": "宋寧開口，語氣溫柔卻不容反駁。她把水平分成四份，還把自己那份留給了你。\n夏見咬著牙說：『隊長偏心。』宋寧只是笑。",
+              "effects": {
+                "resources": {
+                  "Water": -1,
+                  "Morale": 1
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 4,
+                    "Trust": 2
+                  },
+                  "xiaJian": {
+                    "Affection": -2
+                  }
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": -3
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_003",
+      "pool": "shelter",
+      "title": "加固鐵門",
+      "weight": 10,
+      "conditions": {
+        "minDay": 3
+      },
+      "text": "鐵門的合頁已經鬆了一邊。外頭拖行的聲音每晚都會繞過來，停在門板前，然後推一下。\n你摸著門框，想起以前在工地看過的補強做法。兩根鋼條、四顆螺絲，就能多撐一個晚上。\n夏見把手掌按在門板上：『我守，你焊。』\n黎霜在後面說：『焊的零件是我的，別浪費。』",
+      "choices": [
+        {
+          "label": "花 2 個零件焊上鋼條（Parts -2）",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Parts": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "焊花濺在黑暗裡，像一小串煙火。門板不再晃。\n夏見摸著新焊的接縫，說了一句『還行』，那是她最大的讚美。",
+              "effects": {
+                "resources": {
+                  "Defense": 6,
+                  "Noise": 2
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 2,
+                    "Trust": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "用木板與螺絲先撐住（Parts -1）",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Parts": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "木板撐住了，但每次推擠都發出吱呀的聲音。\n黎霜看著你，眼神像在問：你是不是故意的？",
+              "effects": {
+                "resources": {
+                  "Defense": 3,
+                  "Noise": 1
+                },
+                "relations": {
+                  "liShuang": {
+                    "Affection": -1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "先不管，把零件留著",
+          "outcomes": {
+            "always": {
+              "text": "門板還是在晃。夏見沒說話，只是把椅子搬到門口坐下，像守著一道沒有牆的牆。",
+              "effects": {
+                "relations": {
+                  "xiaJian": {
+                    "Affection": -3
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_004",
+      "pool": "shelter",
+      "title": "黎霜的警報電路",
+      "weight": 10,
+      "conditions": {
+        "minDay": 4,
+        "chars": {
+          "liShuang": {
+            "present": true
+          }
+        }
+      },
+      "text": "黎霜在樓梯口的配電箱前蹲了一整個下午，電路板攤了一地。\n『絆線不是拉著玩的。』她頭也不抬，『碰到就要有聲音，還要有電。』\n她把一個舊門鈴和幾條銅線擺在你面前：『要裝嗎？裝了我就只睡四小時。』\n你看見她手上纏的膠帶，已經髒到看不出原色。",
+      "choices": [
+        {
+          "label": "讓黎霜接線（LOG 檢定 dc 7，花 1 Parts）",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Parts": 1
+          },
+          "check": {
+            "who": "liShuang",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "紅燈亮起的時候，黎霜第一次笑出聲。『算你運氣。』\n她把線一根根藏進牆縫，你連位置都看不出來。",
+              "effects": {
+                "resources": {
+                  "Defense": 5
+                },
+                "relations": {
+                  "liShuang": {
+                    "Affection": 3,
+                    "Trust": 3
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "電流在她指尖跳了一下。她咬牙把手縮回來，血珠滲出來。\n『沒事。』她說，聲音很輕，手卻一直在抖。",
+              "effects": {
+                "resources": {
+                  "Defense": 1,
+                  "Noise": 3
+                },
+                "chars": {
+                  "liShuang": {
+                    "Health": -6,
+                    "Stress": 5
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "改用土法煉鋼，讓夏見在門後敲鑼",
+          "outcomes": {
+            "always": {
+              "text": "鑼聲響了整整一個晚上。沒有喪屍來，倒是隔壁傳來一句：『吵死了！』",
+              "effects": {
+                "resources": {
+                  "Defense": 2,
+                  "Noise": 4
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 2
+                  },
+                  "liShuang": {
+                    "Affection": -2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "叫她別碰，這種事太危險",
+          "outcomes": {
+            "always": {
+              "text": "黎霜沒有爭辯，只是把電路板收進箱子，扣上鎖。『隨你。』她說。",
+              "effects": {
+                "relations": {
+                  "liShuang": {
+                    "Affection": -3,
+                    "Trust": -2
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_005",
+      "pool": "shelter",
+      "title": "集雨裝置",
+      "weight": 5,
+      "once": true,
+      "conditions": {
+        "minDay": 3,
+        "notFlags": [
+          "hasRainCollector"
+        ]
+      },
+      "text": "通風管的出口正對著街道，一下大雨，就有水從管壁滲進來，流成一條細線。\n你在雜物堆裡翻出一只舊洗衣桶、一塊防水布，還有幾截沒用掉的水管。\n宋寧看著那堆東西，眼睛亮了一下：『要是能接住，就不用一桶一桶提了。』\n你想了想，還是把東西抱上了樓梯。",
+      "choices": [
+        {
+          "label": "花 2 Parts 做成正式的集雨槽",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Parts": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "水管接好，防水布綁牢。下雨的時候，水會順著管子流進儲水桶，嘩啦啦地響。\n宋寧靠在牆邊，笑得像終於放下了一件重擔。",
+              "effects": {
+                "flagsSet": [
+                  "hasRainCollector"
+                ],
+                "relations": {
+                  "songNing": {
+                    "Affection": 4,
+                    "Trust": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "用現有材料湊合（STR 檢定 dc 7，最佳者）",
+          "check": {
+            "who": "best",
+            "stat": "STR",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "你扛著洗衣桶爬上去，用鐵絲把管子固定住。第一滴水落下來時，你差點被嚇到。",
+              "effects": {
+                "flagsSet": [
+                  "hasRainCollector"
+                ],
+                "relations": {
+                  "songNing": {
+                    "Affection": 2
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "桶子滑下去，砸在牆角，發出一聲巨響。你的手掌被水管劃開一道口子。",
+              "effects": {
+                "resources": {
+                  "Noise": 3
+                },
+                "chars": {
+                  "shenYan": {
+                    "Health": -5
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "先不做，零件留著以後用",
+          "outcomes": {
+            "always": {
+              "text": "宋寧看著你把東西放回原位，沒說什麼。她只是默默把那只洗衣桶搬到門口，當凳子坐。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Affection": -2
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_006",
+      "pool": "shelter",
+      "title": "夜裡的咳嗽",
+      "weight": 12,
+      "conditions": {
+        "minDay": 3,
+        "anyChar": {
+          "Infection": {
+            "gte": 20
+          }
+        }
+      },
+      "text": "夜裡一聲悶咳，從對面的角落傳過來。\n你認得那個聲音。{target}把臉埋進袖子裡，咳到肩膀都在抖，怕吵醒別人。\n她沒說自己不舒服。傷口的味道已經順著空氣飄過來，淡淡的，甜得不太對勁。\n隔壁的夏見翻了個身，卻沒有睡著。",
+      "choices": [
+        {
+          "label": "拿出最後的藥，先讓她吃（Med -1）",
+          "requires": {
+            "resources": {
+              "Med": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Med": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "{target}吞下藥丸，對你點點頭：『欠你一次。』\n咳嗽慢慢停了，她笑得有點勉強。",
+              "effects": {
+                "chars": {
+                  "$target": {
+                    "Infection": -6
+                  }
+                },
+                "relations": {
+                  "$target": {
+                    "Trust": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "請她到上鋪的隔間去咳，別在大家面前（Noise -2）",
+          "outcomes": {
+            "always": {
+              "text": "她愣了一下，默默抱著被子爬進隔間。布簾拉上，咳嗽聲悶得像隔了一層水。\n你聽見她小聲說了一句『對不起』。",
+              "effects": {
+                "resources": {
+                  "Noise": -2
+                },
+                "chars": {
+                  "$target": {
+                    "Stress": 6
+                  }
+                },
+                "relations": {
+                  "$target": {
+                    "Affection": -2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "裝作沒聽見，明天再說（硬撐，Noise +2）",
+          "outcomes": {
+            "always": {
+              "text": "你閉上眼睛，咳嗽聲在黑暗裡一下一下，像在算你的良心。",
+              "effects": {
+                "resources": {
+                  "Noise": 2
+                },
+                "chars": {
+                  "$target": {
+                    "Infection": 4
+                  }
+                },
+                "relations": {
+                  "$target": {
+                    "Trust": -2
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_007",
+      "pool": "shelter",
+      "title": "傷口發炎",
+      "weight": 10,
+      "conditions": {
+        "minDay": 4,
+        "anyChar": {
+          "Infection": {
+            "gte": 20
+          }
+        }
+      },
+      "text": "{target}說那只是擦傷，沒什麼。\n你掀開紗布，傷口邊緣泛著黃，摸起來燙得像要把皮膚燒開。\n地下室的空氣悶得黏在身上。你知道，這種傷最怕拖。\n她看著你的表情，勉強笑了一下：『你別這樣，我又沒死。』",
+      "choices": [
+        {
+          "label": "用 Med 清創、消毒（Med -2）",
+          "requires": {
+            "resources": {
+              "Med": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Med": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "酒精刺進傷口，{target}咬住袖子，一聲都沒發出來。\n你替她重新包紮，手抖得比她還厲害。",
+              "effects": {
+                "chars": {
+                  "$target": {
+                    "Infection": -12,
+                    "Stress": 4
+                  }
+                },
+                "relations": {
+                  "$target": {
+                    "Affection": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "請宋寧用鹽水和燒酒幫她清（CHA 檢定 dc 7，宋寧）",
+          "check": {
+            "who": "songNing",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "宋寧一邊哄，一邊把燒酒倒得又快又穩。『來，數到三。』{target}真的只叫了一聲。",
+              "effects": {
+                "chars": {
+                  "$target": {
+                    "Infection": -8
+                  }
+                },
+                "relations": {
+                  "$target": {
+                    "Trust": 2
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "燒酒倒得太急，{target}痛得差點站不住。宋寧愣了一下，難得臉色發白。",
+              "effects": {
+                "chars": {
+                  "$target": {
+                    "Infection": -2,
+                    "Stress": 6
+                  }
+                },
+                "relations": {
+                  "songNing": {
+                    "Trust": -2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "讓她躺著，你替她守夜（你 Stress +6）",
+          "outcomes": {
+            "always": {
+              "text": "你把她的床鋪拉近自己的位置。{target}說不用，闔眼之前，還是抓住了你的衣角。",
+              "effects": {
+                "chars": {
+                  "shenYan": {
+                    "Stress": 6
+                  },
+                  "$target": {
+                    "Infection": -3,
+                    "Stress": -4
+                  }
+                },
+                "relations": {
+                  "$target": {
+                    "Affection": 3
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_008",
+      "pool": "shelter",
+      "title": "守夜排班",
+      "weight": 12,
+      "conditions": {
+        "minDay": 4
+      },
+      "text": "排班表貼在樓梯口，寫著『22:00–02:00』，三個名字用不同的筆跡寫了又改。\n你的名字後面被人畫了一顆小愛心，又被另一種筆跡劃掉。\n夜裡的地下室只剩手電筒的一圈光。外頭的刮擦聲，一下比一下近。\n夏見靠在鐵門旁邊，眼睛睜得大大的，假裝自己沒在怕。",
+      "choices": [
+        {
+          "label": "自己守前半夜（你 Stress +5）",
+          "outcomes": {
+            "always": {
+              "text": "你坐在門邊，耳朵貼著鐵門，數著外頭的腳步聲。\n天快亮時，夏見悄悄把外套蓋在你身上，什麼都沒說。",
+              "effects": {
+                "chars": {
+                  "shenYan": {
+                    "Stress": 5
+                  }
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 2,
+                    "Trust": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "讓夏見守，你去睡（夏見 Stress +6）",
+          "outcomes": {
+            "always": {
+              "text": "夏見說『我不怕黑』，然後整晚都亮著手電筒，沒有關掉。\n你躺下的時候，聽見她在門邊小聲哼歌，調子很不準。",
+              "effects": {
+                "chars": {
+                  "xiaJian": {
+                    "Stress": 6
+                  }
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Trust": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "三人輪班，每人睡不滿四小時（全員 Health -3，Morale -3）",
+          "outcomes": {
+            "always": {
+              "text": "三個人交替守夜，每一班都只睡四小時。黎霜的黑眼圈在第二天早上深得像畫上去的。\n她沒有抱怨，只說：『明天換你頂。』",
+              "effects": {
+                "resources": {
+                  "Morale": -3
+                },
+                "chars": {
+                  "shenYan": {
+                    "Health": -3
+                  },
+                  "liShuang": {
+                    "Health": -3
+                  },
+                  "xiaJian": {
+                    "Health": -3
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_009",
+      "pool": "shelter",
+      "title": "半夜的惡夢",
+      "weight": 10,
+      "conditions": {
+        "minDay": 5,
+        "anyChar": {
+          "Stress": {
+            "gte": 30
+          }
+        }
+      },
+      "text": "凌晨兩點，{target}突然坐起來，手抓著毯子，指節發白。\n『……我夢到門開了，』她說，聲音啞啞的，『我跑，腳卻像被黏在地上。』\n她沒有哭。她只是盯著鐵門，眼神很空，像還在夢裡。\n地下室只有呼吸聲，一下，又一下。",
+      "choices": [
+        {
+          "label": "陪她坐到天亮，什麼都不說（你 Stress +3）",
+          "outcomes": {
+            "always": {
+              "text": "你替她把毯子拉好，坐在她旁邊。兩個人都沒睡，也都沒有先開口。\n天亮的時候，她的手指輕輕碰了一下你的手背。",
+              "effects": {
+                "chars": {
+                  "shenYan": {
+                    "Stress": 3
+                  }
+                },
+                "relations": {
+                  "$target": {
+                    "Affection": 4,
+                    "Trust": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "泡一壺草藥茶給她（Med -1）",
+          "requires": {
+            "resources": {
+              "Med": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Med": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "茶很苦，{target}皺著眉喝完。過了一會兒，她的呼吸慢慢平穩下來。\n『你還真的會泡茶。』她小聲說。",
+              "effects": {
+                "chars": {
+                  "$target": {
+                    "Stress": -8
+                  }
+                },
+                "relations": {
+                  "$target": {
+                    "Trust": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "叫她回去睡，別吵大家（Noise -1）",
+          "outcomes": {
+            "always": {
+              "text": "她點點頭，把毯子拉過頭頂。但你知道，她之後一整晚都沒有再閉上眼。",
+              "effects": {
+                "resources": {
+                  "Noise": -1
+                },
+                "chars": {
+                  "$target": {
+                    "Stress": 4
+                  }
+                },
+                "relations": {
+                  "$target": {
+                    "Affection": -2
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_010",
+      "pool": "shelter",
+      "title": "地下室的木吉他",
+      "weight": 5,
+      "once": true,
+      "conditions": {
+        "minDay": 6,
+        "notFlags": [
+          "sh_guitar"
+        ]
+      },
+      "text": "收拾角落的舊家具時，你摸到一個硬殼箱。打開來，是一把褪色的木吉他，弦鬆了，琴身有一道裂痕。\n宋寧接過去，手指在弦上輕輕一撥，音很破，卻很清楚。\n『封城前，我店裡常有人彈這個，』她笑著說，『那時候我們還嫌吵。』\n夏見皺眉：『彈了，外面會聽見。』",
+      "choices": [
+        {
+          "label": "讓宋寧唱一首，大家跟著唱（Noise +3，士氣 +6）",
+          "outcomes": {
+            "always": {
+              "text": "宋寧唱的是一首很老的閩南語歌，調子走得慢。唱到副歌，連夏見都忍不住跟著哼。\n噪音大得你怕外面會有人來，但沒有人想叫她停。",
+              "effects": {
+                "resources": {
+                  "Morale": 6,
+                  "Noise": 3
+                },
+                "flagsSet": [
+                  "sh_guitar"
+                ],
+                "relations": {
+                  "songNing": {
+                    "Affection": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "收進箱子，等更安靜的晚上（士氣不變，夏見不滿）",
+          "outcomes": {
+            "always": {
+              "text": "你把琴放回箱子，蓋上蓋子。夏見在旁邊看了很久，最後什麼都沒說，只是起身去巡邏。",
+              "effects": {
+                "flagsSet": [
+                  "sh_guitar"
+                ],
+                "relations": {
+                  "xiaJian": {
+                    "Affection": -2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "請宋寧唱給大家聽（CHA 檢定 dc 7，宋寧）",
+          "check": {
+            "who": "songNing",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "她的聲音穿過地下室，把每個人的肩膀都放鬆了。唱完，宋寧眼眶紅紅的，笑得很用力。",
+              "effects": {
+                "resources": {
+                  "Morale": 8,
+                  "Noise": 1
+                },
+                "flagsSet": [
+                  "sh_guitar"
+                ],
+                "relations": {
+                  "songNing": {
+                    "Affection": 4
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "弦斷了一根。音突然變得刺耳，夏見一把按住琴身：『停！』宋寧愣了一下，笑著說對不起。",
+              "effects": {
+                "resources": {
+                  "Morale": 2,
+                  "Noise": 4
+                },
+                "flagsSet": [
+                  "sh_guitar"
+                ],
+                "relations": {
+                  "songNing": {
+                    "Trust": -1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_011",
+      "pool": "shelter",
+      "title": "宋寧的小菜",
+      "weight": 8,
+      "conditions": {
+        "minDay": 3,
+        "resources": {
+          "Food": {
+            "lte": 2
+          }
+        }
+      },
+      "text": "宋寧把小爐子點著，鍋裡的水咕嘟咕嘟冒泡。\n她從角落翻出半顆洋蔥、幾片豆乾，還有一小把不知道什麼時候留下的蔥白，炒成一盤比你想像中香的小菜。\n『居酒屋的老闆娘，』她挑眉，『不靠食材吃飯，靠手藝。』\n她把盤子推到桌子中間，然後一個一個數過去，像在數人頭。",
+      "choices": [
+        {
+          "label": "全部分掉，一人一口（Food -1，士氣 +6）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "香味在地下室裡散開，連最悶的人都抬起了頭。\n宋寧小聲說：『這是我最後的家當，吃完要記得洗碗。』",
+              "effects": {
+                "resources": {
+                  "Morale": 6
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 4,
+                    "Trust": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把最大的那份讓給黎霜，她最累（士氣 +2）",
+          "outcomes": {
+            "always": {
+              "text": "黎霜沒說謝，只用筷子把菜夾了一半到夏見碗裡。『你吃。』她說，『我不餓。』\n夏見的臉色很難看，但沒說話。",
+              "effects": {
+                "resources": {
+                  "Morale": 2
+                },
+                "relations": {
+                  "liShuang": {
+                    "Affection": 3,
+                    "Trust": 2
+                  },
+                  "xiaJian": {
+                    "Affection": -2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "叫宋寧留著，明天再說（Morale -2）",
+          "outcomes": {
+            "always": {
+              "text": "宋寧把盤子端回去，蓋上一塊布。『留到更難的時候。』她說，語氣輕得像玩笑，卻沒有人笑。",
+              "effects": {
+                "resources": {
+                  "Morale": -2
+                },
+                "relations": {
+                  "songNing": {
+                    "Trust": 3,
+                    "Affection": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_012",
+      "pool": "shelter",
+      "title": "夏見的防身課",
+      "weight": 10,
+      "conditions": {
+        "minDay": 5,
+        "chars": {
+          "xiaJian": {
+            "present": true
+          }
+        }
+      },
+      "text": "夏見把一張木椅拖到地下室中間，當作沙包。\n『來，隊長。』她把拳頭舉到下巴，『不是要你打贏。是要你知道，被抓住手腕的時候，怎麼把手抽回來。』\n她從你身後扣住你的手腕。力道很重，重得你知道，她一直在練這種事。\n『……放鬆。你又不是我的對手。』她說，語氣像在罵人，耳根卻紅了。",
+      "choices": [
+        {
+          "label": "認真跟她練到天黑（STR 檢定 dc 7，最佳者）",
+          "check": {
+            "who": "best",
+            "stat": "STR",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "你的手腕終於掙開了。夏見一愣，然後笑得很大聲，拍著你的肩說：『可以啊，隊長。』",
+              "effects": {
+                "chars": {
+                  "shenYan": {
+                    "Stress": -3
+                  }
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 4,
+                    "Trust": 3
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "你被她一個過肩摔撂倒在地上，後腦撞出一聲悶響。夏見蹲下來，一邊笑一邊替你揉頭。",
+              "effects": {
+                "chars": {
+                  "shenYan": {
+                    "Health": -5
+                  }
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "笑著拒絕，說你不需要（夏見 Affection -3）",
+          "outcomes": {
+            "always": {
+              "text": "你擺擺手說不用。夏見沒有生氣，只是把木椅踢回角落，聲音很響。『隨便你。』她說。",
+              "effects": {
+                "relations": {
+                  "xiaJian": {
+                    "Affection": -3,
+                    "Trust": -1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "拉黎霜一起學，買一支電擊棒（Parts -1）",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Parts": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "黎霜把電擊棒拿在手上比了比，冷冷地說：『你們學這個，不如讓我來做。』她卻還是陪你們練了三分鐘。",
+              "effects": {
+                "resources": {
+                  "Defense": 3
+                },
+                "relations": {
+                  "liShuang": {
+                    "Affection": 2,
+                    "Trust": 2
+                  },
+                  "xiaJian": {
+                    "Affection": -1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_013",
+      "pool": "shelter",
+      "title": "宋寧的生日",
+      "weight": 8,
+      "conditions": {
+        "minDay": 6,
+        "chars": {
+          "songNing": {
+            "present": true
+          }
+        }
+      },
+      "text": "今天是宋寧的生日，她說不過，還說自己早就老了。\n可是有人偷偷打開角落的水果罐頭，把糖水倒進小杯子，又用蠟燭頭做了一根歪歪的蠟燭。\n宋寧看見的那一刻，手裡的勺子掉在地上。\n『你們……真的太會演了。』她笑著，眼睛卻濕了。",
+      "choices": [
+        {
+          "label": "把罐頭切成四份，做成小蛋糕（Food -1，士氣 +6）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "大家圍成一圈，每一口都甜得發膩。宋寧許了一個願，沒有人問她說了什麼。",
+              "effects": {
+                "resources": {
+                  "Morale": 6
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 6,
+                    "Trust": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "寫一張生日卡，放在她枕頭上（士氣 +2，黎霜會覺得被冷落）",
+          "outcomes": {
+            "always": {
+              "text": "卡片上只寫了一行字：『謝謝妳每天晚上替我們留一盞燈。』\n宋寧看完，把卡片摺成小方塊，收進胸前的口袋。",
+              "effects": {
+                "resources": {
+                  "Morale": 2
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 3
+                  },
+                  "liShuang": {
+                    "Affection": -1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "什麼都不做，她會笑著說不用（宋寧 Affection -2）",
+          "outcomes": {
+            "always": {
+              "text": "沒有人提起。宋寧晚上替大家倒水，還是笑著說：『今天是什麼日子？我忘了。』她的笑容比平常慢了一拍。",
+              "effects": {
+                "resources": {
+                  "Morale": -2
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": -2
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_014",
+      "pool": "shelter",
+      "title": "寫給家人的信",
+      "weight": 10,
+      "conditions": {
+        "minDay": 4
+      },
+      "text": "你在紙的背面寫下『媽』字，寫了一半，停住。\n家裡的電話早就打不通了。封城前一晚，你媽還在電話裡說要煮紅燒肉等你回去。\n黎霜坐在對面，沒有看你的紙，只是把螺絲一顆一顆放進小盒子。\n『寄不出去的信，寫完要收好。』她說，『收好，就是還沒決定放棄。』",
+      "choices": [
+        {
+          "label": "寫完，折好收進背包（你 Stress -3，士氣 -2）",
+          "outcomes": {
+            "always": {
+              "text": "信寫得很短：吃飽了沒有，我還活著。\n你把它摺成小方塊，放進夾層。黎霜看了你一眼，把螺絲盒推近了一點。",
+              "effects": {
+                "resources": {
+                  "Morale": -2
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": -3
+                  }
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": 2
+                  }
+                },
+                "flagsSet": [
+                  "sh_letter_written"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "撕掉，寫一張糧食清單（士氣 -2）",
+          "outcomes": {
+            "always": {
+              "text": "你把紙撕成細條，重新寫了一張清單：米、罐頭、電池、濾芯。\n黎霜看著那張紙，嘴角很淺地動了一下：『這樣才像個隊長。』",
+              "effects": {
+                "resources": {
+                  "Morale": -2
+                },
+                "relations": {
+                  "liShuang": {
+                    "Affection": 2,
+                    "Trust": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "請宋寧幫你念出來（CHA 檢定 dc 7，宋寧）",
+          "check": {
+            "who": "songNing",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "宋寧接過信，念得很慢，像在店裡招呼客人。念完，她把信紙折起來：『寄不出去，我替你收著。』",
+              "effects": {
+                "resources": {
+                  "Morale": 6
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 3,
+                    "Trust": 2
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "宋寧念到一半，聲音突然哽住。她把紙推回來，笑著說：『抱歉，今天的酒還沒喝呢。』",
+              "effects": {
+                "resources": {
+                  "Morale": -3
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": 4
+                  }
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": -1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_015",
+      "pool": "shelter",
+      "title": "黎霜的剪刀",
+      "weight": 10,
+      "conditions": {
+        "minDay": 4,
+        "chance": 0.6
+      },
+      "text": "黎霜把長髮紮成一束，從抽屜裡拿出一把剪刀，刀口被磨得發亮。\n『太長了，』她說，『洗一次要一桶水，還會纏住電線。』\n夏見在旁邊大聲抗議：『妳瘋了？』\n宋寧把毛巾搭上肩：『剪吧，頭髮裡藏的東西，我們都不想知道。』",
+      "choices": [
+        {
+          "label": "讓黎霜幫你剪，你也陪她剪（你 Stress -3，夏見覺得你們太認真）",
+          "outcomes": {
+            "always": {
+              "text": "剪刀喀嚓一聲，髮絲落在水泥地上。黎霜的手很穩，剪得比理髮店還整齊。\n她也把自己的馬尾剪短了一截，沒有多看你一眼。",
+              "effects": {
+                "chars": {
+                  "shenYan": {
+                    "Stress": -3
+                  }
+                },
+                "relations": {
+                  "liShuang": {
+                    "Affection": 3,
+                    "Trust": 1
+                  },
+                  "xiaJian": {
+                    "Affection": -1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "反對，這裡沒有熱水，別亂剪（黎霜 Affection -2，Trust -2）",
+          "outcomes": {
+            "always": {
+              "text": "黎霜把剪刀放下，沒有反駁，只是把一撮頭髮扔進垃圾桶。『隨便。』她說，語氣一點都不隨便。",
+              "effects": {
+                "relations": {
+                  "liShuang": {
+                    "Trust": -2,
+                    "Affection": -2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "讓宋寧來剪（CHA 檢定 dc 5，宋寧）",
+          "check": {
+            "who": "songNing",
+            "stat": "CHA",
+            "dc": 5
+          },
+          "outcomes": {
+            "success": {
+              "text": "宋寧一邊聊天一邊剪，手快得像在店裡剪了三年。『好了，』她拍拍你的肩，『帥了一點點。』",
+              "effects": {
+                "resources": {
+                  "Morale": 3
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 3
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "宋寧剪歪了一邊。你摸著耳朵，她笑得前仰後合：『我說是「有點」，你還當真？』",
+              "effects": {
+                "resources": {
+                  "Morale": 2
+                },
+                "relations": {
+                  "songNing": {
+                    "Trust": -1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_016",
+      "pool": "shelter",
+      "title": "一副缺角的撲克牌",
+      "weight": 10,
+      "conditions": {
+        "minDay": 3
+      },
+      "text": "撲克牌是從貨架底下翻出來的，少了兩張鬼牌，背面還被人用原子筆畫了鬍子。\n夏見嚷著要玩大老二。宋寧說，玩牌最能看出誰會耍賴。\n黎霜把牌洗得很整齊，像在調校一台精密的機器。\n『輸的人，』她說，『要替大家守一班夜。』",
+      "choices": [
+        {
+          "label": "玩大老二（LOG 檢定 dc 7，最佳者）",
+          "check": {
+            "who": "best",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "黎霜出牌的速度快得像在算電壓，三局贏了兩局。『你太好猜了，隊長。』",
+              "effects": {
+                "resources": {
+                  "Morale": 5
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": -2
+                  }
+                },
+                "relations": {
+                  "liShuang": {
+                    "Affection": 2,
+                    "Trust": 2
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "你手上的牌被夏見看光。她把牌拍在桌上，罵你是豬，然後把守夜的班表塞到你手裡。",
+              "effects": {
+                "resources": {
+                  "Morale": 2
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": 4
+                  }
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 2
+                  },
+                  "liShuang": {
+                    "Affection": -1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "用食物當籌碼玩接龍（Food -1，士氣 +4）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "大家把罐頭蓋當籌碼，一局一局玩下去，笑聲從角落傳到門口。\n夏見輸了兩次，還是笑得最大聲。",
+              "effects": {
+                "resources": {
+                  "Food": -1,
+                  "Morale": 4
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "不玩，去睡覺（夏見 Affection -1，士氣 -1）",
+          "outcomes": {
+            "always": {
+              "text": "你把牌推回去，說要睡了。夏見在後面嘖了一聲：『老人。』",
+              "effects": {
+                "resources": {
+                  "Morale": -1
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": -1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_017",
+      "pool": "shelter",
+      "title": "發電機的油",
+      "weight": 10,
+      "conditions": {
+        "minDay": 4,
+        "flags": [
+          "hasGenerator"
+        ]
+      },
+      "text": "發電機在角落喘得像老狗，一啟動就發出震耳的咆哮。\n油桶只剩一小半。黎霜蹲下來，手電筒照著油管：『再跑兩小時，就得換濾芯。』\n夏見皺眉：『外面的刮擦聲，好像就是從這個方向來的。』\n宋寧把耳朵貼在牆上，臉色變了一下，沒有說話。",
+      "choices": [
+        {
+          "label": "關掉發電機，點蠟燭（Noise -4，士氣 -3）",
+          "outcomes": {
+            "always": {
+              "text": "黑暗降下來的那一刻，所有人同時屏住了呼吸。\n蠟燭的火很小，但足夠讓人看清彼此的臉。",
+              "effects": {
+                "resources": {
+                  "Noise": -4,
+                  "Morale": -3
+                },
+                "relations": {
+                  "songNing": {
+                    "Trust": 2
+                  },
+                  "liShuang": {
+                    "Affection": -1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "讓黎霜換濾芯（LOG 檢定 dc 7，花 1 Parts）",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Parts": 1
+          },
+          "check": {
+            "who": "liShuang",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "黎霜把新濾芯裝上，發電機的聲音變得平穩。『數字，』她說，『比你想的可靠。』",
+              "effects": {
+                "resources": {
+                  "Noise": 2
+                },
+                "relations": {
+                  "liShuang": {
+                    "Affection": 3,
+                    "Trust": 2
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "濾芯卡在螺紋裡，她的手被夾了一下。發電機咳了一聲，停了三十秒才重新運轉。",
+              "effects": {
+                "resources": {
+                  "Noise": 5
+                },
+                "chars": {
+                  "liShuang": {
+                    "Health": -4
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "讓它跑，把油留給晚上抽水（Noise +5，士氣 +4）",
+          "outcomes": {
+            "always": {
+              "text": "燈亮了，夏見歡呼了一聲。宋寧皺眉：『你知道聲音會傳到哪裡去嗎？』你沒有回答，她也沒有再說。",
+              "effects": {
+                "resources": {
+                  "Noise": 5,
+                  "Morale": 4
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": -2
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_018",
+      "pool": "shelter",
+      "title": "通風口的敲擊",
+      "weight": 8,
+      "conditions": {
+        "minDay": 5
+      },
+      "text": "通風口的鐵網後面，有人用指節敲了三下，停一下，又敲三下。\n不是喪屍的抓撓。太有節奏了，像暗號。\n夏見站到通風口下，屏住呼吸。黎霜把手電筒關掉。黑暗裡，外頭傳來一個女人的聲音，輕得像怕被聽見：『……有人嗎？』\n所有人都看向你。",
+      "choices": [
+        {
+          "label": "開口回應（Noise +2）",
+          "outcomes": {
+            "always": {
+              "text": "你湊近鐵網，說了一句『有』。外頭靜了一下，接著是一聲很輕的『謝謝』，腳步聲遠去了。\n夏見鬆了口氣，又立刻皺眉：『你這樣等於告訴全世界我們在哪。』",
+              "effects": {
+                "resources": {
+                  "Noise": 2
+                },
+                "flagsSet": [
+                  "sh_knock_answered"
+                ],
+                "relations": {
+                  "xiaJian": {
+                    "Affection": -2
+                  },
+                  "songNing": {
+                    "Trust": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "不回應，用木板把通風口封死（Parts -1，Defense +4）",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Parts": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "木板釘上的聲音很響，外頭的敲擊停了。\n宋寧靠著牆，很久沒說話：『萬一那真的是人呢？』",
+              "effects": {
+                "resources": {
+                  "Defense": 4,
+                  "Morale": -2
+                },
+                "flagsSet": [
+                  "sh_knock_ignored"
+                ],
+                "relations": {
+                  "songNing": {
+                    "Trust": -3
+                  },
+                  "liShuang": {
+                    "Trust": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "派夏見去看（COM 檢定 dc 7，夏見）",
+          "check": {
+            "who": "xiaJian",
+            "stat": "COM",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "夏見從通風管爬上去，半晌才回來，手上多了一張被水泡皺的紙條。『不是陷阱，』她說，『只是有人在等人。』",
+              "effects": {
+                "resources": {
+                  "Morale": 3
+                },
+                "flagsSet": [
+                  "sh_knock_checked"
+                ],
+                "relations": {
+                  "xiaJian": {
+                    "Trust": 3
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "夏見在黑暗裡踩空，從梯子上滑下來，額頭撞到牆角。『我沒有怕黑！』她咬牙說。",
+              "effects": {
+                "resources": {
+                  "Noise": 3
+                },
+                "chars": {
+                  "xiaJian": {
+                    "Health": -6,
+                    "Stress": 4
+                  }
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_019",
+      "pool": "shelter",
+      "title": "前住戶的日記",
+      "weight": 8,
+      "conditions": {
+        "minDay": 4
+      },
+      "text": "在木箱底下，你找到一本封皮發霉的日記。\n前住戶是一位獨居的老師，最後一頁寫著：『今天有人在對面樓敲了三下窗，我沒有開。』日期是爆發的第一天。\n你翻到中間，有一頁被整齊地撕掉了。\n黎霜從你肩後看過來，嗤了一聲：『撕掉的那頁，才是你想看的吧。』",
+      "choices": [
+        {
+          "label": "念給大家聽（Morale +3，Noise +1）",
+          "outcomes": {
+            "always": {
+              "text": "你的聲音在地下室裡慢慢傳開。念到『我沒有開』的時候，宋寧把頭低下去，很久都沒抬起來。\n黎霜冷冷地說：『感傷也要有節制。』",
+              "effects": {
+                "resources": {
+                  "Morale": 3,
+                  "Noise": 1
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 2
+                  },
+                  "liShuang": {
+                    "Trust": -1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "燒掉，別讓它變成恐懼的來源（Morale -2）",
+          "outcomes": {
+            "always": {
+              "text": "紙頁捲起來，火很快就熄了。焦味散進通風管，像有人在外面嗅到了什麼。",
+              "effects": {
+                "resources": {
+                  "Morale": -2
+                },
+                "relations": {
+                  "liShuang": {
+                    "Affection": 2
+                  },
+                  "songNing": {
+                    "Trust": -1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "自己收著，夜裡偷偷讀（你 Stress +4）",
+          "outcomes": {
+            "always": {
+              "text": "你把日記塞進夾層，沒有告訴任何人。夜裡翻開它的時候，你的手在抖。",
+              "effects": {
+                "chars": {
+                  "shenYan": {
+                    "Stress": 4
+                  }
+                },
+                "relations": {
+                  "liShuang": {
+                    "Affection": -2
+                  }
+                },
+                "flagsSet": [
+                  "sh_diary_secret"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_020",
+      "pool": "shelter",
+      "title": "門縫的紙條",
+      "weight": 8,
+      "conditions": {
+        "minDay": 5
+      },
+      "text": "早上起來，門縫底下塞進一張紙條，邊緣有被水泡過的皺痕。\n上面只寫了一行字，用紅色蠟筆寫的：『地下室有吃的，我們不是壞人。十一號窗見。』\n落款是一顆黑色的雨滴。\n宋寧把紙條翻過來又翻過去，最後放回桌上：『老街那邊的人說，這是黑雨的記號。』",
+      "choices": [
+        {
+          "label": "當作惡作劇，揉掉丟掉（夏見 Affection -1，宋寧 Trust -1）",
+          "outcomes": {
+            "always": {
+              "text": "你把紙條揉成一團，丟進廚餘桶。沒有人反對，只有宋寧一直盯著那個桶，直到你把蓋子蓋上。",
+              "effects": {
+                "resources": {
+                  "Morale": -1
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": 1
+                  },
+                  "xiaJian": {
+                    "Affection": -1
+                  },
+                  "songNing": {
+                    "Trust": -1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "派夏見去十一號窗探看（COM 檢定 dc 7，夏見）",
+          "check": {
+            "who": "xiaJian",
+            "stat": "COM",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "窗後面是一袋米、兩罐豆豉，還有一張寫著『別殺我們』的紙。夏見把東西扛回來，一句話也沒說。",
+              "effects": {
+                "resources": {
+                  "Food": 2
+                },
+                "factions": {
+                  "blackrain": 3
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Trust": 3
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "窗後有人拿著鐵管，一棍把夏見打得往後退好幾步。她罵了一句髒話，揮手說沒事。",
+              "effects": {
+                "chars": {
+                  "xiaJian": {
+                    "Health": -8
+                  }
+                },
+                "factions": {
+                  "blackrain": -4
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "燒掉紙條，用膠帶封住門縫（Defense +3，Morale -2）",
+          "outcomes": {
+            "always": {
+              "text": "你用膠帶把門縫整條封起來，像在封一道傷口。\n宋寧看著你，說：『我們會變成自己最怕的那種人嗎？』",
+              "effects": {
+                "resources": {
+                  "Defense": 3,
+                  "Morale": -2
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": -2
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_021",
+      "pool": "story",
+      "title": "崩潰的那一晚",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "anyChar": {
+          "Stress": {
+            "gte": 70
+          }
+        }
+      },
+      "text": "凌晨三點，{target}突然把手裡的杯子摔在地上。\n玻璃碎成一片，她卻沒有去撿。她只是坐在地上，雙手抱著膝蓋，一直重複同一句話：『門還沒鎖好。』\n沒有人敢靠近。手電筒的光在碎片上閃，像一排很小的警報燈。\n在這個地下室，誰先崩潰都不奇怪。",
+      "choices": [
+        {
+          "label": "坐到她旁邊，什麼都不問，陪她（你 Stress +4）",
+          "outcomes": {
+            "always": {
+              "text": "你在她旁邊坐下，肩膀挨著肩膀，什麼都沒說。\n過了很久，她的呼吸慢慢變長，靠在你肩上睡著了。你的手臂麻了，也沒有動。",
+              "effects": {
+                "chars": {
+                  "shenYan": {
+                    "Stress": 4
+                  }
+                },
+                "relations": {
+                  "$target": {
+                    "Affection": 6,
+                    "Trust": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把她拉起來，叫她去搬水（她的 Trust -4，Affection -2）",
+          "outcomes": {
+            "always": {
+              "text": "你把她拽起來：『去，搬水。』她愣了一下，眼淚還掛在臉上，卻真的抓起水桶走了。\n你看見她的背影在抖。這樣做很殘忍，但地下室需要有人繼續動。",
+              "effects": {
+                "chars": {
+                  "$target": {
+                    "Stress": -10
+                  }
+                },
+                "relations": {
+                  "$target": {
+                    "Trust": -4,
+                    "Affection": -2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "請宋寧端一碗熱湯來，三個人一起坐著（Food -1，需要 Food ≥1）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "宋寧端來一碗熱湯，蹲下來，把湯匙送到{target}嘴邊：『喝一口，好不好？』\n湯很淡，卻是熱的。{target}喝了一口，眼淚終於掉下來。",
+              "effects": {
+                "chars": {
+                  "$target": {
+                    "Stress": -12
+                  }
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 3
+                  },
+                  "$target": {
+                    "Affection": 3
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_022",
+      "pool": "story",
+      "title": "沒有人說話的晚餐",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 6,
+        "resources": {
+          "Morale": {
+            "lte": 20
+          }
+        }
+      },
+      "text": "晚餐的時候，沒有人說話。湯匙碰著碗邊的聲音，比外頭的刮擦聲還刺耳。\n黎霜把筷子擱下：『照這樣下去，我們不用等喪屍來，自己就會散。』\n夏見一拳捶在桌上，碗都跳了一下：『那妳要我怎樣？』\n宋寧沒有勸，只是把最後一盤菜推到你面前：『隊長，你說句話吧。』",
+      "choices": [
+        {
+          "label": "說一段實話，承認你也撐不住（Morale +6，你 Stress +5）",
+          "outcomes": {
+            "always": {
+              "text": "『我也怕。』你說。沒有豪言壯語，只有這三個字。\n黎霜低頭吃了第一口飯，宋寧的眼眶紅了一下，又笑了。夏見的拳頭慢慢鬆開，卻悶悶地說：『你不夠硬。』",
+              "effects": {
+                "resources": {
+                  "Morale": 6
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": 5
+                  }
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": 2
+                  },
+                  "songNing": {
+                    "Trust": 4
+                  },
+                  "xiaJian": {
+                    "Affection": -1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "立下規矩：誰做完一件事，就多吃一口（Food -1，Morale +4）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "『規矩是我定的。』你說，『誰做完事，誰加一口。』\n黎霜點頭：『可以算。』夏見卻皺起眉：『我們是人，不是員工。』",
+              "effects": {
+                "resources": {
+                  "Food": -1,
+                  "Morale": 4
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": 3
+                  },
+                  "xiaJian": {
+                    "Trust": -2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "拍桌子，要大家閉嘴，照班表做（Morale -4）",
+          "outcomes": {
+            "always": {
+              "text": "『吃飯。』你只說了兩個字，聲音比你想像中還冷。\n宋寧低頭夾菜，沒有應聲。黎霜把碗端到角落，背對著你。夏見卻挺起胸：『這樣才像隊長。』",
+              "effects": {
+                "resources": {
+                  "Morale": -4
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": -3
+                  },
+                  "songNing": {
+                    "Trust": -3
+                  },
+                  "xiaJian": {
+                    "Affection": 3
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_023",
+      "pool": "story",
+      "title": "鐵門在呻吟",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 8,
+        "resources": {
+          "Defense": {
+            "lte": 10
+          }
+        }
+      },
+      "text": "凌晨三點，整面牆跟著震了一下。\n碎石從天花板上簌簌落下，手電筒的光在灰塵裡抖。\n黎霜第一個衝到配電箱前，夏見抄起消防斧，宋寧把你推到身後。\n裂縫裡伸進來一隻手，指節發白，抓著牆皮用力往外扯。外頭的聲音像潮水，一波一波壓上來。",
+      "choices": [
+        {
+          "label": "全員衝上去，用身體堵住裂縫（COM 檢定 dc 9，最佳者）",
+          "check": {
+            "who": "best",
+            "stat": "COM",
+            "dc": 9
+          },
+          "outcomes": {
+            "success": {
+              "text": "夏見一斧劈在那隻手上，黑色的血濺在牆上。你和宋寧合力把衣櫃推過來，把裂縫擋死。\n每個人都喘得像跑了一整天。",
+              "effects": {
+                "resources": {
+                  "Defense": 8
+                },
+                "status": {
+                  "Stress": 5
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Trust": 4
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "裂縫擴大了一截，夏見被撞得摔在地上，額頭流血。黎霜把你拉開，咬牙說：『還來得及，撐住。』",
+              "effects": {
+                "resources": {
+                  "Defense": 2
+                },
+                "status": {
+                  "Stress": 8
+                },
+                "chars": {
+                  "xiaJian": {
+                    "Health": -12
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "讓黎霜去焊補（花 2 Parts，LOG 檢定 dc 7）",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Parts": 2
+          },
+          "check": {
+            "who": "liShuang",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "黎霜把電線接上一台廢棄的焊機，火花噴得像夜空裡的煙火。鋼架一根根立起來，牆面的震動慢慢停了。",
+              "effects": {
+                "resources": {
+                  "Defense": 6
+                },
+                "relations": {
+                  "liShuang": {
+                    "Affection": 4,
+                    "Trust": 3
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "焊機卡住，電光一閃，黎霜被彈開，手掌燒出一道紅痕。鋼架只焊了一半。",
+              "effects": {
+                "resources": {
+                  "Defense": 2
+                },
+                "chars": {
+                  "liShuang": {
+                    "Health": -10,
+                    "Stress": 6
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "放棄這面牆，全員退到通風口後面（Defense -5，Morale -6）",
+          "outcomes": {
+            "always": {
+              "text": "你做了一個很難的決定：退。\n鐵門後面的東西擠進了第一層，又被你們用櫃子堵在第二層。沒有人說話，只有宋寧的手一直抓著你的袖子。",
+              "effects": {
+                "resources": {
+                  "Defense": -5,
+                  "Morale": -6
+                },
+                "status": {
+                  "Stress": 6
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": -2,
+                    "Trust": 2
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "SH_024",
+      "pool": "story",
+      "title": "最後一瓶水",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 9,
+        "resources": {
+          "Food": {
+            "lte": 1
+          },
+          "Water": {
+            "lte": 1
+          }
+        }
+      },
+      "text": "食物櫃空了，水桶底只剩一層泥色的水。\n三個女人同時看著你，沒有人說要吃。\n黎霜先開口：『照數字算，我們最多撐四天。』\n宋寧把空碗翻過來：『超市那邊還有我認識的人，我去試試。』\n夏見已經站起來，拿起外套：『我去。隊長，你不要擋我。』",
+      "choices": [
+        {
+          "label": "派夏見去超市，她力氣最大（COM 檢定 dc 7，夏見）",
+          "check": {
+            "who": "xiaJian",
+            "stat": "COM",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "夏見把水桶扛回來的時候，手臂上全是擦傷，卻笑得很得意。『冷凍櫃被搶過一輪，我搶到了最後一袋米。』",
+              "effects": {
+                "resources": {
+                  "Food": 4,
+                  "Water": 4
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Trust": 5,
+                    "Affection": 3
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "夏見在貨架之間被逼進死角，靠一根鐵條才衝出來。她一身泥，什麼都沒拿到。『對不起，隊長。』",
+              "effects": {
+                "resources": {
+                  "Food": 1
+                },
+                "status": {
+                  "Stress": 8
+                },
+                "chars": {
+                  "xiaJian": {
+                    "Health": -15
+                  }
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Trust": -1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "讓宋寧去跟黑雨談（CHA 檢定 dc 7，宋寧）",
+          "check": {
+            "who": "songNing",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "宋寧換上最體面的外套，在十一號窗前把話說得又軟又硬。她帶回三袋米和一桶乾淨的水。『他們要的代價，之後再說。』",
+              "effects": {
+                "resources": {
+                  "Food": 3,
+                  "Water": 2
+                },
+                "factions": {
+                  "blackrain": 3
+                },
+                "flagsSet": [
+                  "sh_blackrain_deal"
+                ],
+                "relations": {
+                  "songNing": {
+                    "Trust": 3
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "黑雨的人沒有談。宋寧被推到門口，又被丟回來。她嘴角破了，還在笑：『抱歉，我把場子搞砸了。』",
+              "effects": {
+                "factions": {
+                  "blackrain": -5
+                },
+                "flagsSet": [
+                  "blackrainHostile"
+                ],
+                "relations": {
+                  "songNing": {
+                    "Trust": -2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把剩下的全分給她們，你自己不吃（Food -1，Water -1，你 Health -10）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              },
+              "Water": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1,
+            "Water": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "你把最後一口水遞給黎霜，最後一把米給夏見，宋寧的碗裡多了一小匙。\n『你瘋了？』夏見吼。你只說：『吃。』",
+              "effects": {
+                "relations": {
+                  "liShuang": {
+                    "Affection": 3
+                  },
+                  "songNing": {
+                    "Affection": 3
+                  },
+                  "xiaJian": {
+                    "Affection": 3
+                  }
+                },
+                "chars": {
+                  "shenYan": {
+                    "Health": -10
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "你自己摸黑出去找（你的 STR 檢定）",
+          "check": {
+            "who": "shenYan",
+            "stat": "STR",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "你沿著排水溝爬到超市後門，在倒塌的貨架底下摸到半箱礦泉水和幾包泡麵。回來的時候天快亮了，三雙眼睛一直沒闔上。",
+              "effects": {
+                "resources": {
+                  "Food": 3,
+                  "Water": 3,
+                  "ExploreRisk": 3
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": 8
+                  }
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": 2
+                  },
+                  "songNing": {
+                    "Trust": 2
+                  },
+                  "xiaJian": {
+                    "Trust": 2
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "你空手回來，左腿被鐵片劃開一道口子。沒有人責怪你，這比責怪更難受。",
+              "effects": {
+                "resources": {
+                  "ExploreRisk": 4,
+                  "Morale": -4
+                },
+                "chars": {
+                  "shenYan": {
+                    "Health": -12,
+                    "Infection": 6
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

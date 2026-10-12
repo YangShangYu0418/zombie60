@@ -1,0 +1,633 @@
+{
+  "events": [
+    {
+      "id": "LE_SUP_01",
+      "pool": "loc:supermarket",
+      "title": "半拉的鐵捲門",
+      "weight": 12,
+      "text": "{actor}彎腰鑽進半拉的鐵捲門，鐵皮刮過背脊，發出刺耳的嘎吱聲。\n貨架東倒西歪，水箱區的塑膠瓶堆在角落，像一排沒人認領的墓碑。\n空氣裡是發酵的甜味，冷凍櫃的縫隙裡一陣陣飄出來，黏在鼻腔深處。",
+      "choices": [
+        {
+          "label": "整箱搬走，能拿多少是多少（STR 檢定，普通）",
+          "check": { "who": "actor", "stat": "STR", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "{actor}的手臂勒進箱角，三箱礦泉水被拖到鐵捲門口。夠撐一陣子了。", "effects": { "resources": { "Water": 4, "Food": 1, "Noise": 2 } } },
+            "fail": { "text": "貨架被扯得晃了一下，整排飲料砸下來。{actor}只來得及抱住一箱，肩膀撞上鐵櫃。", "effects": { "resources": { "Water": 1, "Noise": 4 }, "chars": { "$actor": { "Health": -10 } } } }
+          }
+        },
+        {
+          "label": "只拿幾包乾糧，見好就收",
+          "outcomes": {
+            "always": { "text": "{actor}把乾糧塞進背包，沒有再多看貨架一眼。", "effects": { "resources": { "Food": 2, "Noise": 1 } } }
+          }
+        },
+        {
+          "label": "繞去冷凍櫃後面翻找（LOG 檢定，普通）",
+          "check": { "who": "actor", "stat": "LOG", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "隔板後面藏著一箱沒過期的罐頭，標籤上有人用原子筆寫下日期，字跡很工整。", "effects": { "resources": { "Food": 3 } } },
+            "fail": { "text": "冷凍櫃門一拉開，腐臭的熱氣撲了滿臉。{actor}立刻退開，袖口卻已經沾上黏稠的東西。", "effects": { "resources": { "Food": 1 }, "chars": { "$actor": { "Infection": 8 } } } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_SUP_02",
+      "pool": "loc:supermarket",
+      "title": "超市裡的屍群",
+      "weight": 10,
+      "conditions": { "density": { "supermarket": { "gte": 50 } } },
+      "text": "超市的走道擠滿了東西，多到看不見地板。應急燈只剩一點紅光，照在黏成一片的汁液上。\n它們聽見動靜，一顆顆頭慢慢轉過來，喉嚨深處發出低低的嘶聲。\n{actor}的掌心貼著冰涼的鐵架，只剩下兩條路可以選，而時間不等人。",
+      "choices": [
+        {
+          "label": "推倒貨架當誘餌，趁亂搶水（COM 檢定，困難）",
+          "check": { "who": "actor", "stat": "COM", "dc": 9 },
+          "outcomes": {
+            "success": { "text": "鐵架轟然倒下，屍群一窩蜂撲向噪音的來源。{actor}趁機鑽進飲料區，把最後幾箱水踢到收銀台下。", "effects": { "resources": { "Water": 3, "Food": 1, "Noise": 5 } } },
+            "fail": { "text": "鐵架只倒了一半，一隻手抓住{actor}的袖子。掙脫的時候，指節被擦破了一大片。", "effects": { "resources": { "Noise": 3, "ExploreRisk": 3 }, "chars": { "$actor": { "Health": -12, "Stress": 5 } } } }
+          }
+        },
+        {
+          "label": "原路退出，什麼都不拿",
+          "outcomes": {
+            "always": { "text": "{actor}沒有回頭，只是把呼吸放慢，一步一步退到鐵捲門外。那種被盯住的感覺，久久沒有散。", "effects": { "chars": { "$actor": { "Stress": 6 } } } }
+          }
+        },
+        {
+          "label": "從裝卸區的後門繞過去（STR 檢定，普通）",
+          "check": { "who": "actor", "stat": "STR", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "裝卸區的門虛掩著，{actor}貼著牆摸過去，搬出兩箱泡麵，連腳步都沒多響一聲。", "effects": { "resources": { "Food": 3 } } },
+            "fail": { "text": "門軸生鏽，發出尖銳的長音。身後的屍群轉了方向，{actor}只能拖著一箱東西狼狽地往外跑。", "effects": { "resources": { "Food": 1, "Noise": 4 }, "chars": { "$actor": { "Health": -6 } } } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_SUP_03",
+      "pool": "loc:supermarket",
+      "title": "屋頂漏下來的水",
+      "weight": 12,
+      "conditions": { "weather": ["rain"] },
+      "text": "雨從超市破掉的天窗灌進來，滴在結霜的冷藏櫃上，叮咚叮咚，聲音在空蕩的賣場裡來回撞。\n{actor}站在水滴聲裡，看著櫃子裡那排還沒融化的冰塊，冷氣順著指縫爬上來。\n牆角有一台手動幫浦倒在地上，還連著一截發黃的塑膠管，像是有人匆忙之間丟下的。",
+      "choices": [
+        {
+          "label": "撈出冰塊，灌進空瓶慢慢融（不用檢定）",
+          "outcomes": {
+            "always": { "text": "冰塊在掌心裡一寸寸化掉，{actor}把水倒進空瓶，像在夾縫裡存了一點天。", "effects": { "resources": { "Water": 2 } } }
+          }
+        },
+        {
+          "label": "修好幫浦，把雨水抽進大桶（LOG 檢定，普通）",
+          "check": { "who": "actor", "stat": "LOG", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "{actor}用鞋底剪下的橡膠片換掉破墊，幫浦咳了幾聲，開始吐出清水。", "effects": { "resources": { "Water": 3, "Morale": 2 } } },
+            "fail": { "text": "鐵柄在手裡斷掉，斷口割破了{actor}的虎口。雨水還在滴，只能眼睜睜看著它流走。", "effects": { "resources": { "Water": 1 }, "chars": { "$actor": { "Health": -6 } } } }
+          }
+        },
+        {
+          "label": "躲到貨架後面避雨，什麼都不做",
+          "outcomes": {
+            "always": { "text": "雨聲蓋住了其他聲音。{actor}靠著貨架坐了一會兒，久違地覺得安靜。", "effects": { "chars": { "$actor": { "Stress": -4 } } } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_SUP_04",
+      "pool": "loc:supermarket",
+      "title": "收銀台底下的便條",
+      "weight": 5,
+      "once": true,
+      "text": "收銀台底下的紙箱被壓扁了，裡面墊著一本值班簿。\n最後一頁用麥克筆寫著：『我們往學校去了，操場見。東西留給回來的人。』\n字跡寫到一半就斷掉，旁邊有一個乾掉的手印，五根手指張得很開。",
+      "choices": [
+        {
+          "label": "把便條收好，往深坑國小的方向記下（解鎖地點）",
+          "outcomes": {
+            "always": { "text": "{actor}把便條折進內袋。學校就在幾條街外，那裡曾經有人在等誰。", "effects": { "flagsSet": ["le_sup_note"], "discover": ["shenkeng_school"] } }
+          }
+        },
+        {
+          "label": "撬開收銀機的保險箱（STR 檢定，普通）",
+          "check": { "who": "actor", "stat": "STR", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "鎖扣斷裂的瞬間，紙鈔散了一地。{actor}順手拿走抽屜底的兩盒藥，它們比錢有用得多。", "effects": { "resources": { "Med": 1, "Food": 2 }, "flagsSet": ["le_sup_safe"] } },
+            "fail": { "text": "鐵盒的縫隙夾住了{actor}的手指，用力一扯，指甲翻起來，痛得眼前發白。", "effects": { "resources": { "Noise": 3 }, "chars": { "$actor": { "Health": -8 } } } }
+          }
+        },
+        {
+          "label": "把整本值班簿抱走，留待之後細讀",
+          "outcomes": {
+            "always": { "text": "那本簿子不知道能不能派上用場，但它是別人留下的最後一份紀錄，{actor}不想丟掉。", "effects": { "resources": { "Morale": 3 }, "flagsSet": ["le_sup_note"] } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_OLD_01",
+      "pool": "loc:shenkeng_oldstreet",
+      "title": "豆腐店的大鍋",
+      "weight": 12,
+      "text": "紅磚拱廊下的豆腐店還留著半鍋滷水，冷掉的豆香黏在牆壁上，甜中帶鹹。\n鐵架上堆滿了豆乾與豆漿桶，有幾桶已經鼓起來，蓋子被頂得歪歪的。\n店後頭的工具間半開著，裡頭有螺絲滾落地面的細碎聲響。",
+      "choices": [
+        {
+          "label": "扛走整桶豆漿，走巷子快一點（STR 檢定，普通）",
+          "check": { "who": "actor", "stat": "STR", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "{actor}把豆漿桶扛上肩，一路穿過拱廊，沒有灑出一滴。", "effects": { "resources": { "Food": 3 } } },
+            "fail": { "text": "桶身太重，{actor}踩滑了石板，整個人撞在拒馬上。桶蓋翻開，豆漿流了一地。", "effects": { "resources": { "Food": 1 }, "chars": { "$actor": { "Health": -8 } } } }
+          }
+        },
+        {
+          "label": "從工具間撬出零件（LOG 檢定，普通）",
+          "check": { "who": "actor", "stat": "LOG", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "{actor}看出夾板下有個暗格，抽出一包還能用的電線與彈簧。", "effects": { "resources": { "Parts": 2 } } },
+            "fail": { "text": "螺絲刀滑了一下，鐵櫃翻倒，砸在{actor}的小腿上。好一陣子，那條腿都使不上力。", "effects": { "resources": { "Parts": 1 }, "chars": { "$actor": { "Health": -5, "Stress": 5 } } } }
+          }
+        },
+        {
+          "label": "只撿幾塊豆乾，立刻離開",
+          "outcomes": {
+            "always": { "text": "{actor}把豆乾塞進口袋，轉身時瞥見鍋底浮著的白沫，沒有再多看一眼。", "effects": { "resources": { "Food": 1 } } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_OLD_02",
+      "pool": "loc:shenkeng_oldstreet",
+      "title": "紅磚拱廊的屍群",
+      "weight": 10,
+      "conditions": { "density": { "shenkeng_oldstreet": { "gte": 40 } } },
+      "text": "拱廊的另一頭，屍群正順著紅磚柱子往上爬，像一串黑色的念珠。\n它們的腳步拖在石板上，沙沙的，每一步都在催促人快點做決定。\n{actor}的背抵著冰冷的門板，身後還有一條窄巷可以退。",
+      "choices": [
+        {
+          "label": "硬闖拱廊，趁它們擠在柱子旁（COM 檢定，困難）",
+          "check": { "who": "actor", "stat": "COM", "dc": 9 },
+          "outcomes": {
+            "success": { "text": "{actor}用肩撞開木門，從它們中間的縫隙穿過去，拿到了兩袋乾貨。", "effects": { "resources": { "Food": 2, "Parts": 1, "Noise": 3 } } },
+            "fail": { "text": "門板後面還藏著一隻，撲上來咬住{actor}的前臂，力道大得讓人眼前一黑。", "effects": { "resources": { "Noise": 4 }, "chars": { "$actor": { "Health": -15 } } } }
+          }
+        },
+        {
+          "label": "從屋簷的水溝繞過去（STR 檢定，普通）",
+          "check": { "who": "actor", "stat": "STR", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "{actor}抓著雨遮的鐵架翻上屋頂，從另一側的鐵皮屋頂滑下來。底下的屍群沒有察覺。", "effects": { "resources": { "Food": 2 } } },
+            "fail": { "text": "鐵皮屋頂承受不住，發出一聲巨響。碎瓦割開了{actor}的手腕，傷口沾著屋頂的爛泥，火辣辣地疼。", "effects": { "resources": { "Noise": 5 }, "chars": { "$actor": { "Health": -6, "Infection": 5 } } } }
+          }
+        },
+        {
+          "label": "退回巷口，把門關上，等屍群散去",
+          "outcomes": {
+            "always": { "text": "{actor}退到巷口，把門板慢慢關上，聽著外頭的沙沙聲一點一點遠了。", "effects": { "chars": { "$actor": { "Stress": 4 } } } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_OLD_03",
+      "pool": "loc:shenkeng_oldstreet",
+      "title": "濃霧裡的五金行",
+      "weight": 10,
+      "conditions": { "weather": ["fog"] },
+      "text": "濃霧把老街包成一團白，紅磚拱廊的盡頭只剩下模糊的輪廓。\n五金行的鐵門虛掩著，裡面傳來金屬零件晃動的聲音，不知道是風，還是別的什麼。\n{actor}的呼吸在霧裡凝成白煙，一點一點往門口挪。",
+      "choices": [
+        {
+          "label": "趁霧進去翻找，動作盡量輕（LOG 檢定，簡單）",
+          "check": { "who": "actor", "stat": "LOG", "dc": 5 },
+          "outcomes": {
+            "success": { "text": "霧氣掩護了腳步聲。{actor}在貨架底下找到一盒螺絲與兩顆電池，安靜地退了出來。", "effects": { "resources": { "Parts": 2 } } },
+            "fail": { "text": "地上的鐵屑被踩碎，一片生鏽的細片割進{actor}的膝蓋，傷口沾了不乾淨的東西。", "effects": { "resources": { "Parts": 1 }, "chars": { "$actor": { "Health": -6, "Infection": 5 } } } }
+          }
+        },
+        {
+          "label": "放棄這一間，先等霧散",
+          "outcomes": {
+            "always": { "text": "{actor}把門板拉回原位，站在霧裡數著自己的心跳。什麼都沒拿，倒也沒出事。", "effects": { "resources": { "Noise": -2 } } }
+          }
+        },
+        {
+          "label": "用鐵鍬撬開門，直接搬走櫃檯（STR 檢定，困難）",
+          "check": { "who": "actor", "stat": "STR", "dc": 9 },
+          "outcomes": {
+            "success": { "text": "門鎖應聲而斷。{actor}扛出一箱還沒拆封的工具，霧裡傳來遠處的嘶叫，卻沒有靠近。", "effects": { "resources": { "Parts": 2, "Noise": 3 } } },
+            "fail": { "text": "鐵鍬砸歪，巨響撞進霧裡。{actor}的手腕扭了一下，整條胳膊痠麻得抬不起來。", "effects": { "resources": { "Noise": 6 }, "chars": { "$actor": { "Health": -10 } } } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_OLD_04",
+      "pool": "loc:shenkeng_oldstreet",
+      "title": "集應廟的老婆婆",
+      "weight": 5,
+      "once": true,
+      "text": "集應廟的香爐還有餘溫，灰燼裡插著三根沒燒完的香。\n一位老婆婆跪在蒲團上，手裡捏著念珠，嘴唇一張一合，唸的是誰也聽不清的經。\n老婆婆抬起頭，看見{actor}，沙啞地說：『要上香就上，要拿東西，先跟菩薩講一聲。』",
+      "choices": [
+        {
+          "label": "跟著上一炷香，請老婆婆說說附近哪裡還有藥（CHA 檢定，普通）",
+          "check": { "who": "actor", "stat": "CHA", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "老婆婆慢慢點頭，指著山坡上的白色建築：『醫院那邊還亮著燈，去找穿白袍的人。』{actor}把這句話記在心裡。", "effects": { "resources": { "Med": 2 }, "flagsSet": ["le_old_temple_trust"] } },
+            "fail": { "text": "老婆婆只是搖頭，『菩薩也不管你要不要。』香灰落在{actor}的手背上，有點燙。", "effects": { "chars": { "$actor": { "Stress": 3 } } } }
+          }
+        },
+        {
+          "label": "趁老婆婆低頭念經，把供品整盤端走",
+          "outcomes": {
+            "always": { "text": "供品的糖果還溫著，{actor}把它們塞進袋子。轉身時，身後的念珠聲突然停了。", "effects": { "resources": { "Food": 3 }, "chars": { "$actor": { "Stress": 6 } } , "flagsSet": ["le_old_temple_robbed"] } }
+          }
+        },
+        {
+          "label": "幫老婆婆把廟門的鐵鍊鎖好，陪她說幾句話",
+          "outcomes": {
+            "always": { "text": "老婆婆拍了拍{actor}的手，從懷裡掏出一張寫著山名的紙條：『石碇那邊，還有人活著。』", "effects": { "resources": { "Defense": 3 }, "flagsSet": ["le_old_temple_kind"], "discover": ["shiding"] } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_RIV_01",
+      "pool": "loc:jingmei_river",
+      "title": "河堤上的單車",
+      "weight": 12,
+      "text": "溪水照常流，嘩啦啦的聲音像是什麼都沒發生過。\n河堤自行車道上停著一排公共單車，有幾台還掛著背包，拉鍊半開，露出裡頭的水袋。\n{actor}走近時，腳邊踢到一個空水壺，咕嚕滾進草叢裡，驚起一片飛蟲。",
+      "choices": [
+        {
+          "label": "把掛水袋的背包全拖走（STR 檢定，普通）",
+          "check": { "who": "actor", "stat": "STR", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "{actor}把背包一個個扯下來，裝滿的水袋沉甸甸地壓著肩膀。", "effects": { "resources": { "Water": 3, "Food": 1 } } },
+            "fail": { "text": "單車倒了，龍頭重重砸在{actor}的膝蓋上。背包滾進溪裡，只撈回一個。", "effects": { "resources": { "Water": 1, "Noise": 3 }, "chars": { "$actor": { "Health": -8 } } } }
+          }
+        },
+        {
+          "label": "蹲在溪邊用布濾水（LOG 檢定，普通）",
+          "check": { "who": "actor", "stat": "LOG", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "{actor}把布墊疊了三層，濾出來的水清得能看見溪底石頭的紋路。", "effects": { "resources": { "Water": 4 } } },
+            "fail": { "text": "溪底的泥被攪了起來，濾布上沾著一層黑色的膜。{actor}用力擠了幾下，喉嚨還是發癢。", "effects": { "resources": { "Water": 1 }, "chars": { "$actor": { "Infection": 7 } } } }
+          }
+        },
+        {
+          "label": "只拿一瓶水，把背包放回原處",
+          "outcomes": {
+            "always": { "text": "{actor}把水瓶拎起來對著溪水晃了晃，不敢多拿，總覺得背包的主人隨時會回來。", "effects": { "resources": { "Water": 1, "Morale": 2 } } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_RIV_02",
+      "pool": "loc:jingmei_river",
+      "title": "暴漲的溪水",
+      "weight": 10,
+      "conditions": { "weather": ["rain"] },
+      "text": "雨下了一整夜，溪水漲到河堤的水泥邊，黃色的泥水翻著白沫往下衝。\n水面上漂著半截木箱，還有一個紅色的水桶，卡在橋墩下，一晃一晃。\n{actor}站在濕滑的石階上，腳跟已經有一半浸進水裡，涼意順著小腿往上爬。",
+      "choices": [
+        {
+          "label": "趁水位還沒退，衝下去搶那只水桶（STR 檢定，困難）",
+          "check": { "who": "actor", "stat": "STR", "dc": 9 },
+          "outcomes": {
+            "success": { "text": "{actor}抓住桶把，腳底一滑，整個人跌坐在石階上，但手裡的桶子沒有鬆開。", "effects": { "resources": { "Water": 4 } } },
+            "fail": { "text": "水勢一把將{actor}拖走，直到撞上橋墩才抓住欄杆。左肩扭傷，嘴裡全是泥水的腥味。", "effects": { "chars": { "$actor": { "Health": -15 } } } }
+          }
+        },
+        {
+          "label": "用集水桶接屋簷的雨（不用冒險）",
+          "outcomes": {
+            "always": { "text": "{actor}把空桶架在屋簷下，雨水順著瓦溝流進來，咚咚咚地敲出一串清亮的聲音。", "effects": { "resources": { "Water": 2 } } }
+          }
+        },
+        {
+          "label": "等溪水退去，明天再來",
+          "outcomes": {
+            "always": { "text": "{actor}退回橋下的避雨亭，看著水面一點一點往下降，心裡默默數著時間。", "effects": { "resources": { "Morale": 2 } } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_RIV_03",
+      "pool": "loc:jingmei_river",
+      "title": "河堤上的屍群",
+      "weight": 10,
+      "conditions": { "density": { "jingmei_river": { "gte": 40 } } },
+      "text": "屍群聚在河堤下的草坡上，啃著一台翻倒的單車，金屬與骨頭摩擦出刺耳的聲響。\n它們沒有注意到橋上的{actor}，但腳邊的鐵鍊晃了一下，所有的頭就齊刷刷抬了起來。\n{actor}必須在一瞬間做決定，要引開它們，還是繞過去。",
+      "choices": [
+        {
+          "label": "拿鐵管敲打橋欄，把屍群引向橋下（COM 檢定，普通）",
+          "check": { "who": "actor", "stat": "COM", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "屍群一窩蜂湧向橋下。{actor}趁機跑到水門旁，拆開一箱被遺棄的瓶裝水。", "effects": { "resources": { "Water": 2, "Noise": 2 } } },
+            "fail": { "text": "鐵管脫手，撞在欄杆上響成一片。最靠近的那隻已經撲到{actor}腳邊，抓破了小腿。", "effects": { "resources": { "Noise": 4 }, "chars": { "$actor": { "Health": -10, "Infection": 5 } } } }
+          }
+        },
+        {
+          "label": "悄悄退回橋下，不驚動它們",
+          "outcomes": {
+            "always": { "text": "{actor}貼著橋墩往後退，每一步都踩在水泥縫的空隙上，直到草坡的聲音變成遠方的背景。", "effects": { "chars": { "$actor": { "Stress": 3 } } } }
+          }
+        },
+        {
+          "label": "趁它們啃單車，搬空最靠近的背包（STR 檢定，普通）",
+          "check": { "who": "actor", "stat": "STR", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "{actor}把背包一拖就跑，身後傳來怒吼般的嘶聲，卻沒有追上來。", "effects": { "resources": { "Water": 2, "Food": 1 } } },
+            "fail": { "text": "背包卡在單車的把手上，扯斷的瞬間，{actor}跌進草堆。屍群在身後撲了個空。", "effects": { "resources": { "Noise": 3 }, "chars": { "$actor": { "Health": -7 } } } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_RIV_04",
+      "pool": "loc:jingmei_river",
+      "title": "翻覆的救生艇",
+      "weight": 5,
+      "once": true,
+      "text": "一艘橘色的救生艇翻在淺灘上，艇底朝天，船舷上還掛著半截褪色的繩子。\n艇裡的座位下有一個防水箱，箱蓋上用膠帶貼著一張紙條，寫著『給政大那邊的人，我們盡力了』。\n水流一下一下拍打著艇身，像是在催人快點做決定。",
+      "choices": [
+        {
+          "label": "下水把艇翻正，看看裡面還有沒有人（STR 檢定，困難）",
+          "check": { "who": "actor", "stat": "STR", "dc": 9 },
+          "outcomes": {
+            "success": { "text": "救生艇翻正時濺起大片水花。艇裡是空的，只剩一件染了褐色的雨衣，和一包還能用的醫療品。{actor}把它們收進背包。", "effects": { "resources": { "Med": 2, "Water": 2 }, "flagsSet": ["le_river_boat"] } },
+            "fail": { "text": "艇身滑下淺灘，{actor}被水流捲進去，撞在石頭上，好一陣子耳朵裡只剩嗡嗡的聲音。", "effects": { "chars": { "$actor": { "Health": -12 } } } }
+          }
+        },
+        {
+          "label": "拆下防水箱，從岸上用繩子拉（LOG 檢定，普通）",
+          "check": { "who": "actor", "stat": "LOG", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "防水箱被拖上岸，裡頭有一張政大的校園地圖，還有兩捲保麗龍包著的藥錠。", "effects": { "resources": { "Med": 1 }, "flagsSet": ["le_river_boat"] } },
+            "fail": { "text": "繩結鬆開，防水箱砸進水裡，只撈上來一截被泡爛的紙條。{actor}看著那截紙，什麼也說不出口。", "effects": { "chars": { "$actor": { "Stress": 4 } } } }
+          }
+        },
+        {
+          "label": "拍下紙條的照片，記下艇身的號碼，不下水",
+          "outcomes": {
+            "always": { "text": "{actor}把紙條收進夾鏈袋，記下艇身上的編號。之後如果有人問起，至少能說出是哪一天、哪一條河。", "effects": { "flagsSet": ["le_river_boat_seen"], "discover": ["nccu"] } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_SCH_01",
+      "pool": "loc:shenkeng_school",
+      "title": "操場上的帳篷",
+      "weight": 12,
+      "text": "操場上的帳篷還立著，白色的帆布被風吹得鼓起來，又癟下去。\n有幾頂帳篷的拉鍊半開，裡頭的睡袋摺得整整齊齊，像是主人只是出門去打水。\n{actor}踩過一地被踩扁的紙杯，腳步停在最靠近的那一頂帳篷前。",
+      "choices": [
+        {
+          "label": "逐一掀開帳篷搜找（COM 檢定，普通）",
+          "check": { "who": "actor", "stat": "COM", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "{actor}從第三頂帳篷的枕頭下面，摸出一盒還沒開封的退燒藥和兩包餅乾。", "effects": { "resources": { "Med": 2, "Food": 2 } } },
+            "fail": { "text": "最後一頂帳篷裡，有什麼東西猛地從睡袋裡坐了起來。{actor}倉促後退，手肘撞上鐵架。", "effects": { "chars": { "$actor": { "Health": -10, "Stress": 5 } } } }
+          }
+        },
+        {
+          "label": "只撿地上散落的罐頭，不進帳篷",
+          "outcomes": {
+            "always": { "text": "罐頭上還貼著收容所的編號貼紙，像在點名。{actor}蹲下去，把它們一個一個收進背包。", "effects": { "resources": { "Food": 1 } } }
+          }
+        },
+        {
+          "label": "用工兵鏟挖開堆在角落的舊箱子（STR 檢定，普通）",
+          "check": { "who": "actor", "stat": "STR", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "箱子裡是捐來的毛毯與藥膏。{actor}挑了最能用的兩樣，其餘的推回原位。", "effects": { "resources": { "Med": 1, "Parts": 1 } } },
+            "fail": { "text": "鏟子撞上生鏽的鐵條，震得虎口發麻。箱子沒開，{actor}的手掌卻先磨破了皮。", "effects": { "chars": { "$actor": { "Health": -5 } } } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_SCH_02",
+      "pool": "loc:shenkeng_school",
+      "title": "教室窗後的手掌",
+      "weight": 10,
+      "conditions": { "density": { "shenkeng_school": { "gte": 50 } } },
+      "text": "教室的窗戶玻璃上，糊著一層模糊的手印。屍群擠在裡頭，一下又一下拍著，玻璃發出悶悶的響。\n走廊的盡頭有一扇側門掛著鎖，鎖頭上還有新鮮的刮痕，像是有人試過很多次。\n{actor}站在操場邊的鐵柵門前，握著鐵管的手心滲出汗來。",
+      "choices": [
+        {
+          "label": "翻牆進側門，趁它們還在拍窗（COM 檢定，困難）",
+          "check": { "who": "actor", "stat": "COM", "dc": 9 },
+          "outcomes": {
+            "success": { "text": "{actor}從牆頭翻下來，三步並作兩步衝進走廊，把醫務室的櫃子整個拉開。", "effects": { "resources": { "Med": 2 } } },
+            "fail": { "text": "牆頭的鐵絲網刮開了{actor}的外套，落地時膝蓋重重撞上水泥地。窗後的拍打聲一下子急了起來。", "effects": { "resources": { "Noise": 3 }, "chars": { "$actor": { "Health": -15 } } } }
+          }
+        },
+        {
+          "label": "先把側門的鐵鍊鎖緊，等它們散掉",
+          "outcomes": {
+            "always": { "text": "{actor}把鐵鍊繞了三圈，扣上掛鎖。窗外的拍打聲漸漸稀落，最後只剩風吹過操場的聲音。", "effects": { "resources": { "Noise": -2 } } }
+          }
+        },
+        {
+          "label": "從後面的排水溝摸進去（STR 檢定，普通）",
+          "check": { "who": "actor", "stat": "STR", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "排水溝又窄又臭，{actor}爬過來時滿身髒水，總算從廚房的後門摸進了醫務室。", "effects": { "resources": { "Med": 1, "Food": 1 } } },
+            "fail": { "text": "排水溝的蓋子突然鬆動，發出的響聲驚動了窗裡的屍群。{actor}狼狽地退了出來。", "effects": { "resources": { "Noise": 5 }, "chars": { "$actor": { "Stress": 4 } } } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_SCH_03",
+      "pool": "loc:shenkeng_school",
+      "title": "禮堂裡的校歌",
+      "weight": 10,
+      "conditions": { "weather": ["fog"] },
+      "text": "濃霧漫過操場，連鐵柵門都看不清楚，只剩下國旗桿的輪廓。\n霧裡傳來斷斷續續的歌聲，是國小的校歌，一句唱得很輕，又很快停住。\n禮堂的門縫透出一點燭光。{actor}站在門口，聽見裡頭有人低聲問：『誰？』",
+      "choices": [
+        {
+          "label": "回應歌聲，請裡頭的人開門（CHA 檢定，普通）",
+          "check": { "who": "actor", "stat": "CHA", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "門板後的人鬆了一口氣，把一疊罐頭從門縫推出來：『我們不能讓更多人進來，你懂吧？』", "effects": { "resources": { "Food": 2, "Med": 1 } } },
+            "fail": { "text": "門沒有開。裡頭的聲音只說了一句：『走吧。』燭光隨即熄滅，整座禮堂陷進黑裡。", "effects": { "chars": { "$actor": { "Stress": 6 } } } }
+          }
+        },
+        {
+          "label": "循著校歌的方向，去醫務室找藥（LOG 檢定，普通）",
+          "check": { "who": "actor", "stat": "LOG", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "醫務室的藥櫃沒有上鎖，{actor}在最上層找到還沒過期的消炎藥。", "effects": { "resources": { "Med": 2 } } },
+            "fail": { "text": "霧太濃，{actor}撞上一座課桌堆。摔倒時，有什麼東西從桌底竄了過去。", "effects": { "resources": { "Noise": 4 }, "chars": { "$actor": { "Health": -6 } } } }
+          }
+        },
+        {
+          "label": "不去理會，轉身離開",
+          "outcomes": {
+            "always": { "text": "{actor}沒有回頭，只是把腳步放得很輕。霧一層一層合上來，歌聲卻好像一直跟在後頭。", "effects": { "chars": { "$actor": { "Stress": 4 } } } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_SCH_04",
+      "pool": "loc:shenkeng_school",
+      "title": "黑板上的名單",
+      "weight": 5,
+      "once": true,
+      "text": "教室的黑板上寫滿了名字。每個名字後面都有一個日期，有的被打了勾，有的被劃掉。\n最底下一行寫著：『撤離點待確認，三號哨有無線電。』\n粉筆灰落在講桌上，堆成一小撮，像是有人剛剛才擦過。",
+      "choices": [
+        {
+          "label": "抄下名單，拿走黑板旁的撤離告示（LOG 檢定，普通）",
+          "check": { "who": "actor", "stat": "LOG", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "{actor}把名單一行行抄進筆記本，又把告示小心撕下來，摺進內袋。上頭寫著一條路線，還有撤離點的代號。", "effects": { "flagsSet": ["le_school_roster", "le_evac_rumor"] } },
+            "fail": { "text": "黑板擦過的地方留著一道白痕，{actor}只來得及抄下前三行，就被門外的腳步聲打斷。", "effects": { "flagsSet": ["le_school_roster"], "chars": { "$actor": { "Stress": 3 } } } }
+          }
+        },
+        {
+          "label": "在名單的最底下補上一行字",
+          "outcomes": {
+            "always": { "text": "{actor}拿粉筆在最底下寫了一行小字：『還有人在找。』字跡歪歪的，卻怎麼看都擦不掉。", "effects": { "resources": { "Morale": 3 }, "chars": { "$actor": { "Stress": -5 } }, "flagsSet": ["le_school_roster"] } }
+          }
+        },
+        {
+          "label": "把黑板上的名字全擦掉，免得有人再看見",
+          "outcomes": {
+            "always": { "text": "{actor}用袖子把黑板擦得乾乾淨淨，粉筆灰嗆進喉嚨。有些事，也許不必讓下一個人知道。", "effects": { "chars": { "$actor": { "Stress": 4 } }, "flagsSet": ["le_school_erased"] } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_SHD_01",
+      "pool": "loc:shiding",
+      "title": "村口的竹竿",
+      "weight": 12,
+      "text": "石碇的村口用竹竿與鐵絲圍了一道歪歪的柵欄，柵欄上掛著幾個空的飲料罐，風一吹就叮噹作響。\n一個穿雨鞋的中年男人從吊腳樓上探出頭，手裡的獵槍槍口沒有對準{actor}，但也沒有移開。\n『外地人？』男人問，『要進來，先留下點東西。』",
+      "choices": [
+        {
+          "label": "放下一包食物當見面禮（消耗 1 食物）",
+          "requires": { "resources": { "Food": { "gte": 1 } } },
+          "cost": { "Food": 1 },
+          "outcomes": {
+            "always": { "text": "{actor}把一包乾麵放在柵欄邊。男人用竹竿把它勾進去，點了點頭，把柵欄推開了一條縫。", "effects": { "resources": { "Morale": 3 }, "flagsSet": ["le_shd_gate_paid"] } }
+          }
+        },
+        {
+          "label": "硬闖進村，撞開柵欄（COM 檢定，困難）",
+          "check": { "who": "actor", "stat": "COM", "dc": 9 },
+          "outcomes": {
+            "success": { "text": "柵欄應聲倒下，{actor}踩著竹片衝進村子。村民慌忙退開，地上留下幾包被抖落的乾貨。", "effects": { "resources": { "Food": 3, "Water": 1, "ExploreRisk": 3 } } },
+            "fail": { "text": "獵槍的擊錘扣到一半，最後沒有開火。{actor}被竹竿抽中肩膀，踉蹌地退回柵欄外。", "effects": { "resources": { "ExploreRisk": 4 }, "chars": { "$actor": { "Health": -10 } } } }
+          }
+        },
+        {
+          "label": "說服村裡的人，說明你們是來交換的（CHA 檢定，普通）",
+          "check": { "who": "actor", "stat": "CHA", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "{actor}把背包裡的罐頭一樣樣擺在柵欄上，男人的臉色終於鬆了一點：『好，給你們半小時，我們慢慢聊。』", "effects": { "resources": { "Food": 2, "Water": 1 }, "flagsSet": ["le_shd_trust"] } },
+            "fail": { "text": "男人聽完就把柵欄關上了，隔著竹片丟出一句：『你們的人，去年也是這樣說的。』", "effects": { "chars": { "$actor": { "Stress": 5 } } } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_SHD_02",
+      "pool": "loc:shiding",
+      "title": "吊腳樓的臘肉",
+      "weight": 10,
+      "conditions": { "weather": ["clear"] },
+      "text": "吊腳樓的晾衣竿上掛著一排臘肉，香腸一串串垂下來，油亮亮的，在陽光下泛著光。\n這裡人很少，屋子的門窗都半掩著，偶爾有一聲狗叫，又很快停了。\n{actor}站在樓下的石階上，聞到炭火與松木燒過的香味，肚子不爭氣地叫了一聲。",
+      "choices": [
+        {
+          "label": "趁沒人，偷摘一整串臘肉（LOG 檢定，普通）",
+          "check": { "who": "actor", "stat": "LOG", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "{actor}算準了狗叫與狗叫之間的空檔，把臘肉一把抓下來，轉身沒入竹林。", "effects": { "resources": { "Food": 3 } } },
+            "fail": { "text": "竹竿發出一聲脆響，屋裡的燈亮了。{actor}只好丟下香腸，拔腿就跑。", "effects": { "resources": { "Food": 1, "ExploreRisk": 3 }, "chars": { "$actor": { "Stress": 5 } } } }
+          }
+        },
+        {
+          "label": "用一盒藥換一整串臘肉（消耗 1 醫療品）",
+          "requires": { "resources": { "Med": { "gte": 1 } } },
+          "cost": { "Med": 1 },
+          "outcomes": {
+            "always": { "text": "{actor}把藥盒放在石階上。屋裡的人探出頭看了一眼，把臘肉推了出來，什麼話都沒說。", "effects": { "resources": { "Food": 3 } } }
+          }
+        },
+        {
+          "label": "向屋子點頭致意，什麼都不拿，離開山村",
+          "outcomes": {
+            "always": { "text": "{actor}向屋子裡的人點了點頭，慢慢往山下走。身後的香腸還在風裡晃，像在揮手。", "effects": { "chars": { "$actor": { "Stress": -2 } } } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_SHD_03",
+      "pool": "loc:shiding",
+      "title": "山村的警鐘",
+      "weight": 10,
+      "conditions": { "density": { "shiding": { "gte": 30 } } },
+      "text": "村裡的鐵鐘突然敲響，一下一下，急促得像在發信號。\n溪谷那頭傳來一片沙沙的腳步聲，屍群從竹林裡一波一波湧出來，朝吊腳樓的方向前進。\n村民從屋裡衝出來，拿著鋤頭與竹矛，回頭看向{actor}：『外地人，要幫忙就快！』",
+      "choices": [
+        {
+          "label": "和村民一起守住溪橋（COM 檢定，困難）",
+          "check": { "who": "actor", "stat": "COM", "dc": 9 },
+          "outcomes": {
+            "success": { "text": "{actor}用扁擔頂住橋頭，村民從兩側圍上來，把屍群逼回竹林裡。收工時，村長塞了一包臘肉給{actor}。", "effects": { "resources": { "Food": 2, "Defense": 4 }, "flagsSet": ["le_shd_defended"] } },
+            "fail": { "text": "竹矛擋住了第一隻，第二隻從側面撲上來，咬住{actor}的手臂。村民把{actor}拖回屋裡，門板重重關上。", "effects": { "chars": { "$actor": { "Health": -12, "Infection": 8 } } } }
+          }
+        },
+        {
+          "label": "趁亂從後山摸進糧倉（LOG 檢定，普通）",
+          "check": { "who": "actor", "stat": "LOG", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "糧倉的門閂是木頭的，{actor}抽掉門閂，裝了滿滿兩袋米與鹹魚，從後山的小路溜了下去。", "effects": { "resources": { "Food": 4 }, "flagsSet": ["le_shd_thief"] } },
+            "fail": { "text": "糧倉的燈突然亮起。{actor}被發現時，已經抱著一袋米摔進溝裡。村民的眼神像刀子。", "effects": { "resources": { "Food": 1 }, "chars": { "$actor": { "Stress": 6 } }, "flagsSet": ["le_shd_hostile"] } }
+          }
+        },
+        {
+          "label": "退到山下，讓村民自己處理",
+          "outcomes": {
+            "always": { "text": "{actor}轉身往山下跑。鐘聲在背後一直響，直到變成遠處的一點，才被風吹散。", "effects": { "chars": { "$actor": { "Stress": 4 } } } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LE_SHD_04",
+      "pool": "loc:shiding",
+      "title": "村長的條件",
+      "weight": 5,
+      "once": true,
+      "text": "村長站在祠堂前，身後跟著兩個拿鋤頭的年輕人。聲音很平穩：『要買我們的米，先幫我們找一個孩子。』\n孩子叫阿毛，前天跟著溪流走進了山裡，到現在還沒有回來。\n『找到人，糧照價給。找不到，就別再來了。』",
+      "choices": [
+        {
+          "label": "答應進山找孩子（COM 檢定，普通）",
+          "check": { "who": "actor", "stat": "COM", "dc": 7 },
+          "outcomes": {
+            "success": { "text": "{actor}循著溪流的腳印，在一處斷崖下找到了哭著的孩子。把孩子交給村長時，村長的眼眶紅了，當場讓人把兩袋米搬過來。", "effects": { "resources": { "Food": 3, "Water": 2 }, "flagsSet": ["le_shd_chief_deal"] } },
+            "fail": { "text": "山路上的野狗比想像中多。{actor}拚命往回跑，最後只帶回一隻被咬破的袖子，孩子沒有找到。", "effects": { "resources": { "Noise": 3 }, "chars": { "$actor": { "Health": -10, "Infection": 6 } } } }
+          }
+        },
+        {
+          "label": "用一盒藥換水，不接這個條件（消耗 1 醫療品）",
+          "requires": { "resources": { "Med": { "gte": 1 } } },
+          "cost": { "Med": 1 },
+          "outcomes": {
+            "always": { "text": "村長看了看藥盒，沒有多說什麼，讓人搬出兩桶山泉水。『這樣也好，』村長說，『孩子的事，我們自己來。』", "effects": { "resources": { "Water": 3 }, "flagsSet": ["le_shd_chief_refused"] } }
+          }
+        },
+        {
+          "label": "改去問村裡的老人，山裡還有沒有別的路（CHA 檢定，困難）",
+          "check": { "who": "actor", "stat": "CHA", "dc": 9 },
+          "outcomes": {
+            "success": { "text": "老人指著山壁上一道被樹根蓋住的小徑，說那條路通到機廠附近。{actor}把路線默默記在心裡。", "effects": { "resources": { "Food": 2 }, "discover": ["muzha_depot"] } },
+            "fail": { "text": "老人把門關上，屋裡傳來一句低低的話：『別再來問了。』{actor}站在門外，半天沒有動。", "effects": { "chars": { "$actor": { "Stress": 5 } } } }
+          }
+        }
+      ]
+    }
+  ]
+}

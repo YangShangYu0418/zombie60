@@ -1,0 +1,1074 @@
+{
+  "quests": [
+    {
+      "id": "q_alliance",
+      "title": "指南山之約",
+      "summary": "夜市有食物、缺電；指南山有發電機、缺食物與戰力。你是唯一能在兩邊之間來回走的人。",
+      "stages": [
+        {
+          "flag": "qn_s1",
+          "text": "夜市與政大都想找一個能替兩邊說話的人。"
+        },
+        {
+          "flag": "qn_s2",
+          "text": "中間人的位子有了人選，條件要一條條談。"
+        },
+        {
+          "flag": "qn_s3",
+          "text": "第一趟護送完成，食物與零件換到了手。"
+        },
+        {
+          "flag": "qn_s4",
+          "text": "交接的帳目對不上，有人在暗地裡動了手腳。"
+        },
+        {
+          "flag": "qn_s5",
+          "text": "大講堂裡，兩邊要在同一張紙上簽名。"
+        },
+        {
+          "flag": "qn_done",
+          "text": "夜市與指南山結盟。發電機開始轉動。"
+        },
+        {
+          "flag": "qn_broken",
+          "text": "談判破裂。兩邊都記住了你的名字，只是不是好的那種。"
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "QN_001",
+      "pool": "story",
+      "title": "兩扇門的鑰匙",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "metNightmarket",
+          "metStudents"
+        ],
+        "notFlags": [
+          "qn_s1"
+        ]
+      },
+      "text": "夜市的阿嬤說，你們的人在她的攤車圍牆外待了一整晚，她看在眼裡。\n政大那頭也來了一張字條，字跡工整：『我們缺的不是子彈，是願意聽我們把話說完的人。』\n\n兩邊都想找你談，卻誰也不肯先低頭。兩份消息，像兩把形狀不同的鑰匙，插進同一扇門。",
+      "choices": [
+        {
+          "label": "先去夜市，把政大的字條壓下來（夜市 +3，指南山 −2）",
+          "outcomes": {
+            "always": {
+              "text": "阿嬤看完只笑了一聲：『記得，你欠我的，不是他們的。』",
+              "effects": {
+                "factions": {
+                  "nightmarket": 3,
+                  "students": -2
+                },
+                "flagsSet": [
+                  "qn_s1"
+                ],
+                "discover": [
+                  "jingmei_market",
+                  "nccu"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "把兩邊的條件全部攤在避難所的桌上開會（全員 Stress +4）",
+          "outcomes": {
+            "always": {
+              "text": "黎霜把條件抄上牆角的白板，一條條劃掉不可能的。會議開到凌晨，沒有人吵贏，也沒有人睡得著。",
+              "effects": {
+                "status": {
+                  "Stress": 4
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": 3
+                  }
+                },
+                "flagsSet": [
+                  "qn_s1"
+                ],
+                "discover": [
+                  "jingmei_market",
+                  "nccu"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "先不表態，親自再跑一趟河堤看路（ExploreRisk +3）",
+          "outcomes": {
+            "always": {
+              "text": "河堤的路比地圖上近，也比想像中危險。你回來時，手裡多了一張被雨泡爛的草圖，角落畫著黑色的雨滴記號。",
+              "effects": {
+                "resources": {
+                  "ExploreRisk": 3
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 2
+                  }
+                },
+                "flagsSet": [
+                  "qn_s1"
+                ],
+                "discover": [
+                  "jingmei_market",
+                  "nccu"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QN_002",
+      "pool": "story",
+      "title": "中間人的位子",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qn_s1"
+        ],
+        "notFlags": [
+          "qn_s2"
+        ],
+        "chars": {
+          "songNing": {
+            "present": true
+          }
+        }
+      },
+      "text": "宋寧把一杯溫水推到你面前，才慢慢開口。\n『兩邊都不信對方，可兩邊都信我。』她笑了笑，『在巷口賣了這麼多年的雞皮，還沒有人跟我翻過臉。』\n她頓了一下，眼神很淡：『我來當中間人。我來說，你來扛。』\n你知道她是在替自己算帳，也是在替所有人擋。",
+      "choices": [
+        {
+          "label": "讓宋寧去談，你在後面扛著（宋寧 Stress +6）",
+          "outcomes": {
+            "always": {
+              "text": "她把話說得漂亮，阿嬤挑了眉，溫書言的臉色也鬆了幾分。雙方都記住了她的好，也記住了她開的價。\n回來的時候，宋寧的手還在抖，卻先替你倒了一杯水。",
+              "effects": {
+                "chars": {
+                  "songNing": {
+                    "Stress": 6
+                  }
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 3,
+                    "Trust": 2
+                  }
+                },
+                "factions": {
+                  "nightmarket": 2,
+                  "students": 2
+                },
+                "flagsSet": [
+                  "qn_s2"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "你親自出面，把條件講死（CHA 檢定 普通 7）",
+          "check": {
+            "who": "best",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "你把數字一條條擺上桌，阿嬤點頭，對面也不再拿『理想』當擋箭牌。宋寧在旁邊輕輕笑了一聲，像是鬆了口氣。",
+              "effects": {
+                "factions": {
+                  "nightmarket": 4,
+                  "students": 3
+                },
+                "relations": {
+                  "songNing": {
+                    "Trust": 2
+                  }
+                },
+                "flagsSet": [
+                  "qn_s2"
+                ]
+              }
+            },
+            "fail": {
+              "text": "你話說得太直，阿嬤當場拿算盤打了三回，最後只給了一半。溫書言的臉色沉下來。宋寧出聲圓場，替你擋了第一輪火力。",
+              "effects": {
+                "factions": {
+                  "nightmarket": -2,
+                  "students": -3
+                },
+                "chars": {
+                  "songNing": {
+                    "Stress": 5
+                  }
+                },
+                "flagsSet": [
+                  "qn_s2"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QN_003",
+      "pool": "story",
+      "title": "沒有寧的桌子",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qn_s1"
+        ],
+        "notFlags": [
+          "qn_s2"
+        ],
+        "chars": {
+          "songNing": {
+            "present": false
+          }
+        }
+      },
+      "text": "巷口的『寧』拉下了鐵門，老招牌在風裡晃。\n你把兩份條件攤在避難所的桌上，才發現沒有人替你擋第一輪話。\n黎霜把長髮又綁緊一點，只說：『沒有寧，就只能靠數字。』夏見在門邊磨拳頭：『誰敢拿物資耍人，我先揍。』\n這個位子沒有人替你坐，你得自己站到桌前。",
+      "choices": [
+        {
+          "label": "你親自去談（CHA 檢定 普通 7）",
+          "check": {
+            "who": "best",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "你把條件逐條念出來，語氣不急，也不讓。阿嬤笑著說：『年輕人，你比寧還難纏。』溫書言在旁邊記下每一句話。",
+              "effects": {
+                "factions": {
+                  "nightmarket": 3,
+                  "students": 3
+                },
+                "flagsSet": [
+                  "qn_s2"
+                ]
+              }
+            },
+            "fail": {
+              "text": "阿嬤說話的速度比你快。你被繞進三個比喻裡，最後只好先答應一個最難的條件。走出攤車時，手心全是汗。",
+              "effects": {
+                "status": {
+                  "Stress": 5
+                },
+                "factions": {
+                  "nightmarket": -2
+                },
+                "flagsSet": [
+                  "qn_s2"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "先找黎霜把帳算清楚，再上桌（黎霜 LOG 檢定 普通 6；黎霜 Stress +4）",
+          "check": {
+            "who": "liShuang",
+            "stat": "LOG",
+            "dc": 6
+          },
+          "outcomes": {
+            "success": {
+              "text": "黎霜用一整晚把兩邊的數字對完，清單上只剩三個漏洞。『這樣談，』她把紙推給你，『他們只能讓步。』",
+              "effects": {
+                "chars": {
+                  "liShuang": {
+                    "Stress": 4
+                  }
+                },
+                "factions": {
+                  "nightmarket": 2,
+                  "students": 2
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": 3
+                  }
+                },
+                "flagsSet": [
+                  "qn_s2"
+                ]
+              }
+            },
+            "fail": {
+              "text": "數字算出來了，卻有一半對不上。等你上桌，阿嬤那邊的人已經放出風聲，說政大想拿走夜市的罐頭。",
+              "effects": {
+                "chars": {
+                  "liShuang": {
+                    "Stress": 4
+                  }
+                },
+                "factions": {
+                  "nightmarket": -3,
+                  "students": -2
+                },
+                "flagsSet": [
+                  "qn_s2"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QN_004",
+      "pool": "loc:jingmei_market",
+      "title": "阿嬤的秤",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qn_s2"
+        ],
+        "notFlags": [
+          "qn_talk_market"
+        ]
+      },
+      "text": "夜市的圍牆後面飄著蚵仔煎的焦香，只是今晚的油鍋是冷的。\n{actor}被引到最裡面那台攤車。阿嬤坐在摺疊椅上，手裡轉著一台老舊的電子秤。\n『咱不講感情，講秤。』她說，『政大要的罐頭我給，但以後進出都要先過我的秤。』",
+      "choices": [
+        {
+          "label": "直接跟阿嬤講條件（CHA 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "{actor}把政大的需求與夜市的存量一條條對上。阿嬤沉默了很久，先撥了兩箱食物當押金，才把秤推過來：『成交。』",
+              "effects": {
+                "factions": {
+                  "nightmarket": 5
+                },
+                "resources": {
+                  "Food": 2
+                },
+                "flagsSet": [
+                  "qn_talk_market"
+                ]
+              }
+            },
+            "fail": {
+              "text": "阿嬤只聽了一半就笑出聲：『小朋友，回去再練練。』{actor}走出攤車時，臉比油鍋還燙。",
+              "effects": {
+                "factions": {
+                  "nightmarket": -2
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 4
+                  }
+                },
+                "flagsSet": [
+                  "qn_talk_market"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "帶兩罐罐頭當見面禮，先讓阿嬤嚐到誠意（Food −2）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Food": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "阿嬤嚐了一口罐頭，眼睛才真正亮起來。『有誠意，』她說，『那就照你們的條件，先做一次看看。』",
+              "effects": {
+                "factions": {
+                  "nightmarket": 3
+                },
+                "flagsSet": [
+                  "qn_talk_market"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QN_005",
+      "pool": "loc:jingmei_market",
+      "title": "秤後面的帳本",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qn_s2"
+        ],
+        "notFlags": [
+          "qn_talk_market"
+        ]
+      },
+      "text": "{actor}在夜市後門被一個年輕攤商攔下。他的手插在圍裙口袋裡，聲音壓得很低：『我不是來賣東西的。最近進貨的罐頭箱，數字對不上三箱。』\n他要的不是錢，是有人替他說一句話，證明他沒有私吞。\n『阿嬤那邊，我不敢講。』",
+      "choices": [
+        {
+          "label": "替他保密，答應幫忙說情（CHA 檢定 普通 6）",
+          "check": {
+            "who": "actor",
+            "stat": "CHA",
+            "dc": 6
+          },
+          "outcomes": {
+            "success": {
+              "text": "{actor}把話壓在舌尖，沒有說出口，卻把這個人的名字記在心裡。回去時，阿嬤的攤位多給了一罐水。",
+              "effects": {
+                "factions": {
+                  "nightmarket": 4
+                },
+                "resources": {
+                  "Water": 2
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 3
+                  }
+                },
+                "flagsSet": [
+                  "qn_talk_market"
+                ]
+              }
+            },
+            "fail": {
+              "text": "{actor}說得太急，對方立刻縮回攤車後。等夜市的人來查，只剩一句：『我沒看到。』",
+              "effects": {
+                "factions": {
+                  "nightmarket": -3
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 5
+                  }
+                },
+                "flagsSet": [
+                  "qn_talk_market"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "把這件事直接告訴阿嬤（不替他說話，夜市 +2，士氣 −3）",
+          "outcomes": {
+            "always": {
+              "text": "阿嬤聽完，只說了一句：『我知道。』然後把那個攤商調去洗碗。夜市變得更安靜，也更怕外人。",
+              "effects": {
+                "factions": {
+                  "nightmarket": 2
+                },
+                "resources": {
+                  "Morale": -3
+                },
+                "flagsSet": [
+                  "qn_talk_market"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QN_006",
+      "pool": "loc:nccu",
+      "title": "溫書言的條款",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qn_s2"
+        ],
+        "notFlags": [
+          "qn_talk_students"
+        ]
+      },
+      "text": "政大圖書館的燈還亮著，窗外掛滿寫著『別來』的床單。\n溫書言把一疊手寫的資料推到{actor}面前，紙邊都被翻爛了。『發電機的線圈我們拆了三台，』對方說，『可沒有人會爬高壓電箱，也沒有人吃得起夜市的食物。』\n『我們要的不是施捨，』溫書言的聲音很亮，『是重新開始。』",
+      "choices": [
+        {
+          "label": "提議公開交換：學生教電，夜市供食（CHA 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "條款一條條念出來，幾個學生在後面舉手附議。那是第一次，指南山的人不是在求救，而是在談判。",
+              "effects": {
+                "factions": {
+                  "students": 5
+                },
+                "resources": {
+                  "Parts": 2
+                },
+                "flagsSet": [
+                  "qn_talk_students"
+                ]
+              }
+            },
+            "fail": {
+              "text": "溫書言被{actor}的話堵了一下，急著解釋『理想』，反而讓幾個學長姐把視線移開。",
+              "effects": {
+                "factions": {
+                  "students": -2
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 4
+                  }
+                },
+                "flagsSet": [
+                  "qn_talk_students"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "先把一箱子彈留下當誠意（Ammo −1）",
+          "requires": {
+            "resources": {
+              "Ammo": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Ammo": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "溫書言看著那箱子彈，苦笑了一下：『我們要的是會把電接好的人，不是會開槍的。』但還是把零件清單推過來：『先拿走一半。』",
+              "effects": {
+                "factions": {
+                  "students": 3
+                },
+                "resources": {
+                  "Parts": 1
+                },
+                "flagsSet": [
+                  "qn_talk_students"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QN_007",
+      "pool": "story",
+      "title": "三方的路線",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qn_s2",
+          "qn_talk_market",
+          "qn_talk_students"
+        ],
+        "notFlags": [
+          "qn_s3"
+        ]
+      },
+      "text": "兩邊的條款寫在同一張紙上：夜市的食物，政大的零件，中間夾著一條必須有人親自押的路。\n地圖攤在避難所的桌上。河堤近，橋墩上卻噴著黑色的雨滴；國道繞得遠，檢查哨的廣播喇叭這幾天又開始自己響。\n避難所裡沒有人說話，只有發電機低低的嗡嗡聲。",
+      "choices": [
+        {
+          "label": "走河堤，近但可能被黑雨攔下（最佳 COM 檢定 普通 7）",
+          "check": {
+            "who": "best",
+            "stat": "COM",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "黑雨的人在橋下攔車。你用一句『我們是替夜市送貨的』，讓他們退了半步。食物與零件平安抵達政大。",
+              "effects": {
+                "resources": {
+                  "Food": -2,
+                  "Parts": 2
+                },
+                "factions": {
+                  "nightmarket": 4,
+                  "students": 4
+                },
+                "flagsSet": [
+                  "qn_s3"
+                ],
+                "queue": [
+                  {
+                    "id": "QN_008",
+                    "inDays": 2
+                  }
+                ]
+              }
+            },
+            "fail": {
+              "text": "黑雨在橋墩後面等了一整晚。等你們衝過去，食物已經不見了兩箱，車尾留著一道黑色雨滴。",
+              "effects": {
+                "resources": {
+                  "Food": -4,
+                  "Ammo": -1
+                },
+                "factions": {
+                  "nightmarket": -3
+                },
+                "status": {
+                  "Stress": 6
+                },
+                "flagsSet": [
+                  "qn_s3"
+                ],
+                "queue": [
+                  {
+                    "id": "QN_008",
+                    "inDays": 2
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "走國道，繞經檢查哨，賭屍潮不在那裡（最佳 STR 檢定 普通 7）",
+          "check": {
+            "who": "best",
+            "stat": "STR",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "你們從鐵絲網下鑽過去，三號哨殘部的人遠遠舉了舉手。沒有人出來見你們，路邊卻留著一箱彈藥。",
+              "effects": {
+                "resources": {
+                  "Parts": 1,
+                  "Ammo": 2
+                },
+                "factions": {
+                  "military": 3,
+                  "nightmarket": 3,
+                  "students": 3
+                },
+                "flagsSet": [
+                  "qn_s3"
+                ],
+                "queue": [
+                  {
+                    "id": "QN_008",
+                    "inDays": 2
+                  }
+                ]
+              }
+            },
+            "fail": {
+              "text": "屍潮比預期早了兩個小時。車隊在檢查哨外被迫繞路，車輪陷進泥裡，你們只能丟下半箱食物往山上跑。",
+              "effects": {
+                "world": {
+                  "horde": {
+                    "at": "freeway3_checkpoint",
+                    "size": 40
+                  }
+                },
+                "resources": {
+                  "Food": -3
+                },
+                "status": {
+                  "Stress": 5
+                },
+                "flagsSet": [
+                  "qn_s3"
+                ],
+                "queue": [
+                  {
+                    "id": "QN_008",
+                    "inDays": 2
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QN_008",
+      "pool": "queued",
+      "title": "帳本上的三箱罐頭",
+      "once": true,
+      "text": "送達政大的那晚，兩邊的清單對不上。\n夜市說少了三箱罐頭，政大說少了兩組發電機零件。兩邊都在怪對方，也都說是路上出了錯。\n\n可是帳是你記的。你翻到最後一頁，發現中途有一張交接單，簽名的筆跡不太一樣。收件的章子蓋在政大那一欄，墨還是新的。",
+      "choices": [
+        {
+          "label": "調查交接單與路線（最佳 LOG 檢定 困難 8）",
+          "check": {
+            "who": "best",
+            "stat": "LOG",
+            "dc": 8
+          },
+          "outcomes": {
+            "success": {
+              "text": "有人把單據和路上的時間一條條比對，找出一個在夜市打過工的人。他的名字被偷偷寫進交接單，簽名是照著別人的筆跡仿的。兩邊都鬆了口氣，卻又開始互相懷疑。",
+              "effects": {
+                "factions": {
+                  "nightmarket": 2,
+                  "students": 2
+                },
+                "status": {
+                  "Stress": 2
+                },
+                "flagsSet": [
+                  "qn_s4"
+                ]
+              }
+            },
+            "fail": {
+              "text": "線索查到一半就斷了。兩邊都把懷疑寫在臉上，夜市的人罵政大偷吃，政大的人說夜市動了秤。",
+              "effects": {
+                "factions": {
+                  "nightmarket": -4,
+                  "students": -4
+                },
+                "status": {
+                  "Stress": 5
+                },
+                "flagsSet": [
+                  "qn_s4"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "站到兩張桌子中間，先安撫（最佳 CHA 檢定 普通 7）",
+          "check": {
+            "who": "best",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "你把話說得很慢：『這一趟的損失，先算在我頭上。』阿嬤嘆了口氣，溫書言的眼眶紅了，只說了一聲謝謝。",
+              "effects": {
+                "factions": {
+                  "nightmarket": 4,
+                  "students": 4
+                },
+                "status": {
+                  "Stress": 3
+                },
+                "flagsSet": [
+                  "qn_s4"
+                ]
+              }
+            },
+            "fail": {
+              "text": "你的安慰聽起來太像施捨，兩邊都覺得自己被看輕了。阿嬤把秤收進抽屜，溫書言把門關上。",
+              "effects": {
+                "factions": {
+                  "nightmarket": -3,
+                  "students": -3
+                },
+                "status": {
+                  "Stress": 4
+                },
+                "flagsSet": [
+                  "qn_s4"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "自掏腰包，把缺口補上（Food −2、Parts −1）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 2
+              },
+              "Parts": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 2,
+            "Parts": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "你把自己的存糧搬出來，數字總算對上了。沒有人感謝你，大家只記住了：下次若再對不上，就是你的錯。黎霜看著空掉的架子，沒說話，只在本子上寫了一個數字。",
+              "effects": {
+                "factions": {
+                  "nightmarket": 2,
+                  "students": 2
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": -2
+                  }
+                },
+                "flagsSet": [
+                  "qn_s4"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QN_009",
+      "pool": "story",
+      "title": "結盟大會",
+      "once": true,
+      "conditions": {
+        "minDay": 15,
+        "flags": [
+          "qn_s4"
+        ],
+        "notFlags": [
+          "qn_done",
+          "qn_broken"
+        ]
+      },
+      "text": "政大的大講堂擠滿了人。夜市的攤商坐在左邊，學生和殘存的研究生坐在右邊，中間那條走道，誰也不敢先踏過去。\n阿嬤把電子秤放在桌上：『我不講感情，我講數字。』\n溫書言站起來，聲音有點抖：『我們需要食物，也需要能接電的人。你們需要的，我們也有。』\n兩張桌子同時看向你。",
+      "choices": [
+        {
+          "label": "由你主持，把話講死（最佳 CHA 檢定 困難 8）",
+          "check": {
+            "who": "best",
+            "stat": "CHA",
+            "dc": 8
+          },
+          "outcomes": {
+            "success": {
+              "text": "你把兩邊的條款寫在同一張紙上，一條條念，念到最後沒有人再搶話。阿嬤先拍下印章，溫書言接過筆，在旁邊簽下自己的名字。\n那一刻，指南山的燈和夜市的燈，第一次同時亮著。",
+              "effects": {
+                "flagsSet": [
+                  "qn_done",
+                  "qn_s5",
+                  "hasGenerator"
+                ],
+                "factions": {
+                  "nightmarket": 10,
+                  "students": 10
+                },
+                "resources": {
+                  "Food": 2,
+                  "Parts": 2,
+                  "Med": 1
+                },
+                "status": {
+                  "Stress": 4
+                }
+              }
+            },
+            "fail": {
+              "text": "會議開到一半，阿嬤拿出一張舊帳，說是學生欠夜市的。溫書言抓住另一張紙反擊，兩邊的聲音越來越大。散場時，沒有人握手。",
+              "effects": {
+                "flagsSet": [
+                  "qn_broken",
+                  "qn_s5"
+                ],
+                "factions": {
+                  "nightmarket": -6,
+                  "students": -6
+                },
+                "status": {
+                  "Stress": 8
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "請宋寧開場（宋寧 CHA 檢定 普通 7，需宋寧在場；宋寧 Stress +6）",
+          "requires": {
+            "chars": {
+              "songNing": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "songNing",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "宋寧先倒了一杯水，才開口：『這條路走下去，誰都不許回頭。』她的笑容很溫柔，卻沒有人敢讓她失望。阿嬤先拍下印章，溫書言在旁邊簽名。\n那一刻，指南山的燈和夜市的燈，第一次同時亮著。",
+              "effects": {
+                "flagsSet": [
+                  "qn_done",
+                  "qn_s5",
+                  "hasGenerator"
+                ],
+                "factions": {
+                  "nightmarket": 10,
+                  "students": 10
+                },
+                "resources": {
+                  "Food": 2,
+                  "Parts": 2,
+                  "Med": 1
+                },
+                "chars": {
+                  "songNing": {
+                    "Stress": 6
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "宋寧的話才開了頭，阿嬤就打斷她，要學生先還舊帳。會議散得很難看，宋寧一句話都沒再說，只把杯子裡的水喝光。",
+              "effects": {
+                "flagsSet": [
+                  "qn_broken",
+                  "qn_s5"
+                ],
+                "factions": {
+                  "nightmarket": -6,
+                  "students": -6
+                },
+                "chars": {
+                  "songNing": {
+                    "Stress": 8
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QN_010",
+      "pool": "story",
+      "title": "山上的邀請",
+      "once": true,
+      "conditions": {
+        "minDay": 22,
+        "flags": [
+          "qn_done"
+        ]
+      },
+      "text": "大講堂的牆上多了一張新名單。第一行寫的是你的名字，後面跟著夜市的攤商，和學生們的名字。\n溫書言坐在對面，難得沒有提『理想』：『山上有熱水、有完整的屋頂，還有願意守夜的人。搬上來吧。』\n樓下的攤車邊，阿嬤揮了揮手：『上去了就別忘了，夜市的秤還在這裡。』",
+      "choices": [
+        {
+          "label": "接受邀請，搬上指南山（代價：宋寧留在夜市，好感 −3）",
+          "outcomes": {
+            "always": {
+              "text": "你把地下室的鑰匙交給夜市的人。宋寧沒有上山，只替你裝了一袋冷掉的關東煮，說：『記得回來吃飯。』",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Affection": -3
+                  }
+                },
+                "end": "ending_students"
+              }
+            }
+          }
+        },
+        {
+          "label": "婉拒，留在深坑，換取每週的食水補給（代價：指南山聲望 −4）",
+          "outcomes": {
+            "always": {
+              "text": "溫書言沒有生氣，只是把名單收起來。阿嬤聽說你留下來，哼了一聲：『那就每週來拿，食水我照給，咱的秤不會騙人。』",
+              "effects": {
+                "factions": {
+                  "students": -4
+                },
+                "resources": {
+                  "Food": 3,
+                  "Water": 2
+                },
+                "flagsSet": [
+                  "qn_supply"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QN_011",
+      "pool": "romance",
+      "title": "桌下的手",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qn_s3"
+        ],
+        "chars": {
+          "songNing": {
+            "present": true
+          }
+        }
+      },
+      "text": "談判結束，夜市的燈一盞盞熄了。宋寧靠在攤車的鐵皮上，手裡還捏著一杯涼掉的水。\n『我剛剛……』她輕輕吐了口氣，聲音比平常小，『差一點就露餡了。』\n遠處收攤的鐵門一下一下地響，夜市正在散場。\n她沒有看你，指尖卻碰到了你的手背，停了一下，然後慢慢握住。",
+      "choices": [
+        {
+          "label": "反手握緊，陪她多站一會（宋寧 Affection +6、Trust +4；代價：夜市 −2）",
+          "outcomes": {
+            "always": {
+              "text": "她的手心是暖的。遠處的攤車裡，阿嬤把算盤敲了一聲，什麼也沒說。第二天，夜市的人就開始拿你們開玩笑。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Affection": 6,
+                    "Trust": 4
+                  }
+                },
+                "factions": {
+                  "nightmarket": -2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "先遞一杯熱水給她，什麼都不說（宋寧 Affection +2、Trust +5；代價：你自己 Stress +4）",
+          "outcomes": {
+            "always": {
+              "text": "宋寧接過杯子，喝了一口，眼角很快地紅了一下。『……謝謝，小硯，』她笑，『你今天也很累吧。』",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Affection": 2,
+                    "Trust": 5
+                  }
+                },
+                "status": {
+                  "Stress": 4
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

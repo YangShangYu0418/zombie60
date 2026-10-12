@@ -1,0 +1,2365 @@
+{
+  "events": [
+    {
+      "id": "WD_001",
+      "pool": "world",
+      "title": "夜市的敲門聲",
+      "weight": 30,
+      "once": true,
+      "conditions": {
+        "minDay": 2,
+        "notFlags": [
+          "metNightmarket"
+        ]
+      },
+      "text": "傍晚，鐵門外傳來三聲輕敲，接著是一個嗓門很大的聲音：『有人在嗎？我們不搶，我們做生意！』\n門縫裡塞進一張油漬斑斑的紙條，毛筆字寫著『景美夜市．只收物資，不收鈔票』，底下還畫了一顆歪歪的蚵仔。\n敲門的是個瘦得像竹竿的年輕行商，推著一台裝滿醬油瓶的手拉車。他自稱阿昌，說『阿嬤』讓他來看看你們還活著沒。\n『活人才有得換。』阿昌咧嘴笑，『你們有什麼，我們有什麼，大家攤開來看。』",
+      "choices": [
+        {
+          "label": "拿一件零件換一包乾糧（Parts -1）",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Parts": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "阿昌把零件對著燈看了又看，秤得很仔細，最後還多塞你一把蔥。『阿嬤會記得你這份情。』",
+              "effects": {
+                "resources": {
+                  "Food": 2
+                },
+                "factions": {
+                  "nightmarket": 5
+                },
+                "flagsSet": [
+                  "metNightmarket"
+                ],
+                "discover": [
+                  "jingmei_market"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "說你們還要再想想，請他先走（夜市會記仇）",
+          "outcomes": {
+            "always": {
+              "text": "阿昌聳聳肩，把紙條收回去。『夜市的門不會關，但秤會記。』車輪聲遠了，你才發現自己手心都是汗。",
+              "effects": {
+                "factions": {
+                  "nightmarket": -3
+                },
+                "status": {
+                  "Stress": 2
+                },
+                "flagsSet": [
+                  "metNightmarket"
+                ],
+                "discover": [
+                  "jingmei_market"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "讓黎霜盤問他的貨源（LOG 檢定 dc 7）",
+          "requires": {
+            "chars": {
+              "liShuang": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "liShuang",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "黎霜只問了三個問題，阿昌就把帽子摘了。『小姐，妳比我阿嬤還難騙。』他最後留下一袋米，說是交個朋友。",
+              "effects": {
+                "resources": {
+                  "Food": 1
+                },
+                "factions": {
+                  "nightmarket": 5
+                },
+                "flagsSet": [
+                  "metNightmarket"
+                ],
+                "discover": [
+                  "jingmei_market"
+                ]
+              }
+            },
+            "fail": {
+              "text": "黎霜的問題太尖銳，阿昌的臉色一沉，推車掉頭就走。『這年頭，連問話都要收錢嗎？』",
+              "effects": {
+                "factions": {
+                  "nightmarket": -4
+                },
+                "status": {
+                  "Stress": 3
+                },
+                "flagsSet": [
+                  "metNightmarket"
+                ],
+                "discover": [
+                  "jingmei_market"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_002",
+      "pool": "world",
+      "title": "指南山的信差",
+      "weight": 30,
+      "once": true,
+      "conditions": {
+        "minDay": 3,
+        "notFlags": [
+          "metStudents"
+        ]
+      },
+      "text": "一個穿連帽外套的學生騎著腳踏車停在門外，把一封用防水袋包好的信從門縫推進來。\n信紙上字跡工整：『政大指南山自治會　溫書言。我們有發電機、有書，缺食物，也缺會開槍的人。若貴處有餘力，歡迎來談。』\n信差叫阿哲，大三，手抖得很厲害。『書言說，這次不是騙人的。』他喘著氣補了一句，『校門口別帶槍。』",
+      "choices": [
+        {
+          "label": "回信約在校門口見面（外出風險 +2）",
+          "outcomes": {
+            "always": {
+              "text": "你寫了回信，親自騎車到政大山腳下。路上的風很冷，但校門口那面用床單寫成的牆，比你想的更有人味。",
+              "effects": {
+                "resources": {
+                  "ExploreRisk": 2
+                },
+                "factions": {
+                  "students": 4
+                },
+                "flagsSet": [
+                  "metStudents"
+                ],
+                "discover": [
+                  "nccu"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "只捎一句『有事再說』，不給地址（黎霜不滿）",
+          "outcomes": {
+            "always": {
+              "text": "你把字條交給阿哲。黎霜在後頭冷笑：『你這樣等於告訴他，我們這裡有幾個人、在哪裡。』",
+              "effects": {
+                "factions": {
+                  "students": 1
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": -2
+                  }
+                },
+                "flagsSet": [
+                  "metStudents"
+                ],
+                "discover": [
+                  "nccu"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "讓宋寧出面替你們談條件（CHA 檢定 dc 7）",
+          "requires": {
+            "chars": {
+              "songNing": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "songNing",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "宋寧一句『我們要的是交換，不是施捨』，讓溫書言的代表愣了半晌，最後點頭。『寧姐這張嘴，不去談判可惜了。』",
+              "effects": {
+                "resources": {
+                  "Parts": 1
+                },
+                "factions": {
+                  "students": 6
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 2
+                  }
+                },
+                "flagsSet": [
+                  "metStudents"
+                ],
+                "discover": [
+                  "nccu"
+                ]
+              }
+            },
+            "fail": {
+              "text": "宋寧話說到一半，對方已經收起了信。溫書言的回信只有一行字：『不跟會說謊的人做生意。』",
+              "effects": {
+                "factions": {
+                  "students": -3
+                },
+                "relations": {
+                  "songNing": {
+                    "Trust": -2
+                  }
+                },
+                "flagsSet": [
+                  "metStudents"
+                ],
+                "discover": [
+                  "nccu"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_003",
+      "pool": "world",
+      "title": "牆上的雨滴",
+      "weight": 30,
+      "once": true,
+      "conditions": {
+        "minDay": 4,
+        "notFlags": [
+          "metBlackrain"
+        ]
+      },
+      "text": "早上起床，你發現對面的水泥牆上多了一個黑色雨滴的記號，漆還沒乾。\n記號旁用更小的字寫著：『雨會落在每個人身上。』\n隔天，記號多了一個。再隔一天，一個穿黑雨衣的少年站在電線桿上，朝你們的窗口比了個手勢，像在點名。\n他沒有靠近，只是看著。黎霜放下望遠鏡：『他在數我們有幾個人。』",
+      "choices": [
+        {
+          "label": "在門口也畫一個記號，表示我們知道（示弱）",
+          "outcomes": {
+            "always": {
+              "text": "你畫了一個歪歪的圓點。第二天早上，圓點旁多了一行字：『好。』底下還畫了一把傘。",
+              "effects": {
+                "factions": {
+                  "blackrain": 4
+                },
+                "relations": {
+                  "songNing": {
+                    "Trust": -1
+                  }
+                },
+                "flagsSet": [
+                  "metBlackrain"
+                ],
+                "discover": [
+                  "muzha_depot"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "把記號刷掉，讓夏見守一整夜（夏見怕黑）",
+          "outcomes": {
+            "always": {
+              "text": "夏見拿著鐵桶刷掉記號，然後自告奮勇守在窗邊。她說不怕黑，但手電筒的光一直在抖。",
+              "effects": {
+                "factions": {
+                  "blackrain": -5
+                },
+                "chars": {
+                  "xiaJian": {
+                    "Stress": 5
+                  }
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 2,
+                    "Trust": 1
+                  }
+                },
+                "flagsSet": [
+                  "metBlackrain"
+                ],
+                "discover": [
+                  "muzha_depot"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "派人跟著少年走一段（STR 檢定 dc 7）",
+          "check": {
+            "who": "best",
+            "stat": "STR",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "你的人在老街拱廊盡頭看見一道焊死的鐵門，門上噴著同樣的雨滴。機廠就在那後面。",
+              "effects": {
+                "resources": {
+                  "ExploreRisk": 1
+                },
+                "flagsSet": [
+                  "metBlackrain"
+                ],
+                "discover": [
+                  "muzha_depot"
+                ]
+              }
+            },
+            "fail": {
+              "text": "少年回頭看了你的人一眼，然後一顆石頭砸在他背上。少年沒有追，只是笑著跑開。",
+              "effects": {
+                "factions": {
+                  "blackrain": -3
+                },
+                "resources": {
+                  "Morale": -3
+                },
+                "flagsSet": [
+                  "metBlackrain"
+                ],
+                "discover": [
+                  "muzha_depot"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_004",
+      "pool": "world",
+      "title": "天上的照明彈",
+      "weight": 30,
+      "once": true,
+      "conditions": {
+        "minDay": 6,
+        "notFlags": [
+          "metMilitary"
+        ],
+        "weather": [
+          "clear"
+        ]
+      },
+      "text": "夜裡十一點，天上傳來低沉的螺旋槳聲。你爬上通風口，看見一架黑色直升機在山頭盤旋，接著投下一顆照明彈，把整片文山照得慘白。\n照明彈落下的方向，是國道三號的檢查哨。\n地面上有人用紅色雷射筆反覆打出三長一短。你小時候在營隊學過，那是摩斯密碼。\n直升機沒有降落，只扔下一包防水袋，裡面有一張手寫字條：『三號哨．鄭岳．還活著就來。』",
+      "choices": [
+        {
+          "label": "請黎霜接上無線電，解讀頻率（LOG 檢定 dc 7）",
+          "requires": {
+            "chars": {
+              "liShuang": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "liShuang",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "黎霜戴上耳機，半小時後抬頭：『是軍用頻道。有人在喊撤離點，但我只聽到一半。』",
+              "effects": {
+                "factions": {
+                  "military": 5
+                },
+                "flagsSet": [
+                  "metMilitary",
+                  "wd_saw_heli",
+                  "wd_evac_rumor"
+                ],
+                "discover": [
+                  "freeway3_checkpoint"
+                ]
+              }
+            },
+            "fail": {
+              "text": "頻道裡全是雜音，黎霜的手指被電了一下，罵了一句髒話，把耳機甩到桌上。",
+              "effects": {
+                "factions": {
+                  "military": 1
+                },
+                "status": {
+                  "Stress": 3
+                },
+                "flagsSet": [
+                  "metMilitary",
+                  "wd_saw_heli"
+                ],
+                "discover": [
+                  "freeway3_checkpoint"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "把燈全部關掉，假裝這裡沒人（Noise -2、Morale -2）",
+          "outcomes": {
+            "always": {
+              "text": "你把所有燈關掉，躲在黑暗裡等直升機飛走。天亮後字條還在你手裡，但那一晚的機會也跟著飛走了。",
+              "effects": {
+                "resources": {
+                  "Noise": -2,
+                  "Morale": -2
+                },
+                "factions": {
+                  "military": -1
+                },
+                "flagsSet": [
+                  "metMilitary",
+                  "wd_saw_heli"
+                ],
+                "discover": [
+                  "freeway3_checkpoint"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "拿手電筒在屋頂打回去（Noise +4，但很亮）",
+          "outcomes": {
+            "always": {
+              "text": "你在屋頂閃了六下。山頭的直升機轉了一圈，像在點頭。被看見的感覺很亮，也很危險。",
+              "effects": {
+                "resources": {
+                  "Noise": 4
+                },
+                "factions": {
+                  "military": 5
+                },
+                "flagsSet": [
+                  "metMilitary",
+                  "wd_saw_heli"
+                ],
+                "discover": [
+                  "freeway3_checkpoint"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_005",
+      "pool": "world",
+      "title": "阿昌的定期車",
+      "weight": 12,
+      "conditions": {
+        "flags": [
+          "metNightmarket"
+        ]
+      },
+      "text": "阿昌推著車又來了，車上多了一台發電機的皮帶輪，還有兩袋米。\n『阿嬤說，價錢照舊。』他把價目表攤在箱子上，毛筆寫得工工整整：兩個零件換一袋米，一盒藥換半箱水。\n你身後，黎霜小聲說：『這價錢不划算。』她沒有抬頭，手裡還在剝電線皮。\n阿昌笑得很無奈：『小姐，夜市不划算的生意，我們不做。』",
+      "choices": [
+        {
+          "label": "用 2 Parts 換一袋米（Food +3）",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Parts": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "你把零件推過去，阿昌點點頭，把米袋扛下來，順手還丟了一把蔥。",
+              "effects": {
+                "resources": {
+                  "Food": 3
+                },
+                "factions": {
+                  "nightmarket": 3
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "用 1 Med 換半箱水（Water +3）",
+          "requires": {
+            "resources": {
+              "Med": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Med": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "藥盒一打開，阿昌就皺了眉：『這盒是退燒的，阿嬤會喜歡。』他把水箱搬下來，沒再多說。",
+              "effects": {
+                "resources": {
+                  "Water": 3
+                },
+                "factions": {
+                  "nightmarket": 2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "請宋寧出面，再多要一點（CHA 檢定 dc 7）",
+          "requires": {
+            "chars": {
+              "songNing": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "songNing",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "宋寧一邊倒水給阿昌，一邊講起夜市以前的老味道。阿昌的耳根紅了，最後多塞了兩包鹽。『寧姐，妳這樣我怎麼賺錢。』",
+              "effects": {
+                "resources": {
+                  "Food": 2
+                },
+                "factions": {
+                  "nightmarket": 2
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 2
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "阿昌把價目表收回去：『寧姐，妳這套話我聽過三次了。』車就這樣掉頭走了。",
+              "effects": {
+                "factions": {
+                  "nightmarket": -4
+                },
+                "resources": {
+                  "Morale": -2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "這次不換，請行商下次再來",
+          "outcomes": {
+            "always": {
+              "text": "行商聳聳肩，把推車掉頭。『夜市的門不會一直開著喔。』",
+              "effects": {
+                "factions": {
+                  "nightmarket": -2
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_006",
+      "pool": "world",
+      "title": "自治會的交換",
+      "weight": 12,
+      "conditions": {
+        "flags": [
+          "metStudents"
+        ]
+      },
+      "text": "溫書言親自來了。她比你想像中年輕，二十五、六歲，背著一個裝滿筆記本的登山包，袖口沾著白色粉筆灰。\n『政大的發電機還能撐兩個月，但米只剩五天。』她說話很直，『我們缺食物。能給你們的是零件，你們在深坑修得出來的東西，我們修不好。』\n她身後，一個學生抱著一片沒拆完的太陽能板，眼睛一直往你的倉庫瞄。",
+      "choices": [
+        {
+          "label": "用 2 Food 換 2 Parts（你們也會餓）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Food": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "溫書言點清米袋，把兩個零件交到你手上：『下次見面，我們請你喝熱湯。』",
+              "effects": {
+                "resources": {
+                  "Parts": 2
+                },
+                "factions": {
+                  "students": 5
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "只給 1 Food 換 1 Part，剩下的留著過冬",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "溫書言看了看你的倉庫，沒有爭辯，只把一個零件放在桌上。『你們比我們會算。』她說。",
+              "effects": {
+                "resources": {
+                  "Parts": 1
+                },
+                "factions": {
+                  "students": 1
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "說『我們自己也快沒了』，跟她談判（CHA 檢定 dc 9）",
+          "check": {
+            "who": "best",
+            "stat": "CHA",
+            "dc": 9
+          },
+          "outcomes": {
+            "success": {
+              "text": "你的話說得很低，但溫書言的眼神變了。『那我們換點別的吧。』她把一個零件推過來，還多留了一張電路圖。",
+              "effects": {
+                "resources": {
+                  "Parts": 1
+                },
+                "factions": {
+                  "students": 3
+                }
+              }
+            },
+            "fail": {
+              "text": "溫書言收起登山包：『那就不用談了。』學生們默默轉身，其中一個回頭看了你一眼，眼神裡有失望。",
+              "effects": {
+                "factions": {
+                  "students": -3
+                },
+                "resources": {
+                  "Morale": -3
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_007",
+      "pool": "world",
+      "title": "雨底下的保護費",
+      "weight": 10,
+      "conditions": {
+        "flags": [
+          "metBlackrain"
+        ],
+        "factions": {
+          "blackrain": {
+            "gt": 0
+          }
+        }
+      },
+      "text": "三個穿黑雨衣的人站在鐵門外。領頭的戴著漁夫帽，帽簷下的臉被雨滴般的刺青劃成幾塊。\n『老鴉讓我來收一點小東西。』他說話不急不緩，『機廠有屋頂，你們有地下室，大家都是住在雨底下的人。』\n他把一張紙條貼在門上：『每週一份物資，我們替你們看著老街的巷口。』\n『不付也行，』漁夫帽笑了笑，『只是雨不挑人。』",
+      "choices": [
+        {
+          "label": "每週交出 1 Food 和 1 Med，保持和平",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              },
+              "Med": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1,
+            "Med": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "你把東西放進門口的箱子。漁夫帽拍了拍箱子，像在拍一條乖狗。『這樣才是鄰居。』",
+              "effects": {
+                "factions": {
+                  "blackrain": 4
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "拒絕，說這裡有自己的守夜人（Stress +3）",
+          "outcomes": {
+            "always": {
+              "text": "你說得很硬，地下室的空氣一下子冷了。漁夫帽沒有生氣，只是把紙條撕下來，揉成一團丟進排水溝。『雨會再來的。』",
+              "effects": {
+                "factions": {
+                  "blackrain": -4
+                },
+                "status": {
+                  "Stress": 3
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "讓夏見出去跟他們談拳（COM 檢定 dc 7）",
+          "requires": {
+            "chars": {
+              "xiaJian": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "xiaJian",
+            "stat": "COM",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "夏見把拳套甩在地上，三句話就讓最壯的那個退後半步。漁夫帽吹了聲口哨：『妳是練拳的吧？』",
+              "effects": {
+                "factions": {
+                  "blackrain": 2
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Trust": 2
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "夏見被壯漢擋住，對方一拳打在她肩上。『拿一半就好。』漁夫帽說。你們最後還是交出了一包米。",
+              "effects": {
+                "resources": {
+                  "Food": -1
+                },
+                "chars": {
+                  "xiaJian": {
+                    "Health": -6
+                  }
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_008",
+      "pool": "world",
+      "title": "黑雨的催繳",
+      "weight": 10,
+      "conditions": {
+        "flags": [
+          "metBlackrain"
+        ],
+        "factions": {
+          "blackrain": {
+            "lte": 0
+          }
+        }
+      },
+      "text": "這次來的不是漁夫帽，是一個肩上扛著鐵管的壯漢，後面跟著兩個人。他把一根釘著鐵釘的木棍靠在鐵門上，聲音很低：『上次的錢，老鴉說不夠。』\n『老街的雨大，』他咧開嘴，露出一排缺了角的牙，『不交，雨就落下來了。』\n門縫底下，一滴黑色顏料慢慢流進來，像一條細細的血。",
+      "choices": [
+        {
+          "label": "交出 2 Food、1 Med，先忍這一次",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 2
+              },
+              "Med": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 2,
+            "Med": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "你把東西從門縫推出去。鐵釘棍敲了敲箱子，沒有道謝，只留下一句：『下次多一點。』",
+              "effects": {
+                "factions": {
+                  "blackrain": 3
+                },
+                "resources": {
+                  "Morale": -3
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把門拉開，跟他面對面談（CHA 檢定 dc 9）",
+          "requires": {
+            "chars": {
+              "songNing": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "songNing",
+            "stat": "CHA",
+            "dc": 9
+          },
+          "outcomes": {
+            "success": {
+              "text": "宋寧先倒了一杯水給壯漢，語氣像在店裡招呼熟客。『今天的雨，先不落吧？』壯漢愣了一下，把木棍收了起來。",
+              "effects": {
+                "factions": {
+                  "blackrain": 4
+                }
+              }
+            },
+            "fail": {
+              "text": "壯漢沒聽完就動手，宋寧被推到牆上，手裡的水杯碎了一地。她還是笑著，說沒事。",
+              "effects": {
+                "factions": {
+                  "blackrain": -5
+                },
+                "status": {
+                  "Stress": 6
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "關門不開，趁他們還在撞門時把記號刷掉（COM 檢定 dc 9）",
+          "check": {
+            "who": "best",
+            "stat": "COM",
+            "dc": 9
+          },
+          "outcomes": {
+            "success": {
+              "text": "你們從門後衝出去，把門口的記號全部刷掉。黑雨的人被嚇了一跳，罵罵咧咧地退了。",
+              "effects": {
+                "factions": {
+                  "blackrain": -6
+                },
+                "resources": {
+                  "Morale": 3
+                },
+                "flagsSet": [
+                  "blackrainHostile"
+                ]
+              }
+            },
+            "fail": {
+              "text": "門被撞開一角，外面爆發一陣混戰。你們贏了這場，但噪音引來了遠處的喪屍。",
+              "effects": {
+                "resources": {
+                  "Noise": 5,
+                  "Defense": -4
+                },
+                "flagsSet": [
+                  "blackrainHostile"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_009",
+      "pool": "world",
+      "title": "老鴉的邀請",
+      "weight": 6,
+      "once": true,
+      "conditions": {
+        "flags": [
+          "metBlackrain"
+        ],
+        "notFlags": [
+          "blackrainHostile"
+        ],
+        "factions": {
+          "nightmarket": {
+            "gte": 10
+          }
+        }
+      },
+      "text": "這次來的是一封燙金邊的信，字跡漂亮得讓人不舒服：『聽說你們在城外很有名聲。老鴉欣賞能撐住的人。機廠有電、有藥、有一面擋雨的牆。來的人，每個人都有位子。』\n送信的人什麼都沒拿，站在門口只留下一句話：『雨會落在每個人身上，我們只是先撐傘。』\n宋寧把信紙對著燈看了很久，才開口：『這種邀請，最好的地方在裡面，最糟的是出來的時候。』",
+      "choices": [
+        {
+          "label": "禮貌回絕，說你們有自己的家（黑雨不悅）",
+          "outcomes": {
+            "always": {
+              "text": "你把信折成小方塊，還給送信的人。宋寧在旁邊輕輕點頭，眼裡有一點笑意。",
+              "effects": {
+                "factions": {
+                  "blackrain": -2
+                },
+                "relations": {
+                  "songNing": {
+                    "Trust": 2
+                  }
+                },
+                "discover": [
+                  "muzha_depot"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "派夏見去機廠外圍探路（COM 檢定 dc 7）",
+          "requires": {
+            "chars": {
+              "xiaJian": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "xiaJian",
+            "stat": "COM",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "夏見回來時褲管濕透，手裡多了一盒子彈。『那群人的槍，比你想的還爛。』她把子彈丟給你。",
+              "effects": {
+                "resources": {
+                  "Ammo": 1
+                },
+                "factions": {
+                  "blackrain": 3
+                },
+                "flagsSet": [
+                  "wd_blackrain_visit"
+                ],
+                "discover": [
+                  "muzha_depot"
+                ]
+              }
+            },
+            "fail": {
+              "text": "夏見在鐵絲網邊被發現，撞倒兩個人才逃出來，肩膀上留下一道血痕。",
+              "effects": {
+                "chars": {
+                  "xiaJian": {
+                    "Health": -8
+                  }
+                },
+                "factions": {
+                  "blackrain": -3
+                },
+                "flagsSet": [
+                  "wd_blackrain_visit"
+                ],
+                "discover": [
+                  "muzha_depot"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "答應加入，但附帶條件：不交出任何人",
+          "outcomes": {
+            "always": {
+              "text": "你在紙上寫下條件，老鴉的人照單全收。黎霜的臉色很冷：『你把我們的名字寫進別人的信裡。』",
+              "effects": {
+                "factions": {
+                  "blackrain": 8
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": -4
+                  },
+                  "songNing": {
+                    "Trust": -3
+                  }
+                },
+                "flagsSet": [
+                  "wd_blackrain_deal"
+                ],
+                "discover": [
+                  "muzha_depot"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_010",
+      "pool": "world",
+      "title": "士官長的頻道",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "flags": [
+          "metMilitary"
+        ],
+        "notFlags": [
+          "wd_evac_rumor"
+        ]
+      },
+      "text": "無線電突然響了一聲，接著是斷斷續續的雜音，像有人在很遠的地方咬牙說話。\n『……三號哨，這裡是鄭岳……撤離點在……』\n訊號被另一個頻道蓋過去。過了三分鐘，同樣的頻率又出現一次，只剩下一句：『還有人……回應……』然後全部斷掉。",
+      "choices": [
+        {
+          "label": "回覆『收到』，請對方重說（LOG 檢定 dc 7）",
+          "requires": {
+            "chars": {
+              "liShuang": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "liShuang",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "黎霜把頻率調到最細，對面重新打來一段：『撤離點……必須有人帶路。』那已經足夠讓你們知道，外面還有人。",
+              "effects": {
+                "factions": {
+                  "military": 5
+                },
+                "flagsSet": [
+                  "wd_evac_rumor"
+                ]
+              }
+            },
+            "fail": {
+              "text": "你的回覆被另一個頻道蓋掉，對面沒有再回。黎霜把耳機摘下來，一句話也沒說。",
+              "effects": {
+                "factions": {
+                  "military": 1
+                },
+                "status": {
+                  "Stress": 2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "全部關機，怕被黑雨或別人聽到（Noise -2）",
+          "outcomes": {
+            "always": {
+              "text": "你把無線電切斷。靜默很快填滿了地下室，你不確定剛剛錯過的，是希望還是陷阱。",
+              "effects": {
+                "resources": {
+                  "Noise": -2
+                },
+                "factions": {
+                  "military": -1
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "回覆『我們六人，糧食夠撐半個月』，把底露給對方（Noise +2）",
+          "outcomes": {
+            "always": {
+              "text": "你把自己的數字說得清清楚楚。對面沉默了很久，才回了一句：『記住你的頻率。』",
+              "effects": {
+                "resources": {
+                  "Noise": 2
+                },
+                "factions": {
+                  "military": 4
+                },
+                "flagsSet": [
+                  "wd_evac_rumor"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_011",
+      "pool": "world",
+      "title": "動物園的傳聞",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 3
+      },
+      "text": "一個穿著破舊工作服的老先生靠著門框喘氣，懷裡緊抱著一個空的飼料袋。\n『木柵動物園的閘門開了……』他說，『獅子、斑馬，還有一頭長頸鹿，全跑出來了。牠們在停車場遊蕩，喪屍反而不敢靠近。』\n他說到這裡，聲音突然壓低。『還有東西，夜裡在籠子之間走。不是喪屍。』",
+      "choices": [
+        {
+          "label": "派人去動物園外圍看看（STR 檢定 dc 7）",
+          "check": {
+            "who": "best",
+            "stat": "STR",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "你的人在柵欄外看見一頭斑馬低頭吃草，旁邊的喪屍一動也不動。帶回來的除了消息，還有一袋飼料。",
+              "effects": {
+                "resources": {
+                  "Food": 1
+                },
+                "discover": [
+                  "zoo"
+                ]
+              }
+            },
+            "fail": {
+              "text": "一群喪屍從停車場另一頭衝出來，你的人跑得比腳步還快，只留下一隻被咬破的背包。",
+              "effects": {
+                "status": {
+                  "Stress": 4
+                },
+                "resources": {
+                  "Morale": -2
+                },
+                "discover": [
+                  "zoo"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "請老先生留下吃一碗粥（Food -1）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "宋寧把最後一碗粥端給老先生，他喝得很慢。『謝謝……我老婆還在動物園的醫務室。』",
+              "effects": {
+                "resources": {
+                  "Morale": 2
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 1
+                  }
+                },
+                "discover": [
+                  "zoo"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "揮手請他走，別把消息帶到門口（宋寧不以為然）",
+          "outcomes": {
+            "always": {
+              "text": "老先生走了。宋寧沒有說話，只是把剛裝好的水放回架上，動作慢得像在表態。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Trust": -2
+                  }
+                },
+                "resources": {
+                  "Morale": -2
+                },
+                "discover": [
+                  "zoo"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_012",
+      "pool": "world",
+      "title": "排水溝裡的地圖",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 2,
+        "notFlags": [
+          "hasMap"
+        ]
+      },
+      "text": "你在鐵門外的排水溝裡，撿到一個被塑膠袋包住的紙本地圖。摺痕磨得發白，紅筆圈起了幾個地點：貓空、石碇、深坑國小。\n旁邊有人用鉛筆寫著：『這三處有水、有人，應該還沒被翻過。』\n地圖背面，有人用力寫了一行字，筆劃深得快戳破紙：『萬芳不能去。』",
+      "choices": [
+        {
+          "label": "攤在桌上，全員研究路線（外出風險 +2）",
+          "outcomes": {
+            "always": {
+              "text": "黎霜用尺量出每條路線的距離，算完後冷冷地說：『這些地方，每一處都要走三個小時以上。』大家都沉默了。",
+              "effects": {
+                "resources": {
+                  "ExploreRisk": 2
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": 1
+                  }
+                },
+                "flagsSet": [
+                  "hasMap"
+                ],
+                "discover": [
+                  "maokong",
+                  "shiding",
+                  "shenkeng_school"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "把地圖交給老街的人傳閱（CHA 檢定 dc 7）",
+          "requires": {
+            "chars": {
+              "songNing": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "songNing",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "宋寧把地圖貼在布告欄上，老街的人一個個圍過來，有人還指出一條你沒看過的水路。",
+              "effects": {
+                "resources": {
+                  "Morale": 4
+                },
+                "flagsSet": [
+                  "hasMap"
+                ],
+                "discover": [
+                  "maokong",
+                  "shiding",
+                  "shenkeng_school"
+                ]
+              }
+            },
+            "fail": {
+              "text": "地圖一貼出去，就有人搶著要拿。宋寧花了很久才把場面壓下來，她的笑容撐得很辛苦。",
+              "effects": {
+                "resources": {
+                  "Morale": -2
+                },
+                "flagsSet": [
+                  "hasMap"
+                ],
+                "discover": [
+                  "maokong",
+                  "shiding",
+                  "shenkeng_school"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "收下地圖，不告訴任何人（宋寧覺得你瞞著她）",
+          "outcomes": {
+            "always": {
+              "text": "你把地圖摺好，塞進內袋。宋寧在樓梯口看了你一眼，什麼都沒說，但那一眼很久都沒有散。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Trust": -2
+                  }
+                },
+                "flagsSet": [
+                  "hasMap"
+                ],
+                "discover": [
+                  "maokong",
+                  "shiding",
+                  "shenkeng_school"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_013",
+      "pool": "world",
+      "title": "十點的燈",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 4
+      },
+      "text": "每晚十點整，北邊的萬芳醫院會亮起一盞燈。\n那是最高樓層的角落，光很小，像有人打開手電筒，又很快關掉。\n這已經是第三個晚上。黎霜架著望遠鏡數秒，數到第十秒，燈滅了。\n『不是發電機，』她放下望遠鏡，『那是人手在按開關。』",
+      "choices": [
+        {
+          "label": "趁夜摸去醫院探看（COM 檢定 dc 7）",
+          "check": {
+            "who": "best",
+            "stat": "COM",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "你們在急診室櫃台後找到一箱還沒過期的藥，還有一張原子筆寫的字條：『十點，我還在。』",
+              "effects": {
+                "resources": {
+                  "Med": 2
+                },
+                "flagsSet": [
+                  "wd_hospital_signal"
+                ],
+                "discover": [
+                  "wanfang_hospital"
+                ]
+              }
+            },
+            "fail": {
+              "text": "醫院的自動門卡在半開，你們剛踏進去，樓梯間就傳來拖步聲。你們退得比來時還快。",
+              "effects": {
+                "status": {
+                  "Stress": 5
+                },
+                "discover": [
+                  "wanfang_hospital"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "用手電筒朝北閃三下回應（Noise +3）",
+          "outcomes": {
+            "always": {
+              "text": "你走上屋頂，朝北邊閃了三下。過了很久，那盞燈也閃了三下，然後才慢慢熄滅。",
+              "effects": {
+                "resources": {
+                  "Noise": 3
+                },
+                "flagsSet": [
+                  "wd_hospital_signal"
+                ],
+                "discover": [
+                  "wanfang_hospital"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "假裝沒看見，拉緊窗簾（Morale -2）",
+          "outcomes": {
+            "always": {
+              "text": "夏見一聲不吭地把窗簾拉得死緊，嘴裡說『我只是怕有人看見我們』，手卻一直沒放開窗簾繩。",
+              "effects": {
+                "resources": {
+                  "Morale": -2
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 1
+                  }
+                },
+                "discover": [
+                  "wanfang_hospital"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_014",
+      "pool": "world",
+      "title": "鐵門與積水",
+      "weight": 12,
+      "conditions": {
+        "weather": [
+          "typhoon"
+        ]
+      },
+      "text": "颱風從海上撲過來的時候，整條深坑老街的鐵皮都在唱歌。\n地下室入口開始漏水，積水沿著樓梯往下爬，一階、兩階，像有人拿手指在敲你的心口。\n外面的鐵門被風吹得咚咚響，門閂已經鬆了。\n黎霜抓著手電筒衝下來：『門要撐不住了，水也要進來。』",
+      "choices": [
+        {
+          "label": "全員搬東西，把鐵門加固（Parts -1）",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Parts": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "你們用舊床架和鐵條把門頂死。每一下撞擊都震得牆灰簌簌落下，但門還在。",
+              "effects": {
+                "resources": {
+                  "Defense": 6
+                },
+                "status": {
+                  "Stress": 3
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "請黎霜改接排水泵，不管門（LOG 檢定 dc 9）",
+          "requires": {
+            "chars": {
+              "liShuang": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "liShuang",
+            "stat": "LOG",
+            "dc": 9
+          },
+          "outcomes": {
+            "success": {
+              "text": "黎霜用一台舊幫浦把水抽進空桶，又把電線拉到門邊的開關上。『門歪了，但它還會站著。』",
+              "effects": {
+                "resources": {
+                  "Defense": 4,
+                  "Water": 3
+                }
+              }
+            },
+            "fail": {
+              "text": "排水泵一啟動就跳電，黑暗裡只聽見鐵門被風撞開一道縫。黎霜摸黑罵了一句，聲音卻在發抖。",
+              "effects": {
+                "resources": {
+                  "Defense": -3,
+                  "Noise": 3
+                },
+                "status": {
+                  "Stress": 6
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把積水全部用桶接起來（Health -3）",
+          "outcomes": {
+            "always": {
+              "text": "你們跪在水裡，一桶一桶往上傳。手指泡得發白，但地下室的水缸終於滿了。宋寧一直在替你們包手。",
+              "effects": {
+                "resources": {
+                  "Water": 4
+                },
+                "status": {
+                  "Health": -3
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_015",
+      "pool": "world",
+      "title": "悶熱的地下室",
+      "weight": 12,
+      "conditions": {
+        "weather": [
+          "heat"
+        ]
+      },
+      "text": "五十年來最熱的一個午後。地下室的牆摸起來像剛出爐的磚，空氣裡有一股悶酸的汗味。\n水桶的水面浮著一層薄綠色的藻。夏見捲起袖子，咬著牙說：『隊長，水不夠了。今天不喝，明天會有人暈倒。』\n宋寧把一條冰過的毛巾放在你後頸，語氣輕鬆，眼神卻很重：『我算過，省著喝還能撐兩天。你要不要賭？』",
+      "choices": [
+        {
+          "label": "把水平均分給大家（Water -3）",
+          "requires": {
+            "resources": {
+              "Water": {
+                "gte": 3
+              }
+            }
+          },
+          "cost": {
+            "Water": 3
+          },
+          "outcomes": {
+            "always": {
+              "text": "每人一小杯，沒有人說話。喝完的那一刻，你看見夏見的肩膀垮了下來，像終於允許自己休息。",
+              "effects": {
+                "status": {
+                  "Stress": -3
+                },
+                "resources": {
+                  "Morale": 2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "派夏見去超市拿冰飲（COM 檢定 dc 7）",
+          "requires": {
+            "chars": {
+              "xiaJian": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "xiaJian",
+            "stat": "COM",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "夏見扛回來兩箱礦泉水和一桶冰塊，還順手拎了一袋冷凍水餃。『冷凍櫃早壞了，但冰還沒化完。』",
+              "effects": {
+                "resources": {
+                  "Water": 3,
+                  "Food": 1
+                }
+              }
+            },
+            "fail": {
+              "text": "熱氣讓夏見的動作慢了半拍，超市裡的喪屍聞到汗味衝上來。她拖著腳步跑回來，腿上多了一道劃傷。",
+              "effects": {
+                "resources": {
+                  "ExploreRisk": 3
+                },
+                "chars": {
+                  "xiaJian": {
+                    "Health": -6
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "一天只喝一杯，全部省下來（Morale -4）",
+          "outcomes": {
+            "always": {
+              "text": "宋寧同意了。夏見瞪著水桶，不說話，只是把自己那杯水喝得特別慢。",
+              "effects": {
+                "resources": {
+                  "Morale": -4
+                },
+                "status": {
+                  "Stress": 3
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Trust": -1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_016",
+      "pool": "world",
+      "title": "霧裡的腳步聲",
+      "weight": 10,
+      "conditions": {
+        "weather": [
+          "fog"
+        ]
+      },
+      "text": "濃霧是在凌晨三點上來的。白色的水氣貼著地面流進巷子，連對面的招牌都看不清。\n你醒來，聽見外面有腳步聲。不是一個人，是很多人慢慢走路，節奏不齊，有時會停下來，像在聞什麼。\n黎霜握著扳手，壓低聲音：『別開燈。』\n霧裡有東西輕輕敲了一下鐵門，然後又敲了一下，像在試探裡面還有沒有呼吸。",
+      "choices": [
+        {
+          "label": "屏住呼吸，全員安靜到天亮（Stress +4）",
+          "outcomes": {
+            "always": {
+              "text": "沒有人敢動。直到天邊泛白，腳步聲才慢慢散進霧裡，像從來沒有來過。",
+              "effects": {
+                "resources": {
+                  "Noise": -2
+                },
+                "status": {
+                  "Stress": 4
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "從門縫看一眼（LOG 檢定 dc 7）",
+          "check": {
+            "who": "best",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "你看見霧裡幾個人形，手臂都垂著，動作僵硬，但它們的頭都朝同一個方向偏。那不是在找食物，是在找路。",
+              "effects": {
+                "status": {
+                  "Stress": 2
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": 2
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "你的呼吸聲太大，門外的東西一下子撞上來，門板發出一聲悶響。",
+              "effects": {
+                "resources": {
+                  "Defense": -3,
+                  "Noise": 4
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "丟一顆照明彈，把它們引到超市那邊（Ammo -1）",
+          "requires": {
+            "resources": {
+              "Ammo": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Ammo": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "照明彈在街道盡頭炸開。白光底下，那些影子一起轉向，像被磁石吸走。",
+              "effects": {
+                "resources": {
+                  "Noise": 2
+                },
+                "world": {
+                  "density": {
+                    "supermarket": 10
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_017",
+      "pool": "world",
+      "title": "屋頂的漏水聲",
+      "weight": 12,
+      "conditions": {
+        "weather": [
+          "rain"
+        ]
+      },
+      "text": "雨下得不講道理。鐵皮屋頂像被鼓手敲了一整晚，水從天花板的裂縫滲下來，滴進牆角的水桶，叮、叮、叮。\n集雨裝置只能接到地下室通風管的水。屋頂的瓦片已經鬆了一片，一股冷風跟著雨灌進來。\n宋寧端著一盆濕毛巾下來，說：『我不是要唸你，但這樣會漏到你的床上。』\n夏見已經扛著梯子往樓上走：『我去補。隊長，你負責接水。』",
+      "choices": [
+        {
+          "label": "讓夏見上屋頂補漏（STR 檢定 dc 7）",
+          "requires": {
+            "chars": {
+              "xiaJian": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "xiaJian",
+            "stat": "STR",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "夏見把瓦片重新壓回去，用膠條封了三圈，下來時整個人都在滴水。『這下不會漏了。』",
+              "effects": {
+                "resources": {
+                  "Defense": 4,
+                  "Water": 2
+                }
+              }
+            },
+            "fail": {
+              "text": "瓦片在她腳下碎開，夏見整個人滑下半面斜坡，手肘撞上水管。她罵了一句，爬起來時卻還在笑。",
+              "effects": {
+                "resources": {
+                  "Defense": -2
+                },
+                "chars": {
+                  "xiaJian": {
+                    "Health": -6
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把所有桶盆拿出來接雨（Morale -2）",
+          "outcomes": {
+            "always": {
+              "text": "你們把能找到的桶盆全擺在地上，雨水叮咚地跳進來。地下室很快潮得像澡堂，大家的衣服都黏在身上。",
+              "effects": {
+                "resources": {
+                  "Water": 3,
+                  "Morale": -2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "先睡，明天再說（Defense -4）",
+          "outcomes": {
+            "always": {
+              "text": "你把被子拉過頭頂。宋寧在樓梯口停了一下，輕輕說：『明天，你要自己跟漏水道歉。』",
+              "effects": {
+                "resources": {
+                  "Defense": -4
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": -1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_018",
+      "pool": "world",
+      "title": "遠方的屍潮",
+      "weight": 8,
+      "conditions": {
+        "minDay": 5
+      },
+      "text": "傍晚，地平線那邊傳來低沉的嗡鳴，像一台巨大的機器在地底轉動。\n你爬上屋頂，看見木柵方向有一道黑色的潮水，從動物園的山坡慢慢往這邊推。\n那不是一群，是一整片。上千個影子在路燈壞掉的街道上移動，腳步聲被風吹成沙沙的雜音。\n黎霜在身後說：『它會經過。只要不停下來，它就不會停在我們門口。』",
+      "choices": [
+        {
+          "label": "關燈、關門、一動不動，等它過去（Morale -3）",
+          "outcomes": {
+            "always": {
+              "text": "你們在黑暗裡屏住呼吸，聽著潮水從巷子外滾過去。天亮時，你才發現自己的手一直抓著黎霜的袖子。",
+              "effects": {
+                "resources": {
+                  "Morale": -3,
+                  "Noise": -3
+                },
+                "world": {
+                  "horde": {
+                    "at": "zoo",
+                    "size": 45
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "趁它經過前，去動物園停車場搬補給（COM 檢定 dc 9）",
+          "check": {
+            "who": "best",
+            "stat": "COM",
+            "dc": 9
+          },
+          "outcomes": {
+            "success": {
+              "text": "你們在屍潮前端的縫隙裡衝進停車場，抱著兩箱飼料跑出來時，背後的潮水正好轉了方向。",
+              "effects": {
+                "resources": {
+                  "Food": 3,
+                  "Med": 1
+                },
+                "world": {
+                  "horde": {
+                    "at": "zoo",
+                    "size": 45
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "你們被堵在停車場的柱子後面，寸步難行。拚命衝出來時，每個人身上都帶著擦傷。",
+              "effects": {
+                "status": {
+                  "Health": -5,
+                  "Stress": 5
+                },
+                "resources": {
+                  "ExploreRisk": 3
+                },
+                "world": {
+                  "horde": {
+                    "at": "zoo",
+                    "size": 45
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "在屋頂敲鐵桶，把它引到河堤那邊（Noise +6）",
+          "outcomes": {
+            "always": {
+              "text": "鐵桶敲得又響又急。前鋒轉了個彎，朝河堤那邊湧去。遠處傳來一陣嘈雜，不知道是喪屍還是別的什麼。",
+              "effects": {
+                "resources": {
+                  "Noise": 6
+                },
+                "world": {
+                  "horde": {
+                    "at": "zoo",
+                    "size": 45
+                  },
+                  "density": {
+                    "jingmei_river": 15
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_019",
+      "pool": "world",
+      "title": "超市外的聚集",
+      "weight": 10,
+      "conditions": {
+        "density": {
+          "supermarket": {
+            "gte": 60
+          }
+        }
+      },
+      "text": "超市前面的街道，喪屍聚成了一團。它們不再遊蕩，而是靠著鐵捲門，一下一下地撞。\n夏見從窗縫看了一眼，說：『它們在找聲音。上次我們拿走最後一箱水，就是從那裡開始的。』\n巷口的電線桿上，又出現了黑雨的記號。有人站在遠處，靜靜看著這一切。\n宋寧端來熱湯，語氣平平：『隊長，現在要選的不是怎麼打，是怎麼讓它們散開。』",
+      "choices": [
+        {
+          "label": "從後門扔出一箱空鐵桶，把它們引走（Noise +4）",
+          "outcomes": {
+            "always": {
+              "text": "鐵桶砸在巷子那頭，聲音像打雷。大半的喪屍轉身追過去，只剩幾隻還在鐵捲門下徘徊。",
+              "effects": {
+                "resources": {
+                  "Noise": 4
+                },
+                "world": {
+                  "density": {
+                    "supermarket": -20
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "夏見和你從頂樓繞過去，搬空超市倉庫（COM 檢定 dc 9）",
+          "requires": {
+            "chars": {
+              "xiaJian": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "xiaJian",
+            "stat": "COM",
+            "dc": 9
+          },
+          "outcomes": {
+            "success": {
+              "text": "夏見踹開倉庫門，你們在黑暗裡摸到整排的罐頭和瓶裝水。背後的撞擊聲越來越近，但你們沒有回頭。",
+              "effects": {
+                "resources": {
+                  "Food": 4,
+                  "Water": 2
+                },
+                "world": {
+                  "density": {
+                    "supermarket": -10
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "倉庫的門卡住了，喪屍從樓梯間湧上來。夏見被抓了一把，你們最後只帶出一包鹽。",
+              "effects": {
+                "chars": {
+                  "xiaJian": {
+                    "Health": -6
+                  }
+                },
+                "resources": {
+                  "Noise": 3
+                },
+                "world": {
+                  "density": {
+                    "supermarket": 10
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "全部人閉嘴，等它們自己散（Morale -3）",
+          "outcomes": {
+            "always": {
+              "text": "沒有人說話。一個小時後，撞擊聲才稀稀落落地停下來，你們的耳朵裡還留著那聲音的回音。",
+              "effects": {
+                "resources": {
+                  "Morale": -3
+                },
+                "world": {
+                  "density": {
+                    "supermarket": -15
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_020",
+      "pool": "world",
+      "title": "交換的收音機",
+      "weight": 8,
+      "once": true,
+      "conditions": {
+        "minDay": 3,
+        "notFlags": [
+          "hasRadio"
+        ]
+      },
+      "text": "一個揹著舊軍用收音機的中年男人，一拐一拐地從巷口走過來，手裡還拿著半瓶礦泉水。\n『這台跟你換一瓶水，』他把收音機放在鐵門前，『不騙你，它還收得到聲音。』\n天線用膠帶纏了好幾圈，外殼上一行褪色的字寫著『前線』。他說他叫老林，跟人走散了，在山上撿到這台機器。\n『每晚八點，有個頻道在播。』老林頓了頓，『我只聽得到，聽不懂。』",
+      "choices": [
+        {
+          "label": "用一瓶水換收音機（Water -1）",
+          "requires": {
+            "resources": {
+              "Water": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Water": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "你把水遞過去，老林的手指抖了一下，像拿到了比水更重的東西。『謝謝你，小兄弟。』",
+              "effects": {
+                "flagsSet": [
+                  "hasRadio"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "讓黎霜檢查收音機，能用就留下（LOG 檢定 dc 7）",
+          "requires": {
+            "chars": {
+              "liShuang": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "liShuang",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "黎霜拆開外殼，三分鐘後就把電池接上了。『能用。』她說，『給老林一包米，這台機器值。』",
+              "effects": {
+                "resources": {
+                  "Food": -1,
+                  "Morale": 3
+                },
+                "flagsSet": [
+                  "hasRadio"
+                ]
+              }
+            },
+            "fail": {
+              "text": "收音機是壞的，只剩一陣刺耳的雜音。老林臉色難看地收回去，在巷口走遠了。",
+              "effects": {
+                "resources": {
+                  "Morale": -2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "不換，請他留下吃一碗粥（Food -1）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "宋寧把粥端給老林，語氣溫柔：『先吃，東西的事明天再說。』老林的眼眶紅了，卻還是把收音機留在門口，然後走了。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Affection": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "隔著鐵門搖頭，請他離開",
+          "outcomes": {
+            "always": {
+              "text": "腳步聲遠了。你不知道自己錯過的是一台收音機，還是一個麻煩。",
+              "effects": {
+                "status": {
+                  "Stress": 2
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_021",
+      "pool": "world",
+      "title": "門口的一家人",
+      "weight": 10,
+      "conditions": {
+        "minDay": 4
+      },
+      "text": "門外站著的是一家人。爸爸臉色蒼白，抱著一個發燒的小女孩；媽媽緊抓著一只扁扁的行李箱；後面還有個十來歲的少年，攥著一把長得不像武器的鐵鍬。\n『我們可以在門口待一晚，』爸爸的聲音啞得厲害，『我們不吃很多。』\n少年低著頭踢石子，小聲說：『……我們也可以幫忙搬東西。』\n黎霜站在你身後，低聲算著：『多四張嘴，就多三雙手。數字會好看還是難看，看你。』",
+      "choices": [
+        {
+          "label": "讓他們進來住（Food -2、Water -1）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 2
+              },
+              "Water": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 2,
+            "Water": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "宋寧已經開始燒水。你讓他們進來，地下室瞬間擠得像一鍋粥。小女孩的額頭燙手，但她笑了一下，說了聲謝謝。",
+              "effects": {
+                "resources": {
+                  "Morale": 4,
+                  "Noise": 2
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 2
+                  },
+                  "liShuang": {
+                    "Trust": -1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "給一袋米和一瓶水，請他們去別處（Food -1）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "你把東西遞出去，爸爸一直鞠躬。門關上以後，地下室沒人說話，只有少年的鐵鍬在門外敲了一下，然後走遠。",
+              "effects": {
+                "resources": {
+                  "Morale": -2
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "讓黎霜先看小女孩的狀況（LOG 檢定 dc 7，用 1 Med）",
+          "requires": {
+            "resources": {
+              "Med": {
+                "gte": 1
+              }
+            },
+            "chars": {
+              "liShuang": {
+                "present": true
+              }
+            }
+          },
+          "cost": {
+            "Med": 1
+          },
+          "check": {
+            "who": "liShuang",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "黎霜用體溫計量了三次，聲音冷靜：『不是感染，是普通的感冒。給她喝溫水，再讓她爸爸睡一覺。』那家人哭得說不出話。",
+              "effects": {
+                "resources": {
+                  "Morale": 3
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": 3
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "黎霜看了很久，搖搖頭：『我不確定是什麼。』那一晚，地下室的每個人都睡得很淺。",
+              "effects": {
+                "resources": {
+                  "Morale": -2
+                },
+                "status": {
+                  "Stress": 4
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "不開門。在門縫塞一張字條，指去政大的方向",
+          "outcomes": {
+            "always": {
+              "text": "門外安靜了很久，然後是小女孩的咳嗽聲，越來越遠。\n那一夜沒有人說話。",
+              "effects": {
+                "resources": {
+                  "Morale": -6
+                },
+                "status": {
+                  "Stress": 5
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": -2
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WD_022",
+      "pool": "world",
+      "title": "巷口的獸吼",
+      "weight": 10,
+      "conditions": {
+        "minDay": 5
+      },
+      "text": "一陣狗叫在巷口炸開，接著是一聲低沉的吼，不像狗，也不像人。\n你探出頭，看見一群瘦得肋骨凸出來的野狗，圍著一隻豹貓在垃圾桶旁打轉。豹貓背上有一道潰爛的傷，眼睛卻亮得嚇人。\n更遠處，一頭斑馬從拱廊的陰影裡慢慢走出來，蹄子踩進積水，濺起一小片水花。\n『動物園的……』夏見扛起消防斧，『隊長，牠們不會理我們，但會咬人。』",
+      "choices": [
+        {
+          "label": "放一鍋剩菜把野狗引走（Food -2）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Food": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "野狗撲向鍋子，爭得打成一團。豹貓趁機跳上屋簷，消失在夜色裡。夏見嘴硬地哼了一聲，耳根卻紅了。",
+              "effects": {
+                "resources": {
+                  "Morale": 2
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "讓夏見出去驅趕（COM 檢定 dc 7）",
+          "requires": {
+            "chars": {
+              "xiaJian": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "xiaJian",
+            "stat": "COM",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "夏見一聲低吼，斧柄橫在身前，野狗竟然後退了半步。她回頭時還在喘：『看吧，狗也怕拳頭。』",
+              "effects": {
+                "resources": {
+                  "Morale": 3
+                }
+              }
+            },
+            "fail": {
+              "text": "一隻野狗咬住了夏見的小腿，她甩開時又被另一隻撲倒在地。傷口很深，她卻硬是把牠踹開。",
+              "effects": {
+                "chars": {
+                  "xiaJian": {
+                    "Health": -8,
+                    "Infection": 5
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "關上鐵門，不理牠們（Morale -2）",
+          "outcomes": {
+            "always": {
+              "text": "你把鐵門拉上，外頭的吼聲與狗叫慢慢退遠。夏見沒說話，只是把斧頭靠回牆角，每走一步都很重。",
+              "effects": {
+                "resources": {
+                  "Noise": -2,
+                  "Morale": -2
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

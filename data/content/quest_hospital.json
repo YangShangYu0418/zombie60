@@ -1,0 +1,1156 @@
+{
+  "quests": [
+    {
+      "id": "q_hospital",
+      "title": "萬芳的燈",
+      "summary": "萬芳醫院的頂樓每晚十點亮一盞燈。燈下的女人在做藥，黑雨也想要她。",
+      "stages": [
+        {
+          "flag": "qh_s1",
+          "text": "萬芳醫院的最高樓層，每晚十點亮起一盞燈。"
+        },
+        {
+          "flag": "qh_s2",
+          "text": "你見到了林以安醫師，她獨自守著一座小實驗室。"
+        },
+        {
+          "flag": "qh_s3",
+          "text": "林醫師需要感染樣本與燃料。黑雨也在找她。"
+        },
+        {
+          "flag": "qh_s4",
+          "text": "你必須決定：保護她、交給黑雨，還是說服雙方合作。"
+        },
+        {
+          "flag": "qh_done",
+          "text": "第二十天，萬芳的燈有了結果。"
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "QH_001",
+      "pool": "story",
+      "title": "最高樓層的燈",
+      "once": true,
+      "conditions": {
+        "anyChar": {
+          "Infection": {
+            "gte": 25
+          }
+        },
+        "notFlags": [
+          "qh_s1"
+        ]
+      },
+      "text": "{target}的燒退不下來，半夜一直喊冷。\n你替對方換毛巾時，聽見窗外有人低聲說：『又亮了。』\n從窗縫望出去，萬芳醫院的最高樓層，有一盞燈在夜色裡亮起，又熄掉。\n旁邊的人跟著抬頭，沒人說話。封城以後，已經沒有人會替病房點燈了。",
+      "choices": [
+        {
+          "label": "盯著那盞燈看到天亮（全隊 Stress +3）",
+          "outcomes": {
+            "always": {
+              "text": "你把方位記在紙上，眼睛乾得像砂紙。天亮前，燈滅了，之後沒有再亮。",
+              "effects": {
+                "status": {
+                  "Stress": 3
+                },
+                "flagsSet": [
+                  "qh_s1"
+                ],
+                "discover": [
+                  "wanfang_hospital"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "叫黎霜用算的：這盞燈的電從哪來（LOG 檢定 dc 5）",
+          "check": {
+            "who": "best",
+            "stat": "LOG",
+            "dc": 5
+          },
+          "outcomes": {
+            "success": {
+              "text": "黎霜盯著線路圖算了二十分鐘，冷笑一聲：『醫院有自己的柴油機。他們的油，比我們多。』",
+              "effects": {
+                "resources": {
+                  "Parts": 1
+                },
+                "flagsSet": [
+                  "qh_s1"
+                ],
+                "discover": [
+                  "wanfang_hospital"
+                ]
+              }
+            },
+            "fail": {
+              "text": "她算到一半就把筆摔了：『線太亂，只能猜。』你們在屋頂翻找時碰倒一片鐵皮，整條巷子都聽見了。",
+              "effects": {
+                "resources": {
+                  "Noise": 3
+                },
+                "flagsSet": [
+                  "qh_s1"
+                ],
+                "discover": [
+                  "wanfang_hospital"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "把方位記在地圖背面，先不跟任何人說（Morale -2）",
+          "outcomes": {
+            "always": {
+              "text": "你把地圖翻到背面，寫下醫院的名字，折成小小一塊，塞進口袋。有些事，現在還不適合讓大家知道。",
+              "effects": {
+                "resources": {
+                  "Morale": -2
+                },
+                "flagsSet": [
+                  "qh_s1"
+                ],
+                "discover": [
+                  "wanfang_hospital"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QH_001B",
+      "pool": "story",
+      "title": "第七天的燈",
+      "once": true,
+      "conditions": {
+        "minDay": 7,
+        "notFlags": [
+          "qh_s1"
+        ]
+      },
+      "text": "第七天的傍晚，你在屋頂替水桶加蓋，忽然注意到遠處的天際線。\n萬芳醫院的最高樓層，有一盞燈亮了。\n夜風很涼，屋頂的鐵皮被吹得嘎嘎響。\n黎霜說：『那裡有電。』\n宋寧說：『有電，就有人。』\n夏見看了很久，最後只說：『我不怕黑，我只是不想走那麼遠。』",
+      "choices": [
+        {
+          "label": "記下方位，明天再說（Morale -2）",
+          "outcomes": {
+            "always": {
+              "text": "你把燈的位置寫在地圖上，寫完又覺得，不寫也忘不掉。那一夜你翻來覆去，睡不著。",
+              "effects": {
+                "resources": {
+                  "Morale": -2
+                },
+                "flagsSet": [
+                  "qh_s1"
+                ],
+                "discover": [
+                  "wanfang_hospital"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "把黎霜叫來一起盯（全隊 Stress +3）",
+          "outcomes": {
+            "always": {
+              "text": "黎霜一路碎唸著電流、電壓，還有『你們這群人怎麼都不睡』，但她還是盯到了燈滅。",
+              "effects": {
+                "status": {
+                  "Stress": 3
+                },
+                "flagsSet": [
+                  "qh_s1"
+                ],
+                "discover": [
+                  "wanfang_hospital"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QH_002",
+      "pool": "loc:wanfang_hospital",
+      "title": "爬上頂樓",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qh_s1"
+        ],
+        "notFlags": [
+          "qh_s2"
+        ]
+      },
+      "text": "萬芳醫院的自動門卡在半開，大廳的椅子翻成一片。\n{actor}循著樓梯往上爬，每一層都有推床與輪椅擋路。\n到了九樓，通往頂樓的鐵門上貼著一張泛黃的紙：『感染區，禁止進入』。\n紙下面有一行新寫的字，筆跡很穩：『別敲，我聽得到。』",
+      "choices": [
+        {
+          "label": "走消防逃生梯上去（STR 檢定 dc 8）",
+          "check": {
+            "who": "actor",
+            "stat": "STR",
+            "dc": 8
+          },
+          "outcomes": {
+            "success": {
+              "text": "{actor}的腿在發抖，還是撐到了頂樓。鐵門沒鎖，風裡有消毒水和柴油的味道。\n一個穿白袍的女人站在燈下，手裡拿著針筒，抬頭看了你們一眼。",
+              "effects": {
+                "flagsSet": [
+                  "qh_s2"
+                ]
+              }
+            },
+            "fail": {
+              "text": "{actor}踩空了最後一個平台，整個人摔在水泥地上，肋骨一陣劇痛。\n門後傳來一聲很輕的『別再試了』，然後就沒有聲音了。",
+              "effects": {
+                "chars": {
+                  "$actor": {
+                    "Health": -10
+                  }
+                },
+                "queue": [
+                  {
+                    "id": "QH_002R",
+                    "inDays": 2
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "從急診室後門撬開防火門（COM 檢定 dc 8）",
+          "check": {
+            "who": "actor",
+            "stat": "COM",
+            "dc": 8
+          },
+          "outcomes": {
+            "success": {
+              "text": "撬棍卡進門縫，鐵門發出刺耳的尖叫。\n衝到頂樓時，燈下的女人沒有逃，只是把手伸到燈泡旁，像在確認它還是熱的。",
+              "effects": {
+                "resources": {
+                  "Noise": 4
+                },
+                "flagsSet": [
+                  "qh_s2"
+                ]
+              }
+            },
+            "fail": {
+              "text": "撬棍滑開，手掌被鐵皮劃出一道血口。整棟樓的回音都在響。\n樓下某處，有什麼東西開始移動。",
+              "effects": {
+                "chars": {
+                  "$actor": {
+                    "Health": -8
+                  }
+                },
+                "resources": {
+                  "Noise": 6
+                },
+                "queue": [
+                  {
+                    "id": "QH_002R",
+                    "inDays": 2
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "不上去，在門口畫記號，等燈再亮（Stress +3）",
+          "outcomes": {
+            "always": {
+              "text": "你在門口的牆上畫了一個圈，寫著『明天再來』。燈又滅了，什麼都沒有發生。",
+              "effects": {
+                "chars": {
+                  "$actor": {
+                    "Stress": 3
+                  }
+                },
+                "queue": [
+                  {
+                    "id": "QH_002R",
+                    "inDays": 1
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QH_002R",
+      "pool": "queued",
+      "title": "第二次敲門",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qh_s1"
+        ],
+        "notFlags": [
+          "qh_s2"
+        ]
+      },
+      "text": "第二天夜裡，燈又亮了。\n你們再一次站到萬芳醫院的鐵門前，門這次開了一條縫。\n裡面有個女人的聲音，平靜得不像末日：『上來可以，但只能一個人。』\n門縫裡飄出消毒水與熱粥的味道。宋寧吸了吸鼻子，沒說話，只把背包的帶子拉緊了一點。",
+      "choices": [
+        {
+          "label": "硬爬上去，見到人再說（STR 檢定 dc 7）",
+          "check": {
+            "who": "best",
+            "stat": "STR",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "樓梯一層層爬，腿快要斷掉。頂樓的燈下，林醫師抬起頭：『我知道你們會來。』",
+              "effects": {
+                "resources": {
+                  "Med": 2
+                },
+                "flagsSet": [
+                  "qh_s2"
+                ]
+              }
+            },
+            "fail": {
+              "text": "爬到一半，你的腳踝扭了一下。上面的人沒有下來，只從門縫丟出一包藥。\n『下次帶燃料來，』她說，『我不救不付帳的人。』",
+              "effects": {
+                "resources": {
+                  "Med": 1
+                },
+                "status": {
+                  "Health": -4
+                },
+                "flagsSet": [
+                  "qh_s2"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "在門口放一箱罐頭當見面禮（Food -2）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Food": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "罐頭被一隻手從門縫拉了進去。過了很久，門裡傳來一聲很輕的『謝謝』。",
+              "effects": {
+                "resources": {
+                  "Morale": 2
+                },
+                "flagsSet": [
+                  "qh_s2"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QH_003",
+      "pool": "story",
+      "title": "林醫師的請求",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qh_s2"
+        ]
+      },
+      "text": "林以安醫師坐在發電機旁，白袍的袖口燒出一個洞。\n她是前感染科主治，封城前在大醫院的實驗室裡做過三年病毒研究。現在她只有一台發電機、一箱培養皿，和一面寫滿數字的白板。\n『我需要一隻活的樣本，』她說，『還有燃料。少一樣，這批就白做了。』",
+      "choices": [
+        {
+          "label": "去抓一隻活的感染者當樣本（COM 檢定 dc 7）",
+          "check": {
+            "who": "best",
+            "stat": "COM",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "你在停車場引開一隻感染者，用套索把它綁在欄杆上。它嘶吼到喉嚨都破了。林醫師接過樣本時，手卻很穩：『這個我用得上。』",
+              "effects": {
+                "status": {
+                  "Stress": 3
+                },
+                "flagsSet": [
+                  "qh_s3",
+                  "qh_sample"
+                ]
+              }
+            },
+            "fail": {
+              "text": "套索滑脫，那東西撲過來，你的手臂被抓出五道血痕。林醫師一邊替你包紮，一邊在白板上劃掉一行字：『這樣不行。』",
+              "effects": {
+                "chars": {
+                  "shenYan": {
+                    "Infection": 12,
+                    "Health": -6
+                  }
+                },
+                "flagsSet": [
+                  "qh_s3"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "把燃料給她，換她的藥（Parts -2）",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Parts": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "你把兩桶油搬到發電機旁。林醫師沒有道謝，只把一包藥塞進你手裡：『下次別讓我等。』",
+              "effects": {
+                "resources": {
+                  "Med": 2
+                },
+                "flagsSet": [
+                  "qh_s3"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "先問她在研究什麼（Morale -2，拖越久隊上越不安）",
+          "outcomes": {
+            "always": {
+              "text": "『血清，』她說，『不是疫苗，只能讓已經感染的人慢下來。』她停了一下，『還有人在找我，你們不是第一批。』",
+              "effects": {
+                "resources": {
+                  "Morale": -2
+                },
+                "flagsSet": [
+                  "qh_s3"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QH_004",
+      "pool": "story",
+      "title": "老鴉的使者",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qh_s2"
+        ],
+        "notFlags": [
+          "metBlackrain"
+        ]
+      },
+      "text": "一個穿雨衣的男人在醫院樓下等你們。雨衣背後噴著黑色的雨滴記號。\n『老鴉說，醫生歸我們，』他把一箱彈藥放在地上，『給你們一箱，夠用一陣子。』\n他抬頭看了一眼樓上的燈，笑了笑：『別裝不懂，全深坑都知道那裡有人在做藥。』",
+      "choices": [
+        {
+          "label": "收下彈藥，說這件事再談（Morale -2，宋寧整晚沒笑）",
+          "outcomes": {
+            "always": {
+              "text": "你把箱子搬回地下室。宋寧看了一眼標籤，什麼都沒說，只是替每個人多倒了一杯水。",
+              "effects": {
+                "resources": {
+                  "Ammo": 3,
+                  "Morale": -2
+                },
+                "factions": {
+                  "blackrain": 5
+                },
+                "flagsSet": [
+                  "metBlackrain",
+                  "qh_s4"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "把人趕走（COM 檢定 dc 7）",
+          "check": {
+            "who": "best",
+            "stat": "COM",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "你把人趕回街角。那男人走之前回頭，只說了一句：『老鴉會記得。』",
+              "effects": {
+                "factions": {
+                  "blackrain": -4
+                },
+                "resources": {
+                  "Morale": 2
+                },
+                "flagsSet": [
+                  "metBlackrain",
+                  "qh_s4"
+                ]
+              }
+            },
+            "fail": {
+              "text": "先動手的是對方。你們在樓下扭成一團，最後是夏見把人架開。整條街都聽見了那一聲。",
+              "effects": {
+                "factions": {
+                  "blackrain": -2
+                },
+                "status": {
+                  "Health": -6
+                },
+                "resources": {
+                  "Noise": 4
+                },
+                "flagsSet": [
+                  "metBlackrain",
+                  "qh_s4"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "假裝答應，等你們去談（夏見 Trust -3）",
+          "outcomes": {
+            "always": {
+              "text": "你點頭，讓人把箱子搬進來。夏見在旁邊盯著你，什麼都沒說，只是拳頭握得很緊。",
+              "effects": {
+                "factions": {
+                  "blackrain": 3
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Trust": -3
+                  }
+                },
+                "flagsSet": [
+                  "metBlackrain",
+                  "qh_s4"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QH_005",
+      "pool": "story",
+      "title": "交出去還是護住",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qh_s3",
+          "metBlackrain"
+        ]
+      },
+      "text": "黑雨的條件很簡單：醫生交出來，今晚就能撤。\n林醫師坐在培養皿前，沒有求你。她只說：『血清做到第三批了。你們要的，是我的人，還是我的燈？』\n宋寧先倒了一杯水放到你面前：『先想，再說。』\n黎霜冷笑：『算一算，我們守得住幾天。』夏見把消防斧插在地上：『算什麼，打就是了。』",
+      "choices": [
+        {
+          "label": "保護林醫師，跟黑雨撕破臉（Ammo -2）",
+          "requires": {
+            "resources": {
+              "Ammo": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Ammo": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "你們把醫院的鐵門焊死，夏見守在樓梯口。黑雨的人聽到消息，只留下一句話：『記住，雨會落在每個人身上。』",
+              "effects": {
+                "flagsSet": [
+                  "qh_protect",
+                  "blackrainHostile",
+                  "qh_serum"
+                ],
+                "factions": {
+                  "blackrain": -15
+                },
+                "resources": {
+                  "Defense": 5
+                },
+                "relations": {
+                  "liShuang": {
+                    "Affection": 3
+                  },
+                  "xiaJian": {
+                    "Affection": 4
+                  },
+                  "songNing": {
+                    "Trust": 2
+                  }
+                },
+                "queue": [
+                  {
+                    "id": "QH_006",
+                    "inDays": 2
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "把林醫師交給黑雨（Ammo +3、Food +4，士氣 -10，三位女主信任 -8）",
+          "outcomes": {
+            "always": {
+              "text": "你把林醫師的名字說出口。她沒有掙扎，只把白板擦乾淨，留下一句：『你會算清楚的，對吧？』",
+              "effects": {
+                "flagsSet": [
+                  "qh_betray"
+                ],
+                "resources": {
+                  "Ammo": 3,
+                  "Food": 4,
+                  "Morale": -10
+                },
+                "factions": {
+                  "blackrain": 15
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": -8
+                  },
+                  "songNing": {
+                    "Trust": -8
+                  },
+                  "xiaJian": {
+                    "Trust": -8
+                  }
+                },
+                "queue": [
+                  {
+                    "id": "QH_007",
+                    "inDays": 2
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "說服雙方合作（CHA 檢定 dc 9）",
+          "check": {
+            "who": "best",
+            "stat": "CHA",
+            "dc": 9
+          },
+          "outcomes": {
+            "success": {
+              "text": "宋寧替老鴉的人倒了一杯茶，笑著說了十分鐘，每一句都在算。\n最後黑雨拿到血清的一半配方，林醫師拿到燃料與電池，你們換來七十二小時的停火。",
+              "effects": {
+                "flagsSet": [
+                  "qh_truce",
+                  "qh_serum"
+                ],
+                "resources": {
+                  "Ammo": 2,
+                  "Parts": 2,
+                  "Morale": 5
+                },
+                "factions": {
+                  "blackrain": 5
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 3
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "宋寧的笑還沒收完，黑雨的人已經把槍口對準醫院大門。『談不攏，』那男人說，『那就交一個人。』你沒有時間再想，只能把林醫師的名字說出口。",
+              "effects": {
+                "flagsSet": [
+                  "qh_betray"
+                ],
+                "resources": {
+                  "Ammo": 1,
+                  "Food": 2,
+                  "Morale": -10
+                },
+                "factions": {
+                  "blackrain": 8
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": -8
+                  },
+                  "songNing": {
+                    "Trust": -8
+                  },
+                  "xiaJian": {
+                    "Trust": -8
+                  }
+                },
+                "queue": [
+                  {
+                    "id": "QH_007",
+                    "inDays": 2
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QH_006",
+      "pool": "queued",
+      "title": "鐵門外的雨",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qh_protect"
+        ]
+      },
+      "text": "兩天後的夜裡，機廠方向亮起一排手電筒。黑雨的人在醫院外排成一列，雨滴記號被噴在每一扇窗上。\n夏見握緊消防斧：『來就打。』\n黎霜在一旁算著：『他們十二個人，我們三把槍，還有你。』\n宋寧抓住你的袖子：『能談就談，別把大家都賠進去。』",
+      "choices": [
+        {
+          "label": "守住鐵門正面迎戰（夏見 COM 檢定，彈藥 −1，失手會有人重傷）",
+          "requires": {
+            "resources": {
+              "Ammo": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Ammo": 1
+          },
+          "check": {
+            "who": "xiaJian",
+            "stat": "COM",
+            "dc": 9
+          },
+          "outcomes": {
+            "success": {
+              "text": "夏見一斧劈開最前面那人的雨衣，你們合力把人逼退到街口。黑雨的人撤了，地上只剩一排空彈殼。",
+              "effects": {
+                "factions": {
+                  "blackrain": -4
+                },
+                "resources": {
+                  "Morale": 3
+                }
+              }
+            },
+            "fail": {
+              "text": "夏見衝得太前，一根鐵管正中她的肩胛。她單膝跪下，還想站起來。\n『隊長，門別開……』你把她拖回門內的時候，她的血已經浸透了你半邊袖子。",
+              "effects": {
+                "chars": {
+                  "xiaJian": {
+                    "Health": -40,
+                    "Infection": 15,
+                    "Stress": 15
+                  }
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 4
+                  }
+                },
+                "factions": {
+                  "blackrain": -2
+                },
+                "resources": {
+                  "Morale": -8,
+                  "Defense": -6
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把林醫師藏進管線通道，你自己去擋門（你的 Stress +8）",
+          "outcomes": {
+            "always": {
+              "text": "你把林醫師推進醫院地下的管線通道，自己守在門口。你的手一直在抖。宋寧把一張鐵椅拖過來，堵住了第一個缺口。",
+              "effects": {
+                "chars": {
+                  "shenYan": {
+                    "Stress": 8
+                  }
+                },
+                "factions": {
+                  "blackrain": -2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "拿血清換停火（需要血清，血清會用掉）",
+          "requires": {
+            "flags": [
+              "qh_serum"
+            ]
+          },
+          "outcomes": {
+            "always": {
+              "text": "你把一小瓶血清放在鐵皮箱上。黑雨的人盯著它看了很久，然後把槍口放下。\n『雨停了，』他說，『但別以為我會忘。』",
+              "effects": {
+                "flagsClear": [
+                  "qh_serum"
+                ],
+                "factions": {
+                  "blackrain": 5
+                },
+                "resources": {
+                  "Morale": 2
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QH_007",
+      "pool": "queued",
+      "title": "雨滴的邀請",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qh_betray"
+        ]
+      },
+      "text": "黑雨沒有再來要人，反而派來一台破舊的廂型車，車窗上貼著字條：『老鴉請你喝茶。』\n車子開進機廠，鐵門後有熱水、有燈，還有一排剛拆封的彈藥箱。\n老鴉坐在最裡面，笑得很和氣：『醫生的事，你做得不錯。撐傘的人，才是對的。』",
+      "choices": [
+        {
+          "label": "接受，加入黑雨（黑雨 +12，Morale -3）",
+          "outcomes": {
+            "always": {
+              "text": "你握住老鴉伸過來的手，掌心是冷的。『從今天起，我們一起撐傘。』你沒有去數，自己到底還剩下什麼。",
+              "effects": {
+                "flagsSet": [
+                  "qh_blackrain_member"
+                ],
+                "factions": {
+                  "blackrain": 12
+                },
+                "resources": {
+                  "Morale": -3
+                },
+                "queue": [
+                  {
+                    "id": "QH_008",
+                    "inDays": 4
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "婉拒，你們還有自己的地下室（黑雨 -5、Food -1，宋寧 Trust +3）",
+          "outcomes": {
+            "always": {
+              "text": "你把字條揉成一團，丟在車窗外。『我們不欠你什麼。』老鴉笑了笑：『那就慢慢算。』車開走時，後車廂的一箱罐頭也不見了。",
+              "effects": {
+                "factions": {
+                  "blackrain": -5
+                },
+                "relations": {
+                  "songNing": {
+                    "Trust": 3
+                  }
+                },
+                "resources": {
+                  "Food": -1
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QH_008",
+      "pool": "queued",
+      "title": "黑雨的第一趟差",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qh_blackrain_member"
+        ]
+      },
+      "text": "老鴉交給你的第一份差事很簡單：機廠外圍有一群屍潮被引了過來，今晚要清出一條路，讓貨車能進出。\n『不用殺完，』老鴉說，『殺到他們不敢再靠近就好。』\n黎霜把地圖攤在地上，指著其中一條巷子：『那裡的電線桿會把聲音傳開，小心點。』",
+      "choices": [
+        {
+          "label": "去機廠外圍清出一條路（COM 檢定 dc 9）",
+          "check": {
+            "who": "best",
+            "stat": "COM",
+            "dc": 9
+          },
+          "outcomes": {
+            "success": {
+              "text": "你們把最後一群屍潮逼進巷子，貨車在天亮前開過了鐵軌。老鴉把一箱彈藥丟上車：『這是你的。』",
+              "effects": {
+                "factions": {
+                  "blackrain": 8
+                },
+                "resources": {
+                  "Ammo": 2
+                }
+              }
+            },
+            "fail": {
+              "text": "一隻感染者從排水溝裡竄出來，撲倒了前面的人。你拖著傷員退回去，身上都是別人的血。",
+              "effects": {
+                "factions": {
+                  "blackrain": 2
+                },
+                "status": {
+                  "Health": -6
+                },
+                "resources": {
+                  "Noise": 4
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "只送一箱糧過去，人不去（Food -3）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 3
+              }
+            }
+          },
+          "cost": {
+            "Food": 3
+          },
+          "outcomes": {
+            "always": {
+              "text": "你把罐頭和乾糧裝進箱子，交給來領人的小弟。『我們不做這種事，』你說。那人聳聳肩，沒有爭。",
+              "effects": {
+                "factions": {
+                  "blackrain": -3
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QH_009",
+      "pool": "story",
+      "title": "最後一支血清",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qh_serum"
+        ],
+        "anyChar": {
+          "Infection": {
+            "gte": 40
+          }
+        }
+      },
+      "text": "{target}的皮膚開始發青，呼吸一聲比一聲淺。保溫箱的指示燈一閃一閃，房間裡只剩機器的嗡嗡聲。\n林醫師從保溫箱取出最後一支小瓶，手指在抖。『這個只能慢下來，』她說，『只夠救一個人。』\n宋寧看著你，黎霜盯著血清，夏見已經轉過身去，背對所有人。",
+      "choices": [
+        {
+          "label": "用掉最後一支血清，先救眼前的人（血清用完，感染 -40）",
+          "outcomes": {
+            "always": {
+              "text": "針頭扎進去的時候，{target}的眼皮動了一下。過了很久，她的呼吸才慢慢穩下來。『……你欠我一次。』她啞著嗓子說。",
+              "effects": {
+                "flagsClear": [
+                  "qh_serum"
+                ],
+                "chars": {
+                  "$target": {
+                    "Infection": -40
+                  }
+                },
+                "relations": {
+                  "$target": {
+                    "Trust": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "留著血清當全隊的保險（她的感染 +6、壓力 +8）",
+          "outcomes": {
+            "always": {
+              "text": "你把血清收進口袋。{target}的燒又高了一點，她咬著嘴唇不說話，只抓住你的手腕：『別讓我變成你們的負擔。』",
+              "effects": {
+                "chars": {
+                  "$target": {
+                    "Infection": 6,
+                    "Stress": 8
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QH_010",
+      "pool": "story",
+      "title": "第二十天的燈",
+      "once": true,
+      "conditions": {
+        "minDay": 20,
+        "flags": [
+          "qh_s4"
+        ],
+        "notFlags": [
+          "qh_done"
+        ]
+      },
+      "text": "第二十天夜裡，萬芳醫院的燈又亮了。\n林醫師把一張寫滿數字的紙放到你面前，那是她的第一批結果。不完美，但夠讓一些人慢下來。\n『你們想怎麼用，』她說，『我不管。』\n你看著那張紙，知道接下來每一步，都是你自己選的。",
+      "choices": [
+        {
+          "label": "把藥分給景美夜市與指南山（Parts -1，燃料用來運送）",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Parts": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "你們用僅剩的油，把一箱箱藥送到景美夜市與政大山腳下。阿嬤收下時沒道謝，只說：『欠你一次人情，我記帳。』",
+              "effects": {
+                "flagsSet": [
+                  "qh_done"
+                ],
+                "resources": {
+                  "Med": 3
+                },
+                "factions": {
+                  "nightmarket": 6,
+                  "students": 6
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把林醫師接回地下室，當成家人（Food -2，多一張嘴吃飯）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Food": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "她搬進來那天，帶著一台舊顯微鏡，還有一鍋不知道哪來的粥。宋寧說：『多一個人，就多一份心事。』夏見說：『多一個人，就多一個人守夜。』",
+              "effects": {
+                "flagsSet": [
+                  "qh_done"
+                ],
+                "resources": {
+                  "Morale": 6
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 3
+                  },
+                  "xiaJian": {
+                    "Affection": 2
+                  },
+                  "liShuang": {
+                    "Trust": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "加入黑雨，把研究交給老鴉換一條生路（需黑雨聲望 30 以上）",
+          "requires": {
+            "minDay": 20,
+            "factions": {
+              "blackrain": {
+                "gte": 30
+              }
+            }
+          },
+          "outcomes": {
+            "always": {
+              "text": "老鴉收下那張紙，用黑色的印章蓋在你的手背上。『撐傘的人，』他說，『從來不用淋雨。』\n你沒有回頭看那盞燈。",
+              "effects": {
+                "flagsSet": [
+                  "qh_done"
+                ],
+                "end": "ending_blackrain"
+              }
+            }
+          }
+        },
+        {
+          "label": "什麼都不決定，讓林醫師自己選擇去留",
+          "outcomes": {
+            "always": {
+              "text": "林醫師把筆記本收進背包，向你們點點頭。\n『謝謝你們沒有替我決定。』她走進霧裡，背影很瘦，但很直。",
+              "effects": {
+                "flagsSet": [
+                  "qh_done"
+                ],
+                "resources": {
+                  "Morale": 2
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

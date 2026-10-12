@@ -1,0 +1,1590 @@
+{
+  "events": [
+    {
+      "id": "RO_LS_01",
+      "pool": "romance",
+      "title": "扶手電筒的角度",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 2,
+        "chars": {
+          "liShuang": {
+            "present": true,
+            "Affection": {
+              "gte": 0
+            }
+          }
+        }
+      },
+      "text": "配電箱的蓋子被撬開，裡面是一團燒黑的線。\n黎霜咬著筆，長髮綁成高馬尾，頭也不回地伸手：『手電筒。左邊，再低一點。』\n你把光打過去，她的側臉在光圈裡很清楚，眉心皺成一條線。\n『你看得懂這個？』\n『看得懂一半。』\n她終於斜眼看你，嘴角很淡地動了一下。『那就站著別動。一半就夠了。』",
+      "choices": [
+        {
+          "label": "靠近，陪她把線路接完（代價：噪音）",
+          "outcomes": {
+            "always": {
+              "text": "你把電筒固定在她指定的位置，手心出了汗。接線時她的指尖擦過你的手背，停了一拍，又若無其事地縮回去。『電壓的問題，別想太多。』",
+              "effects": {
+                "resources": {
+                  "Noise": 2
+                },
+                "relations": {
+                  "liShuang": {
+                    "Affection": 4,
+                    "Trust": 2
+                  }
+                },
+                "flagsSet": [
+                  "ro_ls_1"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "把電筒交給她，自己去搬電瓶（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "你把電筒塞進她手裡，轉身去搬電瓶。背後沒有人叫你回去，只有一聲很輕的嘆氣。等你搬完回來，線路已經接好，桌上多了一盒她從舊機房翻出來的保險絲。",
+              "effects": {
+                "resources": {
+                  "Parts": 1
+                },
+                "flagsSet": [
+                  "ro_ls_1"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_LS_02",
+      "pool": "romance",
+      "title": "全員存活率",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "flags": [
+          "ro_ls_1"
+        ],
+        "chars": {
+          "liShuang": {
+            "present": true,
+            "Affection": {
+              "gte": 10
+            }
+          }
+        }
+      },
+      "text": "黎霜的筆記本攤在桌上，密密麻麻全是數字。\n每個人的名字旁邊都標著百分比，你的、宋寧的、夏見的、老陳的、阿珠的。她連誰咳嗽的頻率都記進去了。\n『全員撐過冬天的機率，百分之六十一。』她說得像在報天氣。\n你往下看，在最底下找到自己的名字，然後是她的。\n最後一行，她寫的是自己，數字最低。\n『這不是拿來安慰人的東西。』她合上本子，『數字不會騙人。』",
+      "choices": [
+        {
+          "label": "反駁她：『那就把我也算進去，重算一次。』（LOG 檢定 普通 7）",
+          "check": {
+            "who": "shenYan",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "你把自己的名字寫在最底下，一筆一畫，寫得很用力。她盯著那個數字看了三秒，才低聲說：『……你這樣很犯規。』",
+              "effects": {
+                "relations": {
+                  "liShuang": {
+                    "Affection": 5,
+                    "Trust": 3
+                  }
+                },
+                "flagsSet": [
+                  "ro_ls_2"
+                ]
+              }
+            },
+            "fail": {
+              "text": "你的理由說得亂七八糟，她聽完只冷笑一聲：『下次先學會算再來爭。』不過她還是把你的名字重抄了一遍，抄在本子邊緣。",
+              "effects": {
+                "relations": {
+                  "liShuang": {
+                    "Affection": 2,
+                    "Trust": 1
+                  }
+                },
+                "status": {
+                  "Stress": 3
+                },
+                "flagsSet": [
+                  "ro_ls_2"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "收起本子，替她把桌子收拾乾淨（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "你什麼都沒說，只是替她把本子合好，放回桌角。她愣了一下，沒有追問，手指在桌面上停了很久。『……去睡吧。』",
+              "effects": {
+                "resources": {
+                  "Morale": 2
+                },
+                "flagsSet": [
+                  "ro_ls_2"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_LS_03",
+      "pool": "romance",
+      "title": "屋頂的天線",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 6,
+        "flags": [
+          "ro_ls_2"
+        ],
+        "chars": {
+          "liShuang": {
+            "present": true,
+            "Affection": {
+              "gte": 20
+            }
+          }
+        }
+      },
+      "text": "收音機的訊號時斷時續，黎霜說是天線偏了。\n她爬上屋頂，你替她扶著梯子。夜風很涼，城裡沒有一盞燈，星星多得不像真的。\n她仰著頭看了很久，忽然開口：『我以前每天都在算線路，算到連星星都覺得像一張圖。』\n『現在呢？』\n『現在它就只是星星。』她笑了一下，難得沒帶刺，『還滿好看的。』",
+      "choices": [
+        {
+          "label": "坐到她身邊，一起等訊號（代價：你的壓力 +2）",
+          "outcomes": {
+            "always": {
+              "text": "你在她身邊坐下，肩膀不小心碰在一起。她沒有躲開。收音機裡傳來一陣雜音，又一陣，最後什麼都沒有。她卻說：『這樣就好。』",
+              "effects": {
+                "relations": {
+                  "liShuang": {
+                    "Affection": 6,
+                    "Trust": 2
+                  }
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": 2
+                  }
+                },
+                "flagsSet": [
+                  "ro_ls_3"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "把天線轉到她指的角度，自己留在梯子下（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "你把天線轉到她說的角度，然後退回梯子下面。『訊號好了叫我。』她沒叫你上去，只是低頭調著旋鈕，聲音比剛才冷了一點。你退開之後，心跳慢慢平了下來。",
+              "effects": {
+                "chars": {
+                  "shenYan": {
+                    "Stress": -2
+                  }
+                },
+                "flagsSet": [
+                  "ro_ls_3"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_LS_04",
+      "pool": "romance",
+      "title": "寒夜的樓梯間",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "flags": [
+          "ro_ls_3"
+        ],
+        "chars": {
+          "liShuang": {
+            "present": true,
+            "Affection": {
+              "gte": 30
+            },
+            "Trust": {
+              "gte": 10
+            }
+          }
+        }
+      },
+      "text": "你下樓時發現黎霜坐在發電機旁的樓梯間，外套披在肩上，一動也不動。\n發電機的聲音很吵，她卻像什麼都沒聽見。\n『還沒睡？』\n『線路在跳。』她沒抬頭，『我知道是哪裡，只是在等它不跳。』\n她的手指在膝蓋上一下一下敲著，節拍很亂。\n『我算得到的事，不代表我救得了。』她終於說。",
+      "choices": [
+        {
+          "label": "在她身邊坐下，把外套拉過來蓋住她的手",
+          "outcomes": {
+            "always": {
+              "text": "你把外套拉過來，蓋住她冰冷的手背。敲擊的節奏慢慢停了。『……別看我，我現在很醜。』她小聲說。『不醜。』你說。她沒有回嘴，只是靠上你的肩，把頭低下去一點。",
+              "effects": {
+                "relations": {
+                  "liShuang": {
+                    "Affection": 5,
+                    "Trust": 5
+                  }
+                },
+                "flagsSet": [
+                  "ro_ls_4"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "替她把油門調穩，然後退回樓上（代價：她的信任 -2）",
+          "outcomes": {
+            "always": {
+              "text": "你替她把發電機的油門調穩，然後默默退回樓上。樓梯間的敲擊聲又開始了，一下，兩下，比剛才快。你知道她不需要被救，只是需要時間。",
+              "effects": {
+                "relations": {
+                  "liShuang": {
+                    "Trust": -2
+                  }
+                },
+                "flagsSet": [
+                  "ro_ls_4"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_LS_05",
+      "pool": "romance",
+      "title": "那天的名字",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 14,
+        "flags": [
+          "ro_ls_4"
+        ],
+        "chars": {
+          "liShuang": {
+            "present": true,
+            "Affection": {
+              "gte": 42
+            },
+            "Trust": {
+              "gte": 18
+            }
+          }
+        }
+      },
+      "text": "深夜的工作台上只剩一盞小燈。黎霜把一張泛黃的工作證推到你面前，照片裡的男人笑得很傻，名牌上寫著『陳孝霖』。\n『封城那天，他在變電所值班。』她說，『我打給他，他接了，說線路有怪味，叫我別過去。』\n『我沒有過去。』\n她的聲音很平，平得像在報數。\n『我算過，那時去了，存活機率是百分之三十八。所以我沒去。』",
+      "choices": [
+        {
+          "label": "握住她放在桌上的手，什麼都不問（代價：你的壓力 +3）",
+          "outcomes": {
+            "always": {
+              "text": "你握住她的手。她的指尖動了一下，沒有抽走。『你不問我後不後悔？』『妳已經在後悔了。』你說。她沉默很久，才低低笑了一聲，聲音有點破。『……算你會說話。』",
+              "effects": {
+                "relations": {
+                  "liShuang": {
+                    "Affection": 6,
+                    "Trust": 4
+                  }
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": 3
+                  }
+                },
+                "flagsSet": [
+                  "ro_ls_5"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "把工作證推回去，說『明天還要修線路，該睡了』（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "你把工作證輕輕推回去。『明天還要修線路。』她看著你，眼神冷了一瞬，又恢復成平常的樣子。『你說得對。』她把照片收進口袋，沒有再看你一眼。",
+              "effects": {
+                "relations": {
+                  "liShuang": {
+                    "Trust": -2
+                  }
+                },
+                "flagsSet": [
+                  "ro_ls_5"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_LS_06",
+      "pool": "romance",
+      "title": "我怕失控",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 18,
+        "flags": [
+          "ro_ls_5"
+        ],
+        "chars": {
+          "liShuang": {
+            "present": true,
+            "Affection": {
+              "gte": 55
+            },
+            "Trust": {
+              "gte": 25
+            }
+          }
+        }
+      },
+      "text": "屋頂的風很大，她的馬尾被吹散，一縷縷貼在臉上。她沒有整理，只看著遠處被黑暗吞掉的山。\n『我一直覺得，只要把線路算清楚，就沒有東西會失控。』她說，『可是現在我連自己的手都控制不住。』\n她把手伸到你面前，指尖在抖。\n『我怕。』她說得很輕，『怕到連說出口都要先算一下。』",
+      "choices": [
+        {
+          "label": "把她的手包進掌心，輕輕拉進懷裡（好結局）",
+          "outcomes": {
+            "always": {
+              "text": "你把她的手包進掌心，順勢一拉，她靠進你的肩窩。她沒有哭，只是很久很久都沒有鬆開你的衣角。『不用算。』你說，『今晚只要妳在這裡。』她終於笑出聲，聲音濕濕的。『……你這人，真的很不會算。』",
+              "effects": {
+                "relations": {
+                  "liShuang": {
+                    "Affection": 6,
+                    "Trust": 4
+                  }
+                },
+                "flagsSet": [
+                  "ro_ls_6",
+                  "ro_ls_bond"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "說『那換我來算，妳負責睡覺』，然後把話岔開（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "『那換我來算，妳負責睡覺。』你說完，自己都覺得尷尬。她盯著你看了三秒，忽然把手抽回去，笑得很假：『你的數學，真的很爛。』屋頂的風還在吹，她沒有再提剛才的事。",
+              "effects": {
+                "relations": {
+                  "liShuang": {
+                    "Trust": -3
+                  }
+                },
+                "flagsSet": [
+                  "ro_ls_6"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_SN_01",
+      "pool": "romance",
+      "title": "深夜的碗盤",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 2,
+        "chars": {
+          "songNing": {
+            "present": true,
+            "Affection": {
+              "gte": 0
+            }
+          }
+        }
+      },
+      "text": "居酒屋『寧』的鐵門拉下一半，後廚的水龍頭還在滴。\n宋寧挽著袖子，把碗一個個泡進水裡，泡沫堆到手肘。\n『不用洗啦，沈先生，你去睡。』她笑著說，語尾還是帶著那個勾。\n她的手泡在水裡，指節上有一道沒癒合的小傷。你盯著看了一下。\n『看什麼？』她把水潑到你手上，『我可是很會照顧人的，你不用替我擔心。』",
+      "choices": [
+        {
+          "label": "拿起抹布，站到她旁邊一起洗（代價：用掉一些水）",
+          "outcomes": {
+            "always": {
+              "text": "你抓起一條乾布站到她身邊。她嘴上說『你很煩耶』，卻把最大的那只鍋推到你面前。兩個人的手臂偶爾碰在一起，水聲嘩啦，她的笑聲卻很輕。",
+              "effects": {
+                "resources": {
+                  "Water": -1
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 4,
+                    "Trust": 2
+                  }
+                },
+                "flagsSet": [
+                  "ro_sn_1"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "說聲晚安，獨自回樓上（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "你說了聲晚安，轉身上樓。背後傳來她哼歌的聲音，比平常小了許多。你沒有回頭，只聽見碗盤一個一個被放進架子裡。",
+              "effects": {
+                "chars": {
+                  "songNing": {
+                    "Stress": 4
+                  }
+                },
+                "flagsSet": [
+                  "ro_sn_1"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_SN_02",
+      "pool": "romance",
+      "title": "玉子燒的火候",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "flags": [
+          "ro_sn_1"
+        ],
+        "chars": {
+          "songNing": {
+            "present": true,
+            "Affection": {
+              "gte": 10
+            }
+          }
+        }
+      },
+      "text": "『想學？』宋寧把蛋打進碗裡，蛋黃在燈下亮亮的。『這可是我們店的招牌，偷學要收錢喔。』\n她握住你的手腕，帶著你把蛋液倒進鍋裡，油滋滋作響。\n『慢一點，要捲，不是炒。』她的呼吸就在你耳邊，帶著一點點酒味。\n你第一次捲歪了，她忽然笑出聲：『哎呀，你比我想的還笨呢。』",
+      "choices": [
+        {
+          "label": "把最後一顆蛋也拿來練，陪她一起做完（代價：食物 -1）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "你把最後一顆蛋也打進碗裡，失敗兩次，第三次才勉強捲起來。她看著歪七扭八的玉子燒，笑到靠在你肩上，卻先把最好看的那一角切給你。門口傳來一聲拳套落地的悶響，大概是有人在看。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Affection": 5,
+                    "Trust": 2
+                  },
+                  "xiaJian": {
+                    "Affection": -1
+                  }
+                },
+                "flagsSet": [
+                  "ro_sn_2"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "讓她自己做，你在旁邊看（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "你點點頭站到一旁。她也沒勉強，只把一半的蛋液留給你，說：『等你會了再做給我吃。』",
+              "effects": {
+                "resources": {
+                  "Food": 1
+                },
+                "flagsSet": [
+                  "ro_sn_2"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_SN_03",
+      "pool": "romance",
+      "title": "最後一瓶清酒",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 6,
+        "flags": [
+          "ro_sn_2"
+        ],
+        "chars": {
+          "songNing": {
+            "present": true,
+            "Affection": {
+              "gte": 20
+            }
+          }
+        }
+      },
+      "text": "打烊後的店裡只剩一盞燈。宋寧從櫃子最深處拿出一瓶清酒，瓶身落了灰。\n『這是最後一瓶了。』她笑，『本來想留到開店那天喝。』\n她倒了一杯，喝得很急，臉頰很快紅起來。\n『你知道這間店欠多少嗎？』她的聲音輕輕的，『三個月的房租，還有放貸的人，說要抽我一根手指頭。』\n說完她又笑了，笑得很假。『騙你的啦，小硯。』",
+      "choices": [
+        {
+          "label": "陪她喝完這一杯，聽她把債講完（代價：你的壓力 +2）",
+          "outcomes": {
+            "always": {
+              "text": "你把杯子推回去，陪她喝完那一杯。她說了很多：誰欠她錢、誰跑了、哪一次半夜哭到睡著。說到最後，她把額頭靠在吧台上，小聲說：『我只是想讓大家有東西吃。』你沒有回答，只把外套蓋到她肩上。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Affection": 5,
+                    "Trust": 4
+                  }
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": 2
+                  }
+                },
+                "flagsSet": [
+                  "ro_sn_3"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "收走酒瓶，扶她上樓休息（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "你把酒瓶收走，扶她起來。她嘟囔了幾句，聲音一句比一句小，最後乖乖讓你牽著上樓。第二天醒來，她只說自己沒醉，什麼也不記得，語氣像在應付客人。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Trust": -2
+                  }
+                },
+                "flagsSet": [
+                  "ro_sn_3"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_SN_04",
+      "pool": "romance",
+      "title": "少了的那一碗",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "flags": [
+          "ro_sn_3"
+        ],
+        "chars": {
+          "songNing": {
+            "present": true,
+            "Affection": {
+              "gte": 30
+            },
+            "Trust": {
+              "gte": 10
+            }
+          }
+        }
+      },
+      "text": "分飯的時候，宋寧的碗總是最後一個端出來。\n你數過。每個人一碗粥，她那碗薄得幾乎看得見碗底。\n『我吃過了。』她笑著說，『昨天在超市偷吃了一包餅乾。』\n你沒說話，只把自己那碗推過去一半。\n她的勺子停在半空，過了好一會兒，才慢慢收回去。\n『……你是不是在監視我？』她的聲音有點發抖。",
+      "choices": [
+        {
+          "label": "把碗推回去，直說『妳不吃，我也不吃』（代價：你的壓力 +3）",
+          "outcomes": {
+            "always": {
+              "text": "『那就一起餓。』你把碗推回她面前，聲音比自己想的還硬。她愣住，眼眶慢慢紅起來，嘴上還逞強：『你真的很煩。』她終於沒有再推開那碗粥，一口一口，吃得很慢。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Affection": 6,
+                    "Trust": 3
+                  }
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": 3
+                  }
+                },
+                "flagsSet": [
+                  "ro_sn_4"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "用玩笑把碗推回去（CHA 檢定 普通 7）",
+          "check": {
+            "who": "shenYan",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "你故意板起臉：『老闆娘，妳再不吃，我就跟阿嬤說妳偷吃。』宋寧先是一愣，隨即笑出聲，眼角卻濕了。『你這人，真的很會演。』她把碗端回去，吃得認真。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Affection": 4,
+                    "Trust": 2
+                  }
+                },
+                "flagsSet": [
+                  "ro_sn_4"
+                ]
+              }
+            },
+            "fail": {
+              "text": "你的玩笑說得生硬，宋寧只是笑笑：『謝啦小硯，不過我真的吃過了。』她把碗輕輕推開，像在推開一扇門。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Trust": -1
+                  }
+                },
+                "flagsSet": [
+                  "ro_sn_4"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "把自己那半碗吃掉，說『我吃飽了』，裝作沒看見（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "你把碗收回來，裝作沒發現，用最平常的語氣說：『那我先吃了。』宋寧笑著說『好呀』，眼神卻沒有跟著笑。那天晚上，她的碗還是薄得幾乎看見碗底。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Trust": -3
+                  }
+                },
+                "flagsSet": [
+                  "ro_sn_4"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_SN_05",
+      "pool": "romance",
+      "title": "她沒擦眼淚",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 14,
+        "flags": [
+          "ro_sn_4"
+        ],
+        "chars": {
+          "songNing": {
+            "present": true,
+            "Affection": {
+              "gte": 42
+            },
+            "Trust": {
+              "gte": 18
+            }
+          }
+        }
+      },
+      "text": "後廚的門沒關緊，裡面傳來很小、壓抑的聲音。\n你推開一條縫，看見宋寧坐在矮凳上，背對著門，肩膀一抖一抖。\n她聽見動靜，連忙抬手去抹臉，聲音還硬撐著：『別看，醜死了。』\n眼淚一顆顆掉在圍裙上，停不下來。\n『我就是……』她吸了一口氣，『我就是偶爾，想不要笑。』",
+      "choices": [
+        {
+          "label": "走進去，蹲到她面前，等她哭完",
+          "outcomes": {
+            "always": {
+              "text": "你沒說話，只是蹲下來，把她的手從臉上拿開。她哭得更凶了，額頭抵在你肩上，像終於找到一個可以放下重量的地方。你就這樣待著，直到她的呼吸慢慢平穩。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Affection": 6,
+                    "Trust": 4
+                  }
+                },
+                "flagsSet": [
+                  "ro_sn_5"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "遞上毛巾，說『哭完記得吃飯』，然後替她帶上門（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "你把毛巾放在門邊，輕聲說：『哭完記得吃飯。』然後替她把門帶上。門後安靜了很久，久到你以為她不會出來。等她出來時，又是那個溫柔得體的老闆娘，把你的碗裝得滿滿的，只說：『謝啦，小硯。』",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Affection": -2
+                  }
+                },
+                "flagsSet": [
+                  "ro_sn_5"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_SN_06",
+      "pool": "romance",
+      "title": "這次換你照顧我",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 18,
+        "flags": [
+          "ro_sn_5"
+        ],
+        "chars": {
+          "songNing": {
+            "present": true,
+            "Affection": {
+              "gte": 55
+            },
+            "Trust": {
+              "gte": 25
+            }
+          }
+        }
+      },
+      "text": "宋寧發燒了，臉頰燒得通紅，卻還在盤算明天的米要怎麼分。\n你把她按回床上，她掙扎了一下，最後只小聲抱怨：『我很好，真的。』\n『妳每次都說這句。』你把毛巾浸進水裡，擰乾，『這次換我。』\n她看著你，眼睛濕濕的，半晌才輕輕笑出來：『……小硯，你什麼時候學會這麼凶了。』",
+      "choices": [
+        {
+          "label": "坐在床邊，替她擦汗，直到她睡著（好結局）",
+          "outcomes": {
+            "always": {
+              "text": "你換了一次又一次毛巾，她迷迷糊糊地抓住你的袖子，說：『別走。』你沒有走。直到她的呼吸穩下來，才發現自己的額頭不知何時抵在她的手背上，燙得你心裡一緊。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Affection": 6,
+                    "Trust": 5
+                  }
+                },
+                "flagsSet": [
+                  "ro_sn_6",
+                  "ro_sn_bond"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "煮好粥放在床邊，叮嚀她吃完再睡，然後去守前門（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "你把粥放在床邊，叮嚀她吃完再睡，然後轉身去守前門。她在身後叫你『小硯』，你沒有回頭，只說：『妳先休息。』門關上的時候，你聽見一聲很輕的嘆氣。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Trust": -2
+                  }
+                },
+                "flagsSet": [
+                  "ro_sn_6"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_XJ_01",
+      "pool": "romance",
+      "title": "晨間的拳套",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 2,
+        "chars": {
+          "xiaJian": {
+            "present": true,
+            "Affection": {
+              "gte": 0
+            }
+          }
+        }
+      },
+      "text": "天還沒亮，後院的水泥地就響起拳頭打在墊子上的悶聲。\n夏見把拳套甩到你胸口，嘴角掛著笑：『隊長，昨天你的步伐像在散步。今天來真的。』\n她的出拳又快又直，每一下都壓著你的防守打。你被逼到牆邊，喘得厲害。\n『你在躲什麼？』她收拳，額頭上的汗滑下來，『看著我。』",
+      "choices": [
+        {
+          "label": "迎上去，硬接她的左勾拳（STR 檢定 普通 7）",
+          "check": {
+            "who": "shenYan",
+            "stat": "STR",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "你咬牙迎上去，硬是接住了那一拳。夏見挑了挑眉，嘴角往上勾。『可以啊，隊長。』她的語氣難得沒有挑釁。",
+              "effects": {
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 5,
+                    "Trust": 2
+                  }
+                },
+                "flagsSet": [
+                  "ro_xj_1"
+                ]
+              }
+            },
+            "fail": {
+              "text": "你被她一拳打在肋骨上，痛得彎下腰。她愣了一下，隨即大笑出聲：『慢死了，隊長！』笑聲裡卻藏不住一點擔心。",
+              "effects": {
+                "chars": {
+                  "shenYan": {
+                    "Health": -5
+                  }
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 2
+                  }
+                },
+                "flagsSet": [
+                  "ro_xj_1"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "舉手投降，說『今天到此為止』（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "你舉起手，退後一步。『今天到這。』夏見的拳頭停在半空，眼神從興奮慢慢變成不耐煩。『隊長，你每次都這樣。』她把拳套摘下來丟到一旁，轉身就走。",
+              "effects": {
+                "relations": {
+                  "xiaJian": {
+                    "Affection": -1
+                  }
+                },
+                "flagsSet": [
+                  "ro_xj_1"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_XJ_02",
+      "pool": "romance",
+      "title": "你在搞什麼",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "flags": [
+          "ro_xj_1"
+        ],
+        "chars": {
+          "xiaJian": {
+            "present": true,
+            "Affection": {
+              "gte": 10
+            }
+          }
+        }
+      },
+      "text": "側門的玻璃被撞碎，一隻喪屍的手伸了進來。\n你還沒反應過來，夏見已經撲過去，把你推到一邊。碎玻璃劃過她的前臂，血一下子湧出來。\n她一腳把喪屍踹回去，甩上門，才回頭看你。\n『你在搞什麼？』她的聲音比剛才還大，『是要我替你收屍嗎？』",
+      "choices": [
+        {
+          "label": "抓起她的手，用袖子死死壓住傷口，什麼都不說",
+          "outcomes": {
+            "always": {
+              "text": "你沒吭聲，把她的手拉過來，用自己的袖子死死壓住傷口。她愣了一下，嘴還硬：『我又沒叫你幫。』你沒有鬆手。她也沒有甩開。",
+              "effects": {
+                "chars": {
+                  "xiaJian": {
+                    "Health": -8
+                  }
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 5,
+                    "Trust": 3
+                  }
+                },
+                "flagsSet": [
+                  "ro_xj_2"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "說『不是叫妳來擋的』，去翻醫藥箱（代價：用掉 1 份 Med）",
+          "requires": {
+            "resources": {
+              "Med": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Med": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "『不是叫妳來擋的。』你的聲音冷得連自己都陌生，轉身去翻醫藥箱。夏見的臉色沉下去，把滲血的袖子拉下來，什麼也沒說，只把拳套摔在桌上。",
+              "effects": {
+                "chars": {
+                  "xiaJian": {
+                    "Health": -8
+                  }
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": -2
+                  }
+                },
+                "flagsSet": [
+                  "ro_xj_2"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_XJ_03",
+      "pool": "romance",
+      "title": "假裝在量脈搏",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 6,
+        "flags": [
+          "ro_xj_2"
+        ],
+        "chars": {
+          "xiaJian": {
+            "present": true,
+            "Affection": {
+              "gte": 20
+            }
+          }
+        }
+      },
+      "text": "停電的時候，整個地下室像被扔進墨水裡。\n你摸黑找到手電筒，光打過去，夏見靠在牆邊，呼吸很淺。她的手忽然抓住你的手腕，拇指貼在脈搏上。\n『別動。』她的聲音有點緊，『我在量脈搏。』\n你的脈搏大概跳得很快。她捏了很久，久到你開始覺得不自在。\n『……你的心跳比我的還亂。』她小聲說，卻沒有鬆手。",
+      "choices": [
+        {
+          "label": "反手握住她的手腕，不鬆開（代價：你的壓力 +2）",
+          "outcomes": {
+            "always": {
+              "text": "你反手握住她的手腕，指腹貼著她的脈搏。她的心跳比你想的還要快。她沒有說話，只是把額頭輕輕抵上你的肩。樓梯口的腳步聲停了一下，又走遠了。『……說好了，只是量脈搏。』她的聲音很小。",
+              "effects": {
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 6,
+                    "Trust": 3
+                  },
+                  "liShuang": {
+                    "Affection": -1
+                  }
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": 2
+                  }
+                },
+                "flagsSet": [
+                  "ro_xj_3"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "抽回手，把手電筒塞進她手裡，說『燈來了就別逞強』（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "你抽回手，把手電筒塞進她手裡。『燈來了就別逞強。』夏見愣了一下，語氣又硬起來：『誰逞強了，隊長。』她轉身背對你，手電筒的光亂晃，很久都沒有停。",
+              "effects": {
+                "relations": {
+                  "xiaJian": {
+                    "Affection": -2
+                  }
+                },
+                "flagsSet": [
+                  "ro_xj_3"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_XJ_04",
+      "pool": "romance",
+      "title": "學長的殉職",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "flags": [
+          "ro_xj_3"
+        ],
+        "chars": {
+          "xiaJian": {
+            "present": true,
+            "Affection": {
+              "gte": 30
+            },
+            "Trust": {
+              "gte": 10
+            }
+          }
+        }
+      },
+      "text": "夏見擦拭著消防斧的刃口，動作很慢，像在擦一道不能碰的舊傷。\n『我以前的隊長叫阿謙。』她忽然開口，『去年那場大火，他衝進去救一個人，就再也沒出來。』\n她把斧頭放下，指腹抹過刃面，卻沒有抬頭。\n『我那時候就在外面，聽著無線電，什麼也做不了。』\n她笑了一下，很短。『所以我最討厭的，就是有人跟我說「沒關係」。』",
+      "choices": [
+        {
+          "label": "說『這次我不說沒關係，陪妳守著無線電』",
+          "outcomes": {
+            "always": {
+              "text": "『那我不說沒關係。』你在她旁邊坐下，聲音很低，『只說，這次妳不用一個人聽無線電。』夏見沉默了很久，最後把斧頭靠上牆，肩膀慢慢放下來。『……隊長，你今天很煩。』她說，聲音卻軟了。",
+              "effects": {
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 6,
+                    "Trust": 4
+                  }
+                },
+                "flagsSet": [
+                  "ro_xj_4"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "拍拍她的肩說『會過去的』，然後起身去巡邏（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "『會過去的。』你拍拍她的肩，像對待隊友那樣，起身去巡邏。夏見沒有叫住你，只是低頭繼續擦那把早就乾淨的斧頭，直到你的腳步聲消失在樓梯間。",
+              "effects": {
+                "relations": {
+                  "xiaJian": {
+                    "Affection": -2
+                  }
+                },
+                "flagsSet": [
+                  "ro_xj_4"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_XJ_05",
+      "pool": "romance",
+      "title": "她的燈關著",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 14,
+        "flags": [
+          "ro_xj_4"
+        ],
+        "chars": {
+          "xiaJian": {
+            "present": true,
+            "Affection": {
+              "gte": 42
+            },
+            "Trust": {
+              "gte": 18
+            }
+          }
+        }
+      },
+      "text": "你巡完一圈回到地下室，發現夏見一個人坐在樓梯間，手電筒關著，連電池蓋都被她拆下來丟在一邊。\n她聽見腳步聲，立刻站起來，語氣一下又硬起來：『我在檢查線路。』\n『線路不在黑的地方。』你說。\n她嘴角抽了一下，沒接話。黑暗中她的呼吸比平常快，抓著欄杆的手指關節發白。\n『我只是喜歡暗一點，』她說，『不行嗎，隊長？』",
+      "choices": [
+        {
+          "label": "把手電筒打開，朝天花板照，然後在她身邊坐下（代價：你的壓力 +2）",
+          "outcomes": {
+            "always": {
+              "text": "你把手電筒打開，光朝向天花板，灑在兩人中間。你在她身邊坐下，不說話。過了很久，她的手指終於鬆開欄杆，輕輕碰了一下你的袖口，又很快縮回去。『……只是暫時的。』她說。",
+              "effects": {
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 5,
+                    "Trust": 4
+                  }
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": 2
+                  }
+                },
+                "flagsSet": [
+                  "ro_xj_5"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "說『那妳慢慢檢查』，轉身上樓（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "『那妳慢慢檢查。』你轉身上樓，沒有多說。黑暗裡沒有人叫你，只有一句很輕的聲音飄上來：『隊長，你真的很會不管人。』",
+              "effects": {
+                "relations": {
+                  "xiaJian": {
+                    "Affection": -2,
+                    "Trust": -2
+                  }
+                },
+                "flagsSet": [
+                  "ro_xj_5"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_XJ_06",
+      "pool": "romance",
+      "title": "別放開我",
+      "weight": 10,
+      "once": true,
+      "conditions": {
+        "minDay": 18,
+        "flags": [
+          "ro_xj_5"
+        ],
+        "chars": {
+          "xiaJian": {
+            "present": true,
+            "Affection": {
+              "gte": 55
+            },
+            "Trust": {
+              "gte": 25
+            }
+          }
+        }
+      },
+      "text": "這一次停電，整棟樓都暗了。發電機的油用完了，連應急燈都熄掉。\n你在黑暗裡摸索，指尖碰到一隻很用力的手。夏見一把抓住你的手腕，抓得很緊，緊到指節發疼。\n『別放開。』她說，聲音啞得不像她，『……別放開，好嗎？』\n你能聽見她的心跳，在黑暗裡一下一下，非常響。",
+      "choices": [
+        {
+          "label": "反手扣住她的手，說『不放』（好結局）",
+          "outcomes": {
+            "always": {
+              "text": "『不放。』你把她的手扣進掌心，另一隻手摸到她的後背，輕輕拍了兩下。她把額頭抵在你肩上，發著抖，卻一句話都不肯承認。『……你不准說出去。』她小聲威脅，手卻抓得更緊。",
+              "effects": {
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 7,
+                    "Trust": 5
+                  }
+                },
+                "flagsSet": [
+                  "ro_xj_6",
+                  "ro_xj_bond"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "說『燈很快會來的，妳先放開』，抽回手去找發電機（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "『燈很快會來的，妳先放開。』你抽回手，摸索著往發電機的方向走。身後沒有聲音，只有很輕、被壓住的一口氣。等你把發電機重新發動，燈亮起來，夏見已經站在樓梯口，臉上沒有任何表情。",
+              "effects": {
+                "relations": {
+                  "xiaJian": {
+                    "Affection": -3,
+                    "Trust": -2
+                  }
+                },
+                "flagsSet": [
+                  "ro_xj_6"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_GRP_01",
+      "pool": "romance",
+      "title": "誰守這班夜",
+      "weight": 6,
+      "once": true,
+      "conditions": {
+        "minDay": 8,
+        "chars": {
+          "liShuang": {
+            "present": true
+          },
+          "songNing": {
+            "present": true
+          },
+          "xiaJian": {
+            "present": true
+          }
+        }
+      },
+      "text": "夜班表貼在地下室的鐵門上，只寫了一行字：『後半夜，由誰守？』\n黎霜第一個舉手，理由是『線路最容易在半夜跳』。\n宋寧笑著說：『我睡得淺，我守最好。』\n夏見沒說話，只把拳套套上，往鐵門的方向一站。\n三個人同時看向你。",
+      "choices": [
+        {
+          "label": "讓夏見守前半夜，你守後半（代價：你的壓力 +3）",
+          "outcomes": {
+            "always": {
+              "text": "『夏見前半夜，我後半夜。』你說。夏見哼了一聲，把拳套在手心拍了兩下，算是答應。黎霜把線路圖收進袋子，沒有反對。宋寧笑得意味深長：『小硯偏心喔。』",
+              "effects": {
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 3,
+                    "Trust": 2
+                  },
+                  "liShuang": {
+                    "Affection": -1
+                  },
+                  "songNing": {
+                    "Affection": -1
+                  }
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": 3
+                  }
+                },
+                "flagsSet": [
+                  "ro_grp_1"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "三人輪班，你全程陪著（代價：你幾乎沒睡）",
+          "outcomes": {
+            "always": {
+              "text": "你把紙撕成三條，一人一條。『排班，我們輪。』你說，『我陪著。』三個人都愣了一下，最後各自把自己那條收好。那一夜沒有人睡得安穩，但也沒有人缺席。",
+              "effects": {
+                "relations": {
+                  "liShuang": {
+                    "Trust": 2
+                  },
+                  "songNing": {
+                    "Trust": 2
+                  },
+                  "xiaJian": {
+                    "Trust": 2
+                  }
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": 5
+                  }
+                },
+                "flagsSet": [
+                  "ro_grp_1"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "全部自己守，叫她們去睡（代價：你的壓力 +8）",
+          "outcomes": {
+            "always": {
+              "text": "『你們都去睡。』你把椅子拉到門口坐下。三個人同時張口，又同時閉嘴。夏見冷哼一聲，黎霜把表格收起來，宋寧輕輕嘆了口氣，把毯子丟到你肩上。那晚你守得很累，也很清楚，她們沒有一個人真的想去睡。",
+              "effects": {
+                "relations": {
+                  "liShuang": {
+                    "Affection": -1
+                  },
+                  "songNing": {
+                    "Affection": -1
+                  },
+                  "xiaJian": {
+                    "Affection": -1
+                  }
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": 8
+                  }
+                },
+                "flagsSet": [
+                  "ro_grp_1"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_GRP_02",
+      "pool": "romance",
+      "title": "最後一盒止血劑",
+      "weight": 6,
+      "once": true,
+      "conditions": {
+        "minDay": 11,
+        "chars": {
+          "liShuang": {
+            "present": true
+          },
+          "songNing": {
+            "present": true
+          },
+          "xiaJian": {
+            "present": true
+          }
+        }
+      },
+      "text": "你手臂上的傷口裂開了，血把袖子染成一片深色。\n宋寧一把搶過醫藥箱：『我來分，大家一人一點，不能讓誰吃虧。』\n黎霜擋到她前面，語氣冷得像冰：『傷口先處理。他是隊長，手不能斷。』\n夏見站在門邊，沒說話，眼睛卻一直落在你的傷上，眉頭皺得死緊。\n醫藥箱裡，只剩一盒止血劑。",
+      "choices": [
+        {
+          "label": "讓宋寧分，大家都分到一點（代價：用掉 1 份 Med）",
+          "requires": {
+            "resources": {
+              "Med": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Med": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "『分吧。』你開口，聲音比想像中還虛。宋寧眼睛一亮，立刻把止血劑拆成幾份，分給屋裡受傷的人。黎霜的臉色沉下去，卻只是用力把你的袖子捲起來，動作很重。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Affection": 3,
+                    "Trust": 1
+                  },
+                  "liShuang": {
+                    "Affection": -2
+                  }
+                },
+                "flagsSet": [
+                  "ro_grp_2"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "聽黎霜的，把止血劑留給你（代價：用掉 1 份 Med）",
+          "requires": {
+            "resources": {
+              "Med": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Med": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "『留給他。』黎霜的聲音很平，卻不容反駁。你還來不及開口，她已經撕開包裝，俐落地纏上你的傷口。宋寧的笑容僵了一下，把剩下的粥碗推到你面前，什麼也沒說。",
+              "effects": {
+                "relations": {
+                  "liShuang": {
+                    "Affection": 4,
+                    "Trust": 2
+                  },
+                  "songNing": {
+                    "Affection": -2
+                  }
+                },
+                "flagsSet": [
+                  "ro_grp_2"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "說『你們吵完再說，我自己來』（代價：兩人都不滿）",
+          "outcomes": {
+            "always": {
+              "text": "『你們吵完再說。』你把袖子扯下來，自己走到水槽邊清傷口。背後的聲音安靜了三秒，接著又吵了起來。只有夏見走過來，把一塊乾淨的布塞進你手裡，什麼也沒說。",
+              "effects": {
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 2,
+                    "Trust": 1
+                  },
+                  "liShuang": {
+                    "Affection": -1
+                  },
+                  "songNing": {
+                    "Affection": -1
+                  }
+                },
+                "flagsSet": [
+                  "ro_grp_2"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "RO_GRP_03",
+      "pool": "romance",
+      "title": "走廊盡頭的人",
+      "weight": 6,
+      "once": true,
+      "conditions": {
+        "minDay": 15,
+        "chars": {
+          "liShuang": {
+            "present": true
+          },
+          "songNing": {
+            "present": true
+          },
+          "xiaJian": {
+            "present": true
+          }
+        }
+      },
+      "text": "你從後廚出來時，夏見正站在走廊盡頭，手上還纏著拳擊繃帶。\n她的目光落在你的袖口，那裡沾著一點麵粉，是宋寧的。\n『……麵粉？』夏見的聲音很平，『後廚很好玩？』\n後面的門開了，宋寧端著兩杯水走出來，看見她，笑容還沒收回來就僵住了。\n黎霜從樓梯上下來，手裡拿著一卷電線，停在最後一階。\n三個人的目光同時落在你身上。",
+      "choices": [
+        {
+          "label": "說『我在後廚幫忙，沒什麼』（代價：三人都不太信）",
+          "outcomes": {
+            "always": {
+              "text": "『我在後廚幫忙，沒什麼。』你說得很快，快到連自己都不信。夏見冷笑一聲，宋寧把水杯放到你面前，什麼也沒問。黎霜只是把電線重新纏回肩上，眼神很長。",
+              "effects": {
+                "relations": {
+                  "xiaJian": {
+                    "Affection": -2
+                  },
+                  "songNing": {
+                    "Affection": -2
+                  },
+                  "liShuang": {
+                    "Trust": -2
+                  }
+                },
+                "flagsSet": [
+                  "ro_grp_3"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "把宋寧拉到身後，說『是我的錯，不關她的事』（代價：你的壓力 +5）",
+          "outcomes": {
+            "always": {
+              "text": "你下意識把宋寧拉到身後：『是我的錯，跟她沒關係。』三個人都安靜了一下。宋寧從你身後探出頭，小聲說：『笨蛋。』眼眶卻紅了。夏見別開視線，拳頭握緊又鬆開。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Affection": 3,
+                    "Trust": 2
+                  },
+                  "xiaJian": {
+                    "Affection": -1
+                  }
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": 5
+                  }
+                },
+                "flagsSet": [
+                  "ro_grp_3"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "什麼都不說，接過宋寧的水杯一口喝光（保持距離）",
+          "outcomes": {
+            "always": {
+              "text": "你沒有回答，只是接過宋寧的水杯，一口氣喝光。水很涼，喉嚨卻燒得厲害。三個人誰都沒開口，安靜得連後廚的水滴聲都聽得見。",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Affection": -1
+                  }
+                },
+                "chars": {
+                  "shenYan": {
+                    "Stress": 2
+                  }
+                },
+                "flagsSet": [
+                  "ro_grp_3"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
