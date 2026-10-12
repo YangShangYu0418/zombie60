@@ -1,0 +1,1231 @@
+{
+  "quests": [
+    {
+      "id": "q_radio",
+      "title": "另一端的聲音",
+      "summary": "收音機裡有一個不是喪屍的頻率，有人在另一端等你們回話。",
+      "stages": [
+        {
+          "flag": "qr_s1",
+          "text": "收音機裡有規律的雜訊，像有人在另一端數拍子。"
+        },
+        {
+          "flag": "qr_s2",
+          "text": "黎霜解出雜訊的頻率與座標，指向國道三號的方向。"
+        },
+        {
+          "flag": "qr_s3",
+          "text": "在國道三號檢查哨找到士官長鄭岳，撤離點的聯絡人就是他。"
+        },
+        {
+          "flag": "qr_s4",
+          "text": "鄭岳要你們修好大型發報機，需要 Parts ×3、Med ×2，或去別處找零件。"
+        },
+        {
+          "flag": "qr_s5",
+          "text": "撤離點確定：第二十五天黃昏，國道三號交流道，直升機只停十二分鐘。"
+        },
+        {
+          "flag": "qr_done",
+          "text": "你做出了選擇。撤離，或留下。"
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "QR_001",
+      "pool": "story",
+      "title": "規律的雜訊",
+      "once": true,
+      "conditions": {
+        "minDay": 3,
+        "flags": [
+          "hasRadio"
+        ]
+      },
+      "text": "收音機在凌晨兩點突然出聲。\n不是電台，也不是喪屍那種嘶啞的喘息。是一種很規律的『滴、滴、滴——停』，像有人在另一端用指節敲桌面。\n黎霜從床上坐起來，咬住筆，把耳朵貼上喇叭。\n『這不是故障。』她說，『故障不會數拍子。』",
+      "choices": [
+        {
+          "label": "調頻錄音，把整段雜訊存下來（Noise +3，動靜會傳出去）",
+          "outcomes": {
+            "always": {
+              "text": "你把整段雜訊錄進舊的磁帶機，紅燈亮著，像一隻不肯閉上的眼睛。\n黎霜把錄音的副本抄在牆角，一個字都沒漏。",
+              "effects": {
+                "resources": {
+                  "Noise": 3
+                },
+                "flagsSet": [
+                  "qr_s1"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "叫醒黎霜和宋寧，一起守著收音機（睡眠不足，全員 Stress +2）",
+          "outcomes": {
+            "always": {
+              "text": "宋寧披著外套下樓，給每個人倒一杯溫水，才肯坐下來聽。\n黎霜沒有抬頭，只說：『第三個停頓比前兩個長。』\n宋寧笑了笑，手指在桌上跟著敲：『好，我記住了。』",
+              "effects": {
+                "status": {
+                  "Stress": 2
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": 2
+                  },
+                  "songNing": {
+                    "Affection": 2
+                  }
+                },
+                "flagsSet": [
+                  "qr_s1"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "關掉收音機，當作什麼都沒聽見（那節奏會在腦子裡響一整夜，全員 Stress +5）",
+          "outcomes": {
+            "always": {
+              "text": "你把旋鈕轉回靜音。\n可是當夜，你在夢裡數了一整晚的停頓，一直數到天亮。\n早上黎霜看著你的黑眼圈，什麼都沒說，只把一杯熱茶放在你手邊。",
+              "effects": {
+                "status": {
+                  "Stress": 5
+                },
+                "flagsSet": [
+                  "qr_s1"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QR_002",
+      "pool": "story",
+      "title": "黎霜的算式",
+      "once": true,
+      "conditions": {
+        "minDay": 5,
+        "flags": [
+          "qr_s1"
+        ]
+      },
+      "text": "黎霜把錄音拆成一排排的『長、短、長』。\n她在牆上寫了三張紙的算式，筆尖把紙戳破了好幾個洞。\n『是摩斯，』她終於說，『但後面還跟著一串數字。經緯度，或者頻率。』\n她抬起頭，眼睛很亮，語氣卻還是那樣冷：『要先聽結論，還是先聽過程？過程比較難聽懂。』",
+      "choices": [
+        {
+          "label": "請黎霜全力解碼（LOG 檢定 dc 6，需她在場；她會累到發抖）",
+          "requires": {
+            "chars": {
+              "liShuang": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "liShuang",
+            "stat": "LOG",
+            "dc": 6
+          },
+          "outcomes": {
+            "success": {
+              "text": "黎霜三個小時後把筆一扔，整個人往椅背上一靠。\n『國道三號。』她說，『座標在國道三號，頻率是他們的收音機。有人在那裡等回應。』\n她的手還在發抖，但她不讓你看見。",
+              "effects": {
+                "chars": {
+                  "liShuang": {
+                    "Stress": 6
+                  }
+                },
+                "flagsSet": [
+                  "qr_s2"
+                ],
+                "discover": [
+                  "freeway3_checkpoint"
+                ]
+              }
+            },
+            "fail": {
+              "text": "算式在第二個小時就亂了。黎霜把紙揉成一團丟進角落。\n『我算錯了。』她難得承認，聲音卻冷得像冰，『給我兩天，我重來。』",
+              "effects": {
+                "chars": {
+                  "liShuang": {
+                    "Stress": 8
+                  }
+                },
+                "queue": [
+                  {
+                    "id": "QR_002b",
+                    "inDays": 2
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "自己和在場的人硬拼（LOG 檢定 dc 8，用最高者；Noise +3）",
+          "check": {
+            "who": "best",
+            "stat": "LOG",
+            "dc": 8
+          },
+          "outcomes": {
+            "success": {
+              "text": "你們輪流盯著紙，花了整個下午，總算拼出一段完整的訊息。\n國道三號。有人在那裡，等著有人回覆。",
+              "effects": {
+                "resources": {
+                  "Noise": 3
+                },
+                "flagsSet": [
+                  "qr_s2"
+                ],
+                "discover": [
+                  "freeway3_checkpoint"
+                ]
+              }
+            },
+            "fail": {
+              "text": "你們算了又算，每一條路都像通往死胡同。\n雜訊還在響，規律得像是在嘲笑你們。",
+              "effects": {
+                "resources": {
+                  "Noise": 3
+                },
+                "queue": [
+                  {
+                    "id": "QR_002b",
+                    "inDays": 2
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QR_002b",
+      "pool": "queued",
+      "title": "再一次頻率",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qr_s1"
+        ],
+        "notFlags": [
+          "qr_s2"
+        ]
+      },
+      "text": "雜訊又出現了，這次比上次慢，也比上次清楚。\n像是對面聽不到回應，等得有點不耐煩。\n你的手心全是汗，耳機線都快被你攥斷了。\n黎霜把耳機塞回你手裡：『這次別一個人硬扛。』她在紙上畫了一條線，指向國道三號，『這裡一定有東西。』",
+      "choices": [
+        {
+          "label": "黎霜再算一次（LOG 檢定 dc 7，需她在場；失敗也會算出來，但她會傷到自己）",
+          "requires": {
+            "chars": {
+              "liShuang": {
+                "present": true
+              }
+            }
+          },
+          "check": {
+            "who": "liShuang",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "她一口氣算完，連冷掉的咖啡都忘了喝。\n『座標確定。』她把紙推過來，『國道三號，檢查哨。走吧。』",
+              "effects": {
+                "chars": {
+                  "liShuang": {
+                    "Stress": 4
+                  }
+                },
+                "flagsSet": [
+                  "qr_s2"
+                ],
+                "discover": [
+                  "freeway3_checkpoint"
+                ]
+              }
+            },
+            "fail": {
+              "text": "她算到一半，手指被電路板的邊角割破，血滴在紙上。\n她還是把座標算了出來，只是字跡糊了一半。",
+              "effects": {
+                "chars": {
+                  "liShuang": {
+                    "Health": -6,
+                    "Stress": 6
+                  }
+                },
+                "resources": {
+                  "Noise": 2
+                },
+                "flagsSet": [
+                  "qr_s2"
+                ],
+                "discover": [
+                  "freeway3_checkpoint"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "不算了，直接開車去國道三號碰運氣（ExploreRisk +3）",
+          "outcomes": {
+            "always": {
+              "text": "你們把能找到的地圖攤在車上，照著感覺開到交流道附近。\n雜訊在你們抵達前的最後一秒停了。",
+              "effects": {
+                "resources": {
+                  "ExploreRisk": 3
+                },
+                "flagsSet": [
+                  "qr_s2"
+                ],
+                "discover": [
+                  "freeway3_checkpoint"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QR_003",
+      "pool": "story",
+      "title": "門口的無線電",
+      "once": true,
+      "conditions": {
+        "minDay": 9,
+        "notFlags": [
+          "hasRadio"
+        ]
+      },
+      "text": "凌晨有人在鐵門上敲了三下，然後就沒了聲音。\n你打開門，台階上放著一台軍用無線電，電池還是滿的。旁邊壓著一張字條：『給聽得見的人。』\n字條背面用黑筆畫了一滴雨。\n黎霜蹲下來看了一眼：『這東西不是撿來的。有人想賣給我們，而且很清楚我們缺什麼。』",
+      "choices": [
+        {
+          "label": "用 Food ×2 換下來（夜市的價碼，不問來歷）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Food": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "你把兩袋米放在台階上，無線電就歸你了。字條被你折起來，收進口袋。",
+              "effects": {
+                "flagsSet": [
+                  "hasRadio"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "用 Ammo ×1 換（黑雨的價碼，他們會記下你）",
+          "requires": {
+            "resources": {
+              "Ammo": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Ammo": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "門外的人笑了一聲，把子彈拿走，腳步聲很快消失在巷子裡。\n你不知道他們會不會再來。",
+              "effects": {
+                "flagsSet": [
+                  "hasRadio"
+                ],
+                "factions": {
+                  "blackrain": 3
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "不問來歷，直接收下（黎霜不同意，liShuang Trust -2、全員 Stress +2）",
+          "outcomes": {
+            "always": {
+              "text": "你把無線電抱進屋裡，黎霜沒有阻止，只是把門鎖上了兩道。\n『免費的東西最貴。』她說，『你最好算清楚。』",
+              "effects": {
+                "flagsSet": [
+                  "hasRadio"
+                ],
+                "relations": {
+                  "liShuang": {
+                    "Trust": -2
+                  }
+                },
+                "status": {
+                  "Stress": 2
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QR_004",
+      "pool": "loc:freeway3_checkpoint",
+      "title": "沙包後面的人",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qr_s2"
+        ],
+        "notFlags": [
+          "qr_s3"
+        ]
+      },
+      "text": "{actor}摸到檢查哨時，沙包後面突然站起一個人，槍口端得很穩。\n『停。』那人說，『再往前一步，你就是下一個廣播。』\n他是鄭岳。肩上的階級早就沒了意義，但那種把人當風險看的眼神，還在。\n他看了一眼{actor}身後，才慢慢把槍口放低：『收到回覆的，是你們？』",
+      "choices": [
+        {
+          "label": "用話術穩住他（CHA 檢定 dc 7，由外派的人來談）",
+          "check": {
+            "who": "actor",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "{actor}把字條攤在沙包上，把來龍去脈講得又快又清楚。\n鄭岳盯了很久，終於哼了一聲：『坐下。』",
+              "effects": {
+                "flagsSet": [
+                  "qr_s3",
+                  "metMilitary"
+                ],
+                "factions": {
+                  "military": 8
+                }
+              }
+            },
+            "fail": {
+              "text": "{actor}講到一半，聲音就卡住了。鄭岳沒有放下槍，只是換了個更直的角度。\n『重講。』",
+              "effects": {
+                "flagsSet": [
+                  "qr_s3",
+                  "metMilitary"
+                ],
+                "factions": {
+                  "military": 8
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 6
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "打開背包，讓他看見物資（Food -1）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "{actor}把背包打開，讓他看見裡面的罐頭與水。\n鄭岳的眼神動了一下，像是在心裡算了什麼。『夠你們撐到撤離。』他說，『坐。』",
+              "effects": {
+                "flagsSet": [
+                  "qr_s3",
+                  "metMilitary"
+                ],
+                "factions": {
+                  "military": 8
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "舉槍對準他，逼他先放下槍（Ammo -1，他會記住這一手）",
+          "requires": {
+            "resources": {
+              "Ammo": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Ammo": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "{actor}的槍口對上他的眉心，他的槍也對上了{actor}。\n僵了三秒，他先笑出來，把槍往地上一丟：『有種。』他手下的人卻沒有笑。",
+              "effects": {
+                "flagsSet": [
+                  "qr_s3",
+                  "metMilitary"
+                ],
+                "factions": {
+                  "military": 8
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 3
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QR_005",
+      "pool": "story",
+      "title": "發報機的代價",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qr_s3"
+        ]
+      },
+      "text": "無線電裡傳來鄭岳沙啞的聲音，背景是柴油機空轉的噪音。\n『撤離點聽得到你們，回不了話。』他說，『主發報機的功率管燒了，缺線圈和真空管。』\n『要 Parts 三個，Med 兩個。』停了一下，『拿不出來，就別來找我。』\n黎霜已經在紙上算起來了：『數字很準，準到不太像在討價還價。』",
+      "choices": [
+        {
+          "label": "交出 Parts ×3、Med ×2，現在就修",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 3
+              },
+              "Med": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Parts": 3,
+            "Med": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "你們把零件裝進箱子，鄭岳的人接過去，連句謝謝都沒說。\n夜裡，發報機的指示燈慢慢亮了起來。",
+              "effects": {
+                "flagsSet": [
+                  "qr_s4"
+                ],
+                "factions": {
+                  "military": 5
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "答應去找，先不交（之後要外出，ExploreRisk +2）",
+          "outcomes": {
+            "always": {
+              "text": "『我們去找。』你說。\n無線電那頭沉默了很久，才吐出一個字：『好。』\n『別讓我等太久。』",
+              "effects": {
+                "flagsSet": [
+                  "qr_need_parts"
+                ],
+                "resources": {
+                  "ExploreRisk": 2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "跟他討價還價，先要撤離點的時間（CHA 檢定 dc 7，用最高者）",
+          "check": {
+            "who": "best",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "『先告訴我們時間，』你說，『我們才有理由去找。』\n鄭岳罵了一句髒話，卻還是漏出一句：『等你們把東西送來，我去問上面。』",
+              "effects": {
+                "flagsSet": [
+                  "qr_need_parts"
+                ],
+                "factions": {
+                  "military": 3
+                }
+              }
+            },
+            "fail": {
+              "text": "鄭岳直接切斷了通話。\n過了半小時，聲音才重新出現，語氣比剛才更硬。",
+              "effects": {
+                "flagsSet": [
+                  "qr_need_parts"
+                ],
+                "factions": {
+                  "military": -4
+                },
+                "status": {
+                  "Stress": 3
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QR_006",
+      "pool": "loc:muzha_depot",
+      "title": "機廠的零件架",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qr_need_parts"
+        ],
+        "notFlags": [
+          "qr_s4"
+        ]
+      },
+      "text": "機廠的鐵門焊死了，只有一扇小門虛掩著，門板上噴著一滴大大的黑色雨滴。\n{actor}鑽進去，在維修坑底找到一整排沒拆封的線圈與真空管，箱子上貼著標籤，寫著『給老鴉』。\n正要伸手，頭頂的鐵架上傳來一聲很輕的口哨。\n『那是我們的。』有人說，『想拿的話，先跟老鴉談。』",
+      "choices": [
+        {
+          "label": "跟對方談：拿一半走（CHA 檢定 dc 7，由外派的人談）",
+          "check": {
+            "who": "actor",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "{actor}把自己的罐頭攤在地上，講了一長串交易的道理。\n對方聽完，把箱子往下一扔：『拿走三箱，別再來。』",
+              "effects": {
+                "flagsSet": [
+                  "qr_s4"
+                ],
+                "resources": {
+                  "Parts": 3
+                },
+                "factions": {
+                  "blackrain": 3
+                }
+              }
+            },
+            "fail": {
+              "text": "談判還沒開始，就被人從後面打了一棍。\n{actor}撿起地上的箱子，帶著一身瘀青離開。",
+              "effects": {
+                "flagsSet": [
+                  "qr_s4"
+                ],
+                "resources": {
+                  "Parts": 2
+                },
+                "factions": {
+                  "blackrain": -4
+                },
+                "chars": {
+                  "$actor": {
+                    "Health": -8
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "用 Ammo ×2 買下（黑雨的價碼）",
+          "requires": {
+            "resources": {
+              "Ammo": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Ammo": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "{actor}把彈藥箱推過去，對方點點頭，把線圈和真空管一起扔出來。\n『老鴉說，下次有需要，先找他。』",
+              "effects": {
+                "flagsSet": [
+                  "qr_s4"
+                ],
+                "resources": {
+                  "Parts": 3
+                },
+                "factions": {
+                  "blackrain": 3
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "悄悄拿走，不驚動他們（ExploreRisk +4）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}把箱子抱在懷裡，貼著牆一步一步往外退。\n身後的口哨聲停了，停得讓人更害怕。",
+              "effects": {
+                "flagsSet": [
+                  "qr_s4"
+                ],
+                "resources": {
+                  "Parts": 3,
+                  "ExploreRisk": 4
+                },
+                "factions": {
+                  "blackrain": -6
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 5
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QR_007",
+      "pool": "loc:nccu",
+      "title": "溫書言的條件",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qr_need_parts"
+        ],
+        "notFlags": [
+          "qr_s4"
+        ]
+      },
+      "text": "指南山的圖書館燈還亮著，發電機低沉的運轉聲像心跳。\n溫書言從書堆後面走出來，眼鏡上都是灰。『線圈我們有。』她說，『但發電機停了三天，沒人看得懂配電箱。』\n她把一張手寫的線路圖推過來：『修好，線圈就是你們的。修不好，這筆交易就當沒談過。』",
+      "choices": [
+        {
+          "label": "請最會電的人看看（LOG 檢定 dc 7，用最高者；失敗會受傷）",
+          "check": {
+            "who": "best",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "那人蹲在配電箱前，三分鐘就找到了短路的地方。\n溫書言愣了一下，才笑出聲：『你們比我想的專業。』",
+              "effects": {
+                "flagsSet": [
+                  "qr_s4"
+                ],
+                "resources": {
+                  "Parts": 3,
+                  "Med": 1
+                },
+                "factions": {
+                  "students": 5
+                }
+              }
+            },
+            "fail": {
+              "text": "電流在離配電箱最近的人手上跳了一下，發電機又熄了。\n溫書言把線圈推過來，語氣沒有責怪，只是更冷了：『拿去，下次別再來。』",
+              "effects": {
+                "flagsSet": [
+                  "qr_s4"
+                ],
+                "resources": {
+                  "Parts": 2
+                },
+                "factions": {
+                  "students": -3
+                },
+                "status": {
+                  "Health": -4
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "用 Med ×1、Food ×2 換（指南山的價碼，不修發電機）",
+          "requires": {
+            "resources": {
+              "Med": {
+                "gte": 1
+              },
+              "Food": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Med": 1,
+            "Food": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "溫書言點點頭，叫人去倉庫抬出一箱線圈。\n『這樣算扯平了。』她說，『以後來的人，不用再帶東西。』",
+              "effects": {
+                "flagsSet": [
+                  "qr_s4"
+                ],
+                "resources": {
+                  "Parts": 3
+                },
+                "factions": {
+                  "students": 5
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QR_008",
+      "pool": "story",
+      "title": "撤離點回覆",
+      "once": true,
+      "conditions": {
+        "flags": [
+          "qr_s4"
+        ]
+      },
+      "text": "發報機的指示燈第一次亮成綠色，黎霜的咖啡打翻在紙上，沒有人去擦。\n鄭岳的聲音清楚了很多：『接通了。撤離點回覆，時間確定：第二十五天黃昏，國道三號交流道。直升機停十二分鐘，超時不等。』\n他停了一下，聲音低下去：『座位我不能保證，只能保證你們站在那裡。』\n宋寧把紙條摺成小方塊，放進圍裙口袋：『那就說定了。』",
+      "choices": [
+        {
+          "label": "把日期寫在牆上，每天看一次（Morale +3，全員 Stress +2）",
+          "outcomes": {
+            "always": {
+              "text": "你在地下室的牆上寫下『25』，旁邊劃了一道線。\n夏見看了一眼，把那道線描得更深。",
+              "effects": {
+                "flagsSet": [
+                  "qr_s5",
+                  "evacKnown"
+                ],
+                "resources": {
+                  "Morale": 3
+                },
+                "status": {
+                  "Stress": 2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "先問清楚座位有幾個（CHA 檢定 dc 7，用最高者）",
+          "check": {
+            "who": "best",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "鄭岳沉默了三秒，報出一個數字：『四個。』\n『多一個，就得有人留下。』",
+              "effects": {
+                "flagsSet": [
+                  "qr_s5",
+                  "evacKnown"
+                ],
+                "resources": {
+                  "Morale": 2
+                },
+                "factions": {
+                  "military": 3
+                }
+              }
+            },
+            "fail": {
+              "text": "鄭岳直接說：『那你們自己想辦法。』無線電切斷了。",
+              "effects": {
+                "flagsSet": [
+                  "qr_s5",
+                  "evacKnown"
+                ],
+                "factions": {
+                  "military": -2
+                },
+                "status": {
+                  "Stress": 4
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把消息先瞞著，怕大家慌（liShuang Trust -3，songNing Affection +2）",
+          "outcomes": {
+            "always": {
+              "text": "你把紙條收進抽屜，對大家只說『時間還沒定』。\n黎霜看了你很久，什麼都沒問，只是把抽屜換了一把鎖。",
+              "effects": {
+                "flagsSet": [
+                  "qr_s5",
+                  "evacKnown"
+                ],
+                "relations": {
+                  "liShuang": {
+                    "Trust": -3
+                  },
+                  "songNing": {
+                    "Affection": 2
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QR_009",
+      "pool": "world",
+      "title": "同一個頻道",
+      "once": true,
+      "weight": 6,
+      "conditions": {
+        "minDay": 8,
+        "flags": [
+          "qr_s3"
+        ],
+        "notFlags": [
+          "qr_done"
+        ]
+      },
+      "text": "收音機的雜訊裡，突然混進了第二個聲音。\n慢、粗，帶著笑，像一邊嚼著什麼。『三號哨的朋友，』那聲音說，『這個頻道，我們也聽得到。』\n是黑雨。老鴉的人早就在另一端等著了。\n黎霜把耳機拔掉，沉默了一秒：『他們不是在聽，是在算我們什麼時候會下山。』",
+      "choices": [
+        {
+          "label": "切到加密頻道，重新對頻（LOG 檢定 dc 7，用最高者）",
+          "check": {
+            "who": "best",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "最高者的手指飛快轉著旋鈕，把頻率切到一個沒人猜得到的位置。\n雜訊裡的笑聲消失了，只剩鄭岳的呼吸聲。",
+              "effects": {
+                "flagsSet": [
+                  "qr_secure_channel"
+                ]
+              }
+            },
+            "fail": {
+              "text": "頻率切換失敗，黑雨的笑聲反而變得更清楚。\n『找到你們了。』他說。",
+              "effects": {
+                "resources": {
+                  "Noise": 4
+                },
+                "factions": {
+                  "blackrain": 3
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "回話給老鴉：『我們不下山。』（Morale -2，黑雨記下了你們）",
+          "outcomes": {
+            "always": {
+              "text": "你開口的那一刻，對面的笑聲停了一下，然後變得更開心。\n『好，』老鴉的人說，『我記下了。』",
+              "effects": {
+                "flagsSet": [
+                  "qr_blackrain_heard"
+                ],
+                "resources": {
+                  "Morale": -2
+                },
+                "factions": {
+                  "blackrain": -4
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "關掉收音機，冷處理（Noise -3，Morale -2，鄭岳的消息也暫時聽不到）",
+          "outcomes": {
+            "always": {
+              "text": "你把旋鈕扭到底，整個地下室安靜得可怕。\n你知道鄭岳還在那裡等，但你先讓自己聽不見。",
+              "effects": {
+                "resources": {
+                  "Noise": -3,
+                  "Morale": -2
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QR_010",
+      "pool": "world",
+      "title": "沒人見過的撤離點",
+      "once": true,
+      "weight": 8,
+      "conditions": {
+        "minDay": 10,
+        "flags": [
+          "qr_s3"
+        ],
+        "notFlags": [
+          "evacKnown"
+        ]
+      },
+      "text": "夏見把拳套摔在桌上，聲音大得整個地下室都在嗡嗡作響。\n『撤離點？我在三號哨待過一個禮拜，除了那支破喇叭，什麼都沒看見。』\n她盯著你，眼神很兇，嗓音卻有點發抖。『隊長，你真的信一個只有聲音的東西？』\n黎霜沒有抬頭，手上的筆卻停住了：『聲音也是資料，只是我們還沒算完。』",
+      "choices": [
+        {
+          "label": "先按兵不動，等鄭岳再確認一次（xiaJian Trust +3，liShuang Trust -2）",
+          "outcomes": {
+            "always": {
+              "text": "你說等下一次通話再說。夏見哼了一聲，把拳套撿起來戴回手上。\n黎霜只說：『你選了最省事的那條路。』",
+              "effects": {
+                "relations": {
+                  "xiaJian": {
+                    "Trust": 3,
+                    "Affection": 1
+                  },
+                  "liShuang": {
+                    "Trust": -2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "相信鄭岳，明天就去檢查哨確認（ExploreRisk +3，xiaJian Trust -2）",
+          "outcomes": {
+            "always": {
+              "text": "你說明天一早去三號哨。夏見把拳套扔回桌上，轉身上樓。\n黎霜在她背後丟了一句：『她是怕你死，不是怕撤離點。』",
+              "effects": {
+                "resources": {
+                  "ExploreRisk": 3
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Trust": -2
+                  },
+                  "liShuang": {
+                    "Trust": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "請宋寧打圓場（CHA 檢定 dc 8，用最高者；失敗會更吵）",
+          "check": {
+            "who": "best",
+            "stat": "CHA",
+            "dc": 8
+          },
+          "outcomes": {
+            "success": {
+              "text": "宋寧端來一壺熱茶，先替夏見倒了一杯，再替黎霜，最後才替你。\n『我們把事情說清楚，好不好？』",
+              "effects": {
+                "resources": {
+                  "Morale": 2
+                },
+                "relations": {
+                  "songNing": {
+                    "Trust": 3
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "宋寧的話才說到一半，夏見就把杯子推開。\n『你們都在哄我。』她說，『我最討厭被哄。』",
+              "effects": {
+                "resources": {
+                  "Morale": -4
+                },
+                "status": {
+                  "Stress": 3
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QR_011",
+      "pool": "romance",
+      "title": "寧的鑰匙",
+      "once": true,
+      "weight": 8,
+      "conditions": {
+        "minDay": 20,
+        "flags": [
+          "qr_s5"
+        ],
+        "chars": {
+          "songNing": {
+            "present": true
+          }
+        }
+      },
+      "text": "打烊後，『寧』的吧台還亮著一盞小燈。宋寧坐在凳子上，把一串串鑰匙攤在桌面，一把一把地數。\n『老鐵門、後巷的冰箱、樓上的閣樓……』她笑了一下，聲音很輕，『我知道撤離的事，小硯。我只是在想，這些鑰匙要不要帶走。』\n她沒有哭，只是把最後一把放回盒子裡，蓋上蓋子。",
+      "choices": [
+        {
+          "label": "在她身邊坐下，什麼都不說（全員 Stress +2）",
+          "outcomes": {
+            "always": {
+              "text": "你在她旁邊坐下，凳子很小，肩膀碰在一起。\n她靠過來一點，頭輕輕擱在你肩上，很快又直起身：『謝謝你，小硯。』",
+              "effects": {
+                "status": {
+                  "Stress": 2
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 4,
+                    "Trust": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "說服她跟你們走（CHA 檢定 dc 8，對象是宋寧）",
+          "check": {
+            "who": "songNing",
+            "stat": "CHA",
+            "dc": 8
+          },
+          "outcomes": {
+            "success": {
+              "text": "『這間店撐了這麼久，』你說，『但它不會跟你走。你會。』\n宋寧愣了一下，眼眶紅了，最後把鑰匙裝進小袋子：『那就帶著，當作我還在。』",
+              "effects": {
+                "status": {
+                  "Stress": 2
+                },
+                "relations": {
+                  "songNing": {
+                    "Affection": 3,
+                    "Trust": 4
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "你說得太急，宋寧的笑容一下子收了起來。\n『你這樣講，好像我只是你們的負擔。』她說，『先睡吧，小硯。』",
+              "effects": {
+                "relations": {
+                  "songNing": {
+                    "Affection": -2,
+                    "Trust": -4
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把鑰匙收進自己口袋，說『明天再想』（songNing Trust -2，Morale -3）",
+          "outcomes": {
+            "always": {
+              "text": "你把鑰匙收進口袋，說『明天再想』。\n宋寧看著你，笑得很溫柔，卻沒有再開口。",
+              "effects": {
+                "resources": {
+                  "Morale": -3
+                },
+                "relations": {
+                  "songNing": {
+                    "Trust": -2
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "QR_FINAL",
+      "pool": "story",
+      "title": "撤離前夜",
+      "once": true,
+      "conditions": {
+        "minDay": 24,
+        "flags": [
+          "qr_s5"
+        ]
+      },
+      "text": "鄭岳的最後一通無線電，只有一句話：『明天黃昏，國道三號交流道。十二分鐘。』\n地下室裡沒有人睡著。黎霜把東西分成兩堆，能帶的和不能帶的。夏見磨著消防斧，一遍又一遍。宋寧煮了一鍋粥，說是路上吃。\n直升機的座位只有四個，剛好是你們。\n傍晚，鄭岳的人抬來一個斷腿的年輕兵，說他上不了別的車。",
+      "choices": [
+        {
+          "label": "全員上機（斷腿的兵只能留下，沒人知道有沒有下一班）",
+          "outcomes": {
+            "always": {
+              "text": "你們抬著行囊衝進旋翼的風裡。斷腿的兵被留在跑道邊，朝你們用力揮手。\n你回頭看了一眼深坑，那裡有你們的地下室，有三十天的每一個夜晚。\n機艙門關上的瞬間，有人握住了你的手。",
+              "effects": {
+                "flagsSet": [
+                  "qr_done"
+                ],
+                "end": "ending_evac"
+              }
+            }
+          }
+        },
+        {
+          "label": "留下，直升機讓給傷兵（撤離線關閉，Morale -6，全員 Stress +5）",
+          "outcomes": {
+            "always": {
+              "text": "斷腿的兵被抬上機。螺旋槳捲起灰塵，把那條路一起帶走了。\n你們站在國道上，誰都沒有先開口。\n最後是宋寧說：『那回去煮粥吧。』",
+              "effects": {
+                "flagsSet": [
+                  "qr_done",
+                  "qr_stayed"
+                ],
+                "resources": {
+                  "Morale": -6
+                },
+                "status": {
+                  "Stress": 5
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把座位讓給傷兵，讓她們先走，你留下守著地下室（獨自撐到第三十天）",
+          "outcomes": {
+            "always": {
+              "text": "你把座位讓給了斷腿的兵，把背包推進他懷裡。\n黎霜沒有哭，只把工具包甩給你：『背著，我們……』她沒說完，先上了機。\n夏見回頭看了你一眼，拳頭捏得很緊，什麼都沒說。\n宋寧最後一個上機，笑著說：『你還欠我一次結帳。』",
+              "effects": {
+                "flagsSet": [
+                  "qr_done",
+                  "qr_stayed",
+                  "qr_sacrifice"
+                ],
+                "factions": {
+                  "military": 5
+                },
+                "end": "ending_alone"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

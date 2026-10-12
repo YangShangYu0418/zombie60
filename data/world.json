@@ -1,0 +1,195 @@
+{
+  "region": "文山—深坑生活圈（爆發後第 0 天）",
+  "intro": "封城令下達的第三個小時，深坑的豆腐香還沒散，街上就只剩下奔跑的腳步聲。\n你們的老公寓有個沒人用的地下室，鐵門生鏽，但夠厚。\n你有六十秒，把能帶的東西、能帶的人，全都帶下去。",
+  "locations": [
+    {
+      "id": "home",
+      "name": "老公寓地下室",
+      "short": "避難所",
+      "x": 80, "y": 40,
+      "dist": 0, "danger": 0,
+      "loot": {},
+      "tags": ["home"],
+      "desc": "深坑老街後巷的五層老公寓。地下室原本堆滿住戶的雜物，現在是你們的全世界。",
+      "startDiscovered": true
+    },
+    {
+      "id": "supermarket",
+      "name": "深坑社區超市",
+      "short": "超市",
+      "x": 88, "y": 28,
+      "dist": 1, "danger": 3,
+      "loot": { "Food": [2, 5], "Water": [2, 4] },
+      "tags": ["urban", "food"],
+      "desc": "鐵捲門被拉下一半。貨架東倒西歪，冷凍櫃早已停電，空氣裡是發酵的甜味。",
+      "startDiscovered": true
+    },
+    {
+      "id": "shenkeng_oldstreet",
+      "name": "深坑老街",
+      "short": "老街",
+      "x": 76, "y": 54,
+      "dist": 1, "danger": 2,
+      "loot": { "Food": [2, 4], "Parts": [0, 2] },
+      "tags": ["urban", "food", "temple"],
+      "desc": "紅磚拱廊下的豆腐店與老廟。集應廟的香爐還有餘溫，好像有人仍在上香。",
+      "startDiscovered": true
+    },
+    {
+      "id": "jingmei_river",
+      "name": "景美溪河堤",
+      "short": "河堤",
+      "x": 62, "y": 34,
+      "dist": 1, "danger": 2,
+      "loot": { "Water": [3, 6], "Food": [0, 1] },
+      "tags": ["nature", "water"],
+      "desc": "溪水照常流。河堤自行車道上停著一排沒人騎的公共單車，有幾台還掛著背包。",
+      "startDiscovered": true
+    },
+    {
+      "id": "shenkeng_school",
+      "name": "深坑國小臨時收容所",
+      "short": "國小",
+      "x": 70, "y": 22,
+      "dist": 1, "danger": 3,
+      "loot": { "Med": [0, 2], "Food": [0, 2], "Parts": [0, 1] },
+      "tags": ["urban", "med", "shelter_ruin"],
+      "desc": "爆發第一天被設成收容點，第二天就沒有人再出來。操場上的帳篷還立著。",
+      "startDiscovered": false
+    },
+    {
+      "id": "freeway3_checkpoint",
+      "name": "國道三號深坑交流道檢查哨",
+      "short": "檢查哨",
+      "x": 60, "y": 58,
+      "dist": 2, "danger": 4,
+      "loot": { "Ammo": [1, 3], "Parts": [0, 2], "Med": [0, 1] },
+      "tags": ["military", "ammo"],
+      "desc": "沙包、拒馬、翻倒的悍馬車。廣播喇叭偶爾會自己響一下，然後又安靜。",
+      "startDiscovered": false
+    },
+    {
+      "id": "nccu",
+      "name": "政大指南山校區",
+      "short": "政大",
+      "x": 40, "y": 48,
+      "dist": 2, "danger": 3,
+      "loot": { "Parts": [1, 3], "Med": [0, 1], "Food": [0, 2] },
+      "tags": ["urban", "faction_students"],
+      "desc": "山坡上的校區，宿舍窗戶掛滿床單寫成的求救字樣。有些字被劃掉，改寫成『別來』。",
+      "startDiscovered": false
+    },
+    {
+      "id": "zoo",
+      "name": "木柵動物園",
+      "short": "動物園",
+      "x": 46, "y": 66,
+      "dist": 2, "danger": 4,
+      "loot": { "Food": [1, 4], "Med": [0, 2] },
+      "tags": ["nature", "animals"],
+      "desc": "閘門開著。有人說看見長頸鹿在空蕩的停車場散步；也有人說，夜裡聽見的不只是喪屍的聲音。",
+      "startDiscovered": false
+    },
+    {
+      "id": "muzha_depot",
+      "name": "文湖線動物園機廠",
+      "short": "機廠",
+      "x": 56, "y": 76,
+      "dist": 2, "danger": 5,
+      "loot": { "Ammo": [1, 4], "Parts": [2, 4] },
+      "tags": ["industrial", "faction_blackrain"],
+      "desc": "高架軌道下的維修基地，鐵門焊死，上面噴著黑色的雨滴記號。",
+      "startDiscovered": false
+    },
+    {
+      "id": "wanfang_hospital",
+      "name": "萬芳醫院",
+      "short": "醫院",
+      "x": 34, "y": 22,
+      "dist": 2, "danger": 5,
+      "loot": { "Med": [2, 5] },
+      "tags": ["urban", "med", "hospital"],
+      "desc": "急診室的自動門卡在半開。最高樓層的燈，每晚十點準時亮起又熄滅。",
+      "startDiscovered": false
+    },
+    {
+      "id": "jingmei_market",
+      "name": "景美夜市",
+      "short": "夜市",
+      "x": 14, "y": 30,
+      "dist": 3, "danger": 2,
+      "loot": { "Food": [1, 3], "Parts": [0, 2] },
+      "tags": ["urban", "faction_nightmarket", "trade"],
+      "desc": "攤車被推成一圈圍牆，裡面竟然還有燈。『夜市聯盟』只收物資，不收鈔票。",
+      "startDiscovered": false
+    },
+    {
+      "id": "maokong",
+      "name": "貓空茶園",
+      "short": "貓空",
+      "x": 34, "y": 86,
+      "dist": 3, "danger": 2,
+      "loot": { "Water": [3, 6], "Food": [1, 2] },
+      "tags": ["nature", "water", "highland"],
+      "desc": "纜車車廂停在半空中晃。山上有泉水、有茶園，也有比山下更安靜的夜。",
+      "startDiscovered": false
+    },
+    {
+      "id": "shiding",
+      "name": "石碇山村",
+      "short": "石碇",
+      "x": 92, "y": 78,
+      "dist": 3, "danger": 1,
+      "loot": { "Food": [3, 5], "Water": [1, 3] },
+      "tags": ["nature", "village", "food"],
+      "desc": "吊腳樓與溪谷。這裡的人少，喪屍也少——但留下來的人，都不太歡迎陌生人。",
+      "startDiscovered": false
+    }
+  ],
+  "edges": [
+    ["home", "supermarket"], ["home", "shenkeng_oldstreet"], ["home", "jingmei_river"], ["home", "shenkeng_school"],
+    ["supermarket", "shenkeng_school"], ["shenkeng_oldstreet", "freeway3_checkpoint"], ["shenkeng_oldstreet", "shiding"],
+    ["jingmei_river", "shenkeng_school"], ["jingmei_river", "freeway3_checkpoint"], ["jingmei_river", "nccu"], ["jingmei_river", "wanfang_hospital"],
+    ["freeway3_checkpoint", "zoo"], ["freeway3_checkpoint", "muzha_depot"], ["freeway3_checkpoint", "nccu"],
+    ["nccu", "zoo"], ["nccu", "wanfang_hospital"], ["nccu", "jingmei_market"],
+    ["zoo", "muzha_depot"], ["zoo", "maokong"], ["muzha_depot", "maokong"], ["muzha_depot", "shiding"],
+    ["wanfang_hospital", "jingmei_market"]
+  ],
+  "factions": [
+    {
+      "id": "nightmarket",
+      "name": "夜市聯盟",
+      "home": "jingmei_market",
+      "startRep": 0,
+      "desc": "景美夜市的攤商們把攤車圍成堡壘。精明、務實、講交情也講秤。首領是綽號『阿嬤』的前蚵仔煎攤老闆娘。"
+    },
+    {
+      "id": "students",
+      "name": "指南山自治會",
+      "home": "nccu",
+      "startRep": 0,
+      "desc": "政大殘存的師生。有理想、有書、有發電機，缺食物也缺會開槍的人。代表人是研究生『溫書言』。"
+    },
+    {
+      "id": "military",
+      "name": "三號哨殘部",
+      "home": "freeway3_checkpoint",
+      "startRep": 0,
+      "desc": "被遺留的國軍小隊，透過無線電與『撤離點』保持斷續聯絡。指揮官是沉默的士官長『鄭岳』。"
+    },
+    {
+      "id": "blackrain",
+      "name": "黑雨",
+      "home": "muzha_depot",
+      "startRep": -10,
+      "desc": "佔據機廠的掠奪者團體，以黑色雨滴為記號。首領『老鴉』信奉『雨會落在每個人身上，只是我們先撐傘』。"
+    }
+  ],
+  "weather": {
+    "clear":   { "name": "晴",   "weight": 40, "scavenge": 0,  "horde": 0,  "water": 0 },
+    "rain":    { "name": "雨",   "weight": 25, "scavenge": -1, "horde": -5, "water": 2 },
+    "heat":    { "name": "酷熱", "weight": 15, "scavenge": -1, "horde": 5,  "water": -1 },
+    "fog":     { "name": "濃霧", "weight": 15, "scavenge": 1,  "horde": -3, "water": 0 },
+    "typhoon": { "name": "颱風", "weight": 5,  "scavenge": -3, "horde": -15, "water": 4 }
+  }
+}

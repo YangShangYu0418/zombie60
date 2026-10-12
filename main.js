@@ -1,283 +1,48 @@
-const SAVE_KEY = 'zombie60.save.v1';
+import { Game, buildData, DIET_OPTIONS, RES_LABEL, STAT_LABEL, CAMPAIGN_DAYS } from './src/engine.js';
+import { runScavenge } from './src/scavenge.js';
 
-const CHARACTERS = [
-  { id: 'shenYan', name: '沈硯', role: '隊長', stats: { STR: 3, LOG: 3, CHA: 2, COM: 2 } },
-  { id: 'liShuang', name: '黎霜', role: '理性/修理', stats: { STR: 2, LOG: 5, CHA: 1, COM: 2 } },
-  { id: 'songNing', name: '宋寧', role: '社交/談判', stats: { STR: 2, LOG: 2, CHA: 5, COM: 1 } },
-  { id: 'xiaJian', name: '夏見', role: '行動/守家', stats: { STR: 4, LOG: 1, CHA: 1, COM: 5 } },
-];
+const SAVE_KEY = 'zombie60.save.v2';
 
-const DIET_OPTIONS = [
-  { key: 'none', label: '不分配', food: 0, water: 0, dq: -2 },
-  { key: 'poor', label: '糟（半份/不均）', food: 1, water: 1, dq: -1 },
-  { key: 'basic', label: '基本（剛好）', food: 1, water: 1, dq: 0 },
-  { key: 'good', label: '好（營養/額外）', food: 2, water: 2, dq: 1 },
-];
+let data = null;
+let game = null;
+let selectedLoc = null;
+let activeTab = 'quests';
+let scavengeHandle = null;
 
-function freshState() {
-  return {
-    day: 1,
-    resources: { Food: 6, Water: 6, Med: 1, Ammo: 1, Morale: 50, Noise: 0, ExploreRisk: 0 },
-    chars: Object.fromEntries(CHARACTERS.map(c => [c.id, {
-      id: c.id,
-      name: c.name,
-      role: c.role,
-      stats: c.stats,
-      Health: 80,
-      Stress: 10,
-      Infection: 0,
-      Body: 50,
-      Affection: 0,
-      Trust: 0,
-      alive: true,
-      todayDiet: 'basic'
-    }])),
-    flags: {},
-    log: [],
-    lastEventId: null,
-    dayDietQuality: 0,
-    dayDietCost: { Food: 0, Water: 0 }
-  };
-}
+// ---------------------------------------------------------------------------
+// tiny DOM helper
 
-let EVENTS = [];
-let state = freshState();
-let currentEvent = null;
-let stage = 'diet'; // diet -> event -> resolved
-
-// --- UI helpers
 const $ = (id) => document.getElementById(id);
-const el = (tag, cls, text) => {
+function h(tag, attrs = {}, ...kids) {
   const n = document.createElement(tag);
-  if (cls) n.className = cls;
-  if (text !== undefined) n.textContent = text;
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v === undefined || v === null || v === false) continue;
+    if (k === 'class') n.className = v;
+    else if (k.startsWith('on')) n.addEventListener(k.slice(2), v);
+    else if (k === 'style') n.setAttribute('style', v);
+    else n.setAttribute(k, v === true ? '' : v);
+  }
+  for (const kid of kids.flat()) {
+    if (kid === undefined || kid === null || kid === false) continue;
+    n.appendChild(typeof kid === 'string' || typeof kid === 'number' ? document.createTextNode(String(kid)) : kid);
+  }
+  return n;
+}
+const svg = (tag, attrs = {}) => {
+  const n = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
   return n;
 };
 
-function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
-
-function logLine(text) {
-  const ts = `D${state.day}`;
-  state.log.unshift({ ts, text });
-  renderLog();
+function bar(value, max, cls) {
+  const pct = Math.max(0, Math.min(100, (value / max) * 100));
+  return h('div', { class: `bar ${cls || ''}` }, h('div', { class: 'fill', style: `width:${pct}%` }));
 }
-
-function save() {
-  localStorage.setItem(SAVE_KEY, JSON.stringify(state));
-  logLine('（已存檔）');
-}
-
-function load() {
-  const raw = localStorage.getItem(SAVE_KEY);
-  if (!raw) return alert('沒有存檔。');
-  state = JSON.parse(raw);
-  stage = 'diet';
-  currentEvent = null;
-  logLine('（已讀檔）');
-  renderAll();
-}
-
-function resetSave() {
-  localStorage.removeItem(SAVE_KEY);
-  alert('已清除存檔。');
-}
-
-function newGame() {
-  state = freshState();
-  stage = 'diet';
-  currentEvent = null;
-  renderAll();
-  logLine('新局開始。封閉的空間會放大每一次選擇。');
-}
-
-// --- Core mechanics
-function aliveChars() {
-  return Object.values(state.chars).filter(c => c.alive);
-}
-
-function applyDietSelections() {
-  // calculate cost + quality
-  let food = 0, water = 0, dqSum = 0;
-  for (const c of aliveChars()) {
-    const opt = DIET_OPTIONS.find(o => o.key === c.todayDiet) || DIET_OPTIONS[2];
-    food += opt.food;
-    water += opt.water;
-    dqSum += opt.dq;
-  }
-
-  if (state.resources.Food < food || state.resources.Water < water) {
-    $('dietNote').textContent = `物資不足：需要 Food ${food} / Water ${water}，但你只有 Food ${state.resources.Food} / Water ${state.resources.Water}`;
-    return false;
-  }
-
-  state.resources.Food -= food;
-  state.resources.Water -= water;
-  state.dayDietQuality = dqSum;
-  state.dayDietCost = { Food: food, Water: water };
-
-  // apply long-term trend: Body/Health/Stress
-  for (const c of aliveChars()) {
-    const opt = DIET_OPTIONS.find(o => o.key === c.todayDiet) || DIET_OPTIONS[2];
-    // Body trend: -2..+1 -> scaled
-    c.Body = clamp(c.Body + opt.dq * 2, 0, 100);
-    // Health: good diet helps recovery, poor harms
-    c.Health = clamp(c.Health + (opt.dq >= 1 ? 2 : opt.dq <= -1 ? -3 : 0), 0, 100);
-    // Stress: hunger worsens
-    c.Stress = clamp(c.Stress + (opt.key === 'none' ? 6 : opt.key === 'poor' ? 2 : -1), 0, 100);
-  }
-
-  $('dietNote').textContent = `今日消耗 Food ${food} / Water ${water}；飲食品質合計 ${dqSum}（影響體態/健康/壓力為長期趨勢）`;
-  logLine(`你做了飲食分配：Food-${food} Water-${water}（DietQuality=${dqSum}）。`);
-  return true;
-}
-
-function pickEvent() {
-  const day = state.day;
-  const candidates = EVENTS.filter(e => (!e.dayMin || day >= e.dayMin) && (!e.dayMax || day <= e.dayMax));
-  // avoid repeating last
-  const filtered = candidates.filter(e => e.id !== state.lastEventId);
-  const pool = filtered.length ? filtered : candidates;
-  const idx = Math.floor(Math.random() * pool.length);
-  return pool[idx];
-}
-
-function applyEffects(effects = {}) {
-  const r = effects.resources || {};
-  for (const [k,v] of Object.entries(r)) {
-    if (state.resources[k] === undefined) state.resources[k] = 0;
-    state.resources[k] = state.resources[k] + v;
-  }
-
-  const s = effects.status || {};
-  // status effects apply to all alive by default
-  for (const c of aliveChars()) {
-    for (const [k,v] of Object.entries(s)) {
-      if (c[k] === undefined) continue;
-      c[k] = clamp(c[k] + v, 0, 100);
-    }
-  }
-
-  const rel = effects.relations || {};
-  for (const [cid, delta] of Object.entries(rel)) {
-    const c = state.chars[cid];
-    if (!c || !c.alive) continue;
-    for (const [rk, rv] of Object.entries(delta)) {
-      if (c[rk] === undefined) continue;
-      c[rk] = clamp(c[rk] + rv, -100, 100);
-    }
-  }
-
-  const fs = effects.flagsSet || [];
-  const fc = effects.flagsClear || [];
-  for (const f of fs) state.flags[f] = true;
-  for (const f of fc) delete state.flags[f];
-}
-
-function resolveChoice(choice) {
-  // cost
-  if (choice.cost) {
-    for (const [k,v] of Object.entries(choice.cost)) {
-      if (state.resources[k] === undefined) state.resources[k] = 0;
-      state.resources[k] = state.resources[k] - v;
-    }
-  }
-
-  const out = choice.outcomes?.always || null;
-  if (out?.text) logLine(out.text);
-  if (out?.effects) applyEffects(out.effects);
-
-  // clamp some global resources
-  state.resources.Morale = clamp(state.resources.Morale, 0, 100);
-  state.resources.Noise = clamp(state.resources.Noise, 0, 100);
-  state.resources.ExploreRisk = clamp(state.resources.ExploreRisk, 0, 100);
-  state.resources.Food = Math.max(0, state.resources.Food);
-  state.resources.Water = Math.max(0, state.resources.Water);
-  state.resources.Med = Math.max(0, state.resources.Med);
-  state.resources.Ammo = Math.max(0, state.resources.Ammo);
-
-  stage = 'resolved';
-  renderAll();
-  endOfDay();
-}
-
-function zombiePressureCheck() {
-  // Non-human threat check each day.
-  // Difficulty increases with Noise + ExploreRisk, decreased by COM (best defender).
-  const noise = state.resources.Noise;
-  const risk = state.resources.ExploreRisk;
-  const defenders = aliveChars().map(c => ({ id: c.id, name: c.name, com: c.stats.COM }));
-  defenders.sort((a,b) => b.com - a.com);
-  const best = defenders[0];
-
-  const difficulty = 35 + noise * 0.6 + risk * 0.8; // 35..>
-  const roll = Math.random() * 100;
-  const defend = (best?.com || 0) * 6; // 0..30
-  const score = roll + defend;
-
-  if (score >= difficulty) {
-    // success: slight morale up, maybe ammo spent
-    state.resources.Morale = clamp(state.resources.Morale + 2, 0, 100);
-    if (state.resources.Ammo > 0 && (noise + risk) > 40) state.resources.Ammo -= 1;
-    logLine(`喪屍壓力檢定：你們撐住了（守家：${best.name}）。`);
-  } else {
-    // fail: injury/infection and resource loss
-    const victim = aliveChars()[Math.floor(Math.random() * aliveChars().length)];
-    victim.Health = clamp(victim.Health - 10, 0, 100);
-    victim.Infection = clamp(victim.Infection + 8, 0, 100);
-    state.resources.Morale = clamp(state.resources.Morale - 6, 0, 100);
-    state.resources.Noise = clamp(state.resources.Noise + 3, 0, 100);
-    // small loss
-    if (state.resources.Water > 0) state.resources.Water -= 1;
-    logLine(`喪屍壓力檢定：牆外的抓撓聲逼近，你們付出了代價。${victim.name} 受傷，感染風險上升。`);
-  }
-
-  // ExploreRisk naturally decays a little each day
-  state.resources.ExploreRisk = clamp(state.resources.ExploreRisk - 1, 0, 100);
-}
-
-function checkDeaths() {
-  for (const c of aliveChars()) {
-    if (c.Health <= 0 || c.Infection >= 100) {
-      c.alive = false;
-      logLine(`【死亡】${c.name} 沒能撐過這一天。`);
-      state.resources.Morale = clamp(state.resources.Morale - 15, 0, 100);
-    }
-  }
-}
-
-function endOfDay() {
-  zombiePressureCheck();
-  checkDeaths();
-
-  // day advance
-  state.day += 1;
-  stage = 'diet';
-  currentEvent = null;
-
-  renderAll();
-}
-
-// --- Render
-function renderStatus() {
-  const s = $('status');
-  s.innerHTML = '';
-
-  const kv = (k, v, smallText) => {
-    const box = el('div','kv');
-    box.appendChild(el('div','k',k));
-    box.appendChild(el('div','v',String(v)));
-    if (smallText) box.appendChild(el('div','small',smallText));
-    s.appendChild(box);
-  };
-
-  kv('Day', state.day, '封閉空間：長期相處 + 長期消耗');
-  kv('Food', state.resources.Food, '影響飲食品質與長期體態');
-  kv('Water', state.resources.Water);
-  kv('Med', state.resources.Med);
-  kv('Ammo', state.resources.Ammo);
-  kv('Morale', state.resources.Morale, '0 會讓事件更殘酷');
-  kv('Noise', state.resources.Noise, '越高越容易引來牆外');
-  kv('ExploreRisk', state.resources.ExploreRisk, '探索越多 → 壓力遞增');
+function relBar(value) {
+  // -100..100 centered bar
+  const pct = Math.abs(value) / 2;
+  const side = value >= 0 ? `left:50%;width:${pct}%` : `left:${50 - pct}%;width:${pct}%`;
+  return h('div', { class: `bar rel ${value < 0 ? 'neg' : ''}` }, h('div', { class: 'fill', style: side }), h('div', { class: 'mid' }));
 }
 
 function bodyDesc(x) {
@@ -285,116 +50,453 @@ function bodyDesc(x) {
   if (x <= 40) return '偏瘦';
   if (x <= 60) return '勻稱';
   if (x <= 80) return '豐盈';
-  return '更豐滿';
+  return '豐滿';
 }
 
-function renderDiet() {
-  const grid = $('dietGrid');
-  grid.innerHTML = '';
+// ---------------------------------------------------------------------------
+// Rendering
 
-  for (const c of aliveChars()) {
-    const row = el('div','char');
-
-    const left = el('div');
-    const name = el('div','name', c.name);
-    const badge = el('span','badge', c.role);
-    name.appendChild(badge);
-    left.appendChild(name);
-    left.appendChild(el('div','small', `Health ${c.Health} • Stress ${c.Stress} • Infection ${c.Infection} • Body ${c.Body}（${bodyDesc(c.Body)}）`));
-
-    const sel = el('select');
-    for (const o of DIET_OPTIONS) {
-      const opt = el('option');
-      opt.value = o.key;
-      opt.textContent = `${o.label}  (Food ${o.food}, Water ${o.water})`;
-      if (o.key === c.todayDiet) opt.selected = true;
-      sel.appendChild(opt);
-    }
-    sel.addEventListener('change', () => { c.todayDiet = sel.value; $('dietNote').textContent = ''; });
-
-    const rel = el('div','small', `Affection ${c.Affection} • Trust ${c.Trust}`);
-    const stats = el('div','small', `STR ${c.stats.STR}  LOG ${c.stats.LOG}  CHA ${c.stats.CHA}  COM ${c.stats.COM}`);
-
-    row.appendChild(left);
-    row.appendChild(sel);
-    row.appendChild(rel);
-    row.appendChild(stats);
-    grid.appendChild(row);
-  }
-
-  $('btnApplyDiet').disabled = (stage !== 'diet');
+function render() {
+  if (!game) return;
+  renderHeader();
+  renderResources();
+  renderStage();
+  renderTeam();
+  renderMap();
+  renderFeed();
+  renderTabs();
 }
 
-function renderEvent() {
-  const host = $('event');
+function renderHeader() {
+  const s = game.state;
+  const w = data.world.weather[s.world.weather];
+  $('dayChip').textContent = s.phase === 'intro' || s.phase === 'scavenge' ? '爆發當日' : `第 ${s.day} / ${CAMPAIGN_DAYS} 天`;
+  $('weatherTag').textContent = s.phase === 'intro' || s.phase === 'scavenge' ? '' : `天氣：${w?.name || ''}`;
+  $('mapWrap').className = `map-wrap weather-${s.world.weather}`;
+}
+
+function renderResources() {
+  const r = game.state.resources;
+  const host = $('resbar');
   host.innerHTML = '';
+  const tip = {
+    Food: '每人每天基本 1', Water: '每人每天基本 1', Med: '可在隊伍面板用藥', Ammo: '夜間防守與戰鬥', Parts: '修繕、加固、交易',
+    Morale: '≥70 檢定 +1；≤20 壓力上升', Noise: '越高越引屍潮', ExploreRisk: '外派累積，夜間壓力上升', Defense: '抵擋夜間襲擊',
+  };
+  for (const k of Object.keys(RES_LABEL)) {
+    const v = r[k];
+    const warn = (k === 'Food' || k === 'Water') && v <= game.present().length
+      || (k === 'Noise' && v >= 40) || (k === 'ExploreRisk' && v >= 40) || (k === 'Morale' && v <= 25) || (k === 'Defense' && v <= 10);
+    host.appendChild(h('div', { class: `res${warn ? ' warn' : ''}`, title: tip[k] }, h('span', { class: 'k' }, RES_LABEL[k]), h('span', { class: 'v' }, v)));
+  }
+}
 
-  if (stage === 'diet') {
-    host.appendChild(el('div','card', '')); 
-    host.querySelector('.card').appendChild(el('div','text','先完成「今日飲食分配」，再開始事件。'));
-    return;
+let lastScene = null;
+function renderStage() {
+  const s = game.state;
+  const host = $('stage');
+  // On narrow screens, bring each new scene back into view.
+  const scene = `${s.day}:${s.phase}:${s.today?.eventId}`;
+  if (lastScene && scene !== lastScene && window.innerWidth < 960 && host.getBoundingClientRect().top < 0) host.scrollIntoView({ behavior: 'smooth' });
+  lastScene = scene;
+  if (s.phase === 'scavenge') return; // owned by scavenge module
+  host.innerHTML = '';
+  if (s.phase === 'intro') return renderIntro(host);
+  if (s.phase === 'plan') return renderPlan(host);
+  if (s.phase === 'event') return renderEvent(host);
+  if (s.phase === 'outcome') return renderOutcome(host);
+  if (s.phase === 'ended') return renderEnding(host);
+}
+
+function renderIntro(host) {
+  host.append(
+    h('div', { class: 'card hero' },
+      h('div', { class: 'eyebrow' }, '爆發當日・下午四點十七分'),
+      h('div', { class: 'title' }, '六十秒'),
+      h('div', { class: 'text' }, data.world.intro),
+      h('div', { class: 'choices' },
+        h('button', { class: 'choice primary', onclick: startScavenge }, '開始 60 秒搜刮', h('span', { class: 'hint' }, '帶物資、帶人進地下室。沒帶到的人會失散在外面。')),
+        h('button', { class: 'choice', onclick: () => { game.startStandard(); persist(); } }, '跳過：標準開局', h('span', { class: 'hint' }, '四個人都在，物資普通。')),
+      ),
+    ),
+  );
+}
+
+function startScavenge() {
+  game.state.phase = 'scavenge';
+  render();
+  const host = $('stage');
+  scavengeHandle = runScavenge(host, null, (result) => {
+    scavengeHandle = null;
+    host.innerHTML = '';
+    game.startFromScavenge(result);
+    persist();
+  });
+}
+
+function renderPlan(host) {
+  const s = game.state;
+  const { food, water } = game.dietCost();
+  const w = data.world.weather[s.world.weather];
+  const card = h('div', { class: 'card' });
+  card.append(h('div', { class: 'eyebrow' }, `第 ${s.day} 天・${w?.name || ''}`), h('div', { class: 'title' }, '清晨・今日計畫'));
+
+  if (s.nightLines?.length) {
+    const nl = h('div', { class: 'nightlines' });
+    for (const l of s.nightLines) nl.appendChild(h('div', { class: 'nightline' }, l.name ? h('b', {}, `${l.name}　`) : null, l.text));
+    card.appendChild(nl);
+  }
+  const todays = s.log.filter(l => l.day === s.day && l.kind !== 'info').slice(0, 6).reverse();
+  if (todays.length) {
+    const box = h('div', { class: 'morning' });
+    for (const l of todays) box.appendChild(h('div', { class: `logline k-${l.kind}` }, l.text));
+    card.appendChild(box);
   }
 
-  if (!currentEvent) {
-    host.appendChild(el('div','card',''));
-    host.querySelector('.card').appendChild(el('div','text','（沒有事件）'));
-    return;
+  const exp = Object.entries(s.plan.expeditions);
+  card.appendChild(h('div', { class: 'plan' },
+    h('div', {}, `飲食：食物 −${food}／飲水 −${water}（庫存 ${s.resources.Food}／${s.resources.Water}）`),
+    h('div', {}, exp.length ? `外派：${exp.map(([cid, l]) => `${game.displayName(game.char(cid))} → ${game.locName(l)}`).join('、')}` : '外派：無（在隊伍面板或地圖上指派）'),
+  ));
+  const comps = game.presentHeroines().filter(c => !s.plan.expeditions[c.id]);
+  if (comps.length && !s.plan.expeditions[game.player().id]) {
+    card.appendChild(h('div', { class: 'plan' }, h('label', {}, '今晚陪誰　',
+      h('select', { onchange: (ev) => game.setCompanion(ev.target.value || null) },
+        h('option', { value: '' }, '各自休息'),
+        comps.map(c => h('option', { value: c.id, selected: s.plan.companion === c.id }, `${c.name}（好感 ${c.Affection}）`)))),
+      h('span', { class: 'muted' }, '　好感 +2、壓力 −4，夜裡更可能有她的場景')));
   }
-
-  const card = el('div','card');
-  card.appendChild(el('div','title', currentEvent.title));
-  card.appendChild(el('div','text', currentEvent.text));
-
-  const choices = el('div','choices');
-  for (const ch of currentEvent.choices) {
-    const b = el('button','choice', ch.label);
-    b.addEventListener('click', () => resolveChoice(ch));
-    choices.appendChild(b);
-  }
-  card.appendChild(choices);
-
+  const note = h('div', { class: 'note', id: 'planNote' });
+  card.appendChild(h('div', { class: 'row' },
+    h('button', { onclick: () => game.autoRation() }, '自動配給'),
+    h('button', { class: 'primary', onclick: () => {
+      const res = game.commitPlan();
+      if (!res.ok) { $('planNote').textContent = res.reason; return; }
+      persist();
+    } }, '開始今天'),
+    note,
+  ));
   host.appendChild(card);
 }
 
-function renderLog() {
-  const host = $('log');
+function renderEvent(host) {
+  const e = game.currentEvent();
+  if (!e) return;
+  const vars = game.textVars();
+  const ctx = game.state.today.ctx;
+  const card = h('div', { class: 'card event' });
+  const where = e.pool?.startsWith('loc:') ? game.locName(e.pool.slice(4)) : null;
+  const stage = game.state.today.stage;
+  const tag = stage === 'night' ? '夜話' : stage === 'return' && where ? `外派歸來・${where}` : ({ story: '劇情', romance: '關係', world: '外界', shelter: '地下室', queued: '劇情' }[e.pool] || (where ? `外派・${where}` : ''));
+  card.append(
+    h('div', { class: 'eyebrow' }, `第 ${game.state.day} 天${tag ? `・${tag}` : ''}${ctx.actor && where ? `・${game.displayName(game.char(ctx.actor))}` : ''}`),
+    h('div', { class: 'title' }, e.title),
+    h('div', { class: 'text' }, game.fill(e.text, vars)),
+  );
+  const choices = h('div', { class: 'choices' });
+  e.choices.forEach((ch, i) => {
+    const block = game.choiceBlock(ch);
+    const meta = [];
+    if (ch.cost) {
+      const c = Object.entries(ch.cost).filter(([, v]) => v).map(([k, v]) => `${RES_LABEL[k]} ${v > 0 ? '−' : '+'}${Math.abs(v)}`);
+      if (c.length) meta.push(c.join(' '));
+    }
+    if (ch.check && !block) {
+      const who = game.checker(ch.check);
+      meta.push(`${game.displayName(who)}・${STAT_LABEL[ch.check.stat]}檢定 ${Math.round(game.checkChance(ch.check) * 100)}%`);
+    }
+    if (block) meta.push(block);
+    choices.appendChild(h('button', { class: 'choice', disabled: !!block, onclick: () => { game.choose(i); persist(); } },
+      game.fill(ch.label, vars), meta.length ? h('span', { class: 'hint' }, meta.join('　')) : null));
+  });
+  if (game.allBlocked(e)) {
+    choices.appendChild(h('button', { class: 'choice', onclick: () => { game.choose(-1); persist(); } },
+      Game.HELPLESS.label, h('span', { class: 'hint' }, '所有選項的條件都不滿足')));
+  }
+  card.appendChild(choices);
+  host.appendChild(card);
+}
+
+function renderOutcome(host) {
+  const o = game.state.outcome;
+  const card = h('div', { class: 'card outcome' });
+  card.append(h('div', { class: 'eyebrow' }, o.title), h('div', { class: 'chosen' }, `▸ ${o.label}`));
+  if (o.check) {
+    const c = o.check;
+    card.appendChild(h('div', { class: `check ${c.ok ? 'ok' : 'bad'}` },
+      `🎲 ${c.who}・${STAT_LABEL[c.stat]}　${c.total - c.die} + ${c.die} = ${c.total}　${c.ok ? '≥' : '<'} ${c.dc}　${c.ok ? '成功' : '失敗'}`));
+  }
+  for (const t of o.texts) card.appendChild(h('div', { class: 'text' }, t));
+  if (o.deltas.length) {
+    const chips = h('div', { class: 'deltas' });
+    for (const d of o.deltas) {
+      const goodWhenUp = !['Noise', 'ExploreRisk', 'Stress', 'Infection'].includes(d.key);
+      const good = d.d > 0 === goodWhenUp;
+      chips.appendChild(h('span', { class: `delta ${good ? 'up' : 'down'}` }, `${d.label} ${d.d > 0 ? '+' : ''}${d.d}`));
+    }
+    card.appendChild(chips);
+  }
+  const label = { return: '繼續・白天', day: '入夜', night: '結束這一天' }[game.state.today.stage] || '繼續';
+  card.appendChild(h('div', { class: 'row' }, h('button', { class: 'primary', onclick: () => { game.endDay(); persist(); } }, label)));
+  host.appendChild(card);
+}
+
+function renderEnding(host) {
+  const s = game.state;
+  const e = s.ending;
+  const card = h('div', { class: `card ending k-${e.kind}` });
+  card.append(h('div', { class: 'eyebrow' }, `結局・第 ${e.day} 天`), h('div', { class: 'title' }, e.title), h('div', { class: 'text' }, e.text));
+  const alive = Object.values(s.chars).filter(c => c.alive).map(c => game.displayName(c));
+  const sum = h('div', { class: 'summary' },
+    h('div', {}, `存活：${alive.join('、') || '無'}`),
+    h('div', {}, `外派次數 ${s.stats.expeditions}・經歷事件 ${s.stats.eventsSeen}・探索地點 ${Object.keys(s.world.discovered).length}/${data.world.locations.length}`),
+    ...game.heroines().map(c => h('div', {}, `${c.name}：好感 ${c.Affection}・信任 ${c.Trust}${c.alive ? '' : '（已故）'}`)),
+  );
+  card.appendChild(sum);
+  card.appendChild(h('div', { class: 'row' }, h('button', { class: 'primary', onclick: newGame }, '再活一次')));
+  host.appendChild(card);
+}
+
+function renderTeam() {
+  const s = game.state;
+  const host = $('team');
   host.innerHTML = '';
-  for (const l of state.log.slice(0, 80)) {
-    const line = el('div','logline');
-    line.textContent = `[${l.ts}] ${l.text}`;
-    host.appendChild(line);
+  const planning = s.phase === 'plan';
+  const locs = data.world.locations.filter(l => l.id !== 'home' && s.world.discovered[l.id]);
+  for (const c of Object.values(s.chars)) {
+    const statusTxt = !c.alive ? '已故'
+      : c.status === 'away' ? `外派・${game.locName(c.away.loc)}（第 ${c.away.returnDay} 天回）`
+      : c.status === 'missing' ? `失散・最後出現在${game.locName(c.missingAt)}`
+      : planning && s.plan.expeditions[c.id] ? `準備出發 → ${game.locName(s.plan.expeditions[c.id])}` : '在地下室';
+    const card = h('div', { class: `member${c.alive ? '' : ' dead'}${c.status !== 'home' ? ' away' : ''}` });
+    card.appendChild(h('div', { class: 'm-head' },
+      h('span', { class: 'm-name' }, c.isPlayer ? `${c.name}（你）` : c.name),
+      h('span', { class: 'badge' }, c.role),
+      h('span', { class: 'm-status' }, statusTxt)));
+    if (c.alive && c.status !== 'missing') {
+      card.appendChild(h('div', { class: 'm-bars' },
+        h('label', {}, `健康 ${c.Health}`, bar(c.Health, 100, 'hp')),
+        h('label', {}, `壓力 ${c.Stress}`, bar(c.Stress, 100, 'stress')),
+        h('label', {}, `感染 ${c.Infection}`, bar(c.Infection, 100, 'inf')),
+        h('label', {}, `體態 ${bodyDesc(c.Body)}`, bar(c.Body, 100, 'body')),
+      ));
+      if (!c.isPlayer) {
+        card.appendChild(h('div', { class: 'm-bars rel2' },
+          h('label', {}, `好感 ${c.Affection}`, relBar(c.Affection)),
+          h('label', {}, `信任 ${c.Trust}`, relBar(c.Trust))));
+      }
+      card.appendChild(h('div', { class: 'm-stats' }, Object.entries(c.stats).map(([k, v]) => `${STAT_LABEL[k]} ${v}`).join('　')));
+    }
+    if (planning && c.alive && c.status === 'home') {
+      const diet = h('select', { onchange: (ev) => { c.todayDiet = ev.target.value; render(); } },
+        DIET_OPTIONS.map(o => h('option', { value: o.key, selected: o.key === c.todayDiet }, `${o.label}（食${o.food}・水${o.water}）`)));
+      const exp = h('select', { onchange: (ev) => game.setExpedition(c.id, ev.target.value || null) },
+        h('option', { value: '' }, '留守'),
+        locs.map(l => h('option', { value: l.id, selected: s.plan.expeditions[c.id] === l.id },
+          `外派 ${l.name}（${l.dist} 天・危險 ${l.danger}・屍 ${s.world.density[l.id]}）`)));
+      const actions = h('div', { class: 'm-actions' }, h('label', {}, '飲食 ', diet), h('label', {}, '行動 ', exp));
+      if (game.canUseMed(c)) actions.appendChild(h('button', { class: 'small-btn', onclick: () => { game.useMed(c.id); persist(); } }, '用藥（Med −1）'));
+      card.appendChild(actions);
+    }
+    host.appendChild(card);
   }
 }
 
-function renderAll() {
-  renderStatus();
-  renderDiet();
-  renderEvent();
-  renderLog();
+function densityColor(d) {
+  // green → amber → red
+  const t = Math.min(1, d / 100);
+  const r = Math.round(40 + 200 * t), g = Math.round(190 - 140 * t), b = Math.round(90 - 50 * t);
+  return `rgb(${r},${g},${b})`;
 }
 
-// --- Wiring
-$('btnNew').addEventListener('click', newGame);
-$('btnSave').addEventListener('click', save);
-$('btnLoad').addEventListener('click', load);
-$('btnReset').addEventListener('click', resetSave);
+function renderMap() {
+  const s = game.state;
+  const m = $('map');
+  m.innerHTML = '';
+  const disc = s.world.discovered;
+  // Edges between discovered locations
+  for (const [a, b] of data.world.edges) {
+    if (!disc[a] || !disc[b]) continue;
+    const A = game.loc(a), B = game.loc(b);
+    m.appendChild(svg('line', { x1: A.x, y1: A.y, x2: B.x, y2: B.y, class: 'edge' }));
+  }
+  // Undiscovered locations adjacent to discovered ones show as faint "?"
+  for (const l of data.world.locations) {
+    if (disc[l.id]) continue;
+    if (!data.adj[l.id].some(n => disc[n])) continue;
+    m.appendChild(svg('circle', { cx: l.x, cy: l.y, r: 1.6, class: 'unknown' }));
+    const t = svg('text', { x: l.x, y: l.y + 0.9, class: 'qmark' });
+    t.textContent = '?';
+    m.appendChild(t);
+  }
+  // Hordes (visible if at/adjacent to something discovered)
+  for (const hd of s.world.hordes) {
+    const l = game.loc(hd.at);
+    if (!disc[hd.at] && !data.adj[hd.at].some(n => disc[n])) continue;
+    m.appendChild(svg('circle', { cx: l.x, cy: l.y, r: 3 + hd.size / 15, class: 'horde' }));
+  }
+  for (const l of data.world.locations) {
+    if (!disc[l.id]) continue;
+    const g = svg('g', { class: `node${selectedLoc === l.id ? ' sel' : ''}${l.id === 'home' ? ' home' : ''}`, tabindex: 0 });
+    g.addEventListener('click', () => { selectedLoc = l.id; renderMap(); });
+    g.appendChild(svg('circle', { cx: l.x, cy: l.y, r: l.id === 'home' ? 3 : 2.3, fill: l.id === 'home' ? '#facc15' : densityColor(s.world.density[l.id]) }));
+    const label = svg('text', { x: l.x, y: l.y - 3.6, class: 'label' });
+    label.textContent = l.short || l.name;
+    g.appendChild(label);
+    m.appendChild(g);
+  }
+  // Expedition markers and missing heroines
+  const away = Object.values(s.chars).filter(c => c.alive && c.status === 'away');
+  away.forEach((c, i) => {
+    const l = game.loc(c.away.loc);
+    const t = svg('text', { x: l.x + 3 + i * 3, y: l.y + 3.5, class: 'pawn' });
+    t.textContent = c.isPlayer ? '你' : c.name[1];
+    m.appendChild(t);
+  });
+  for (const c of game.heroines()) {
+    if (!c.alive || c.status !== 'missing' || !disc[c.missingAt]) continue;
+    const l = game.loc(c.missingAt);
+    const t = svg('text', { x: l.x - 4.5, y: l.y + 3.5, class: 'pawn missing' });
+    t.textContent = `${c.name[1]}?`;
+    m.appendChild(t);
+  }
 
-$('btnApplyDiet').addEventListener('click', async () => {
-  if (stage !== 'diet') return;
-  const ok = applyDietSelections();
-  if (!ok) return;
+  // Location info
+  const info = $('locInfo');
+  info.innerHTML = '';
+  const l = selectedLoc && game.loc(selectedLoc);
+  if (!l) { info.appendChild(h('div', { class: 'muted' }, '點擊地圖上的地點查看情報。紅圈是屍潮。')); return; }
+  const fac = data.world.factions.find(f => f.home === l.id);
+  const loot = Object.keys(l.loot || {}).map(k => RES_LABEL[k]).join('、');
+  info.append(...[
+    h('div', { class: 'li-title' }, l.name, l.id !== 'home' ? h('span', { class: 'badge' }, `${l.dist} 天・危險 ${l.danger}・屍密度 ${s.world.density[l.id]}`) : null),
+    h('div', { class: 'li-desc' }, l.desc),
+    loot ? h('div', { class: 'muted' }, `可能找到：${loot}`) : null,
+    fac ? h('div', { class: 'muted' }, `勢力：${fac.name}（聲望 ${s.factions[fac.id]}）`) : null,
+  ].filter(Boolean));
+  if (s.phase === 'plan' && l.id !== 'home') {
+    const avail = game.present().filter(c => !s.plan.expeditions[c.id]);
+    if (avail.length > 1) {
+      info.appendChild(h('div', { class: 'row' }, avail.map(c =>
+        h('button', { class: 'small-btn', onclick: () => game.setExpedition(c.id, l.id) }, `派${game.displayName(c)}去`))));
+    }
+  }
+}
 
-  currentEvent = pickEvent();
-  state.lastEventId = currentEvent.id;
-  stage = 'event';
-  renderAll();
-});
+function renderFeed() {
+  const s = game.state;
+  const r = $('radio');
+  r.innerHTML = '';
+  if (s.radio) r.appendChild(h('div', { class: 'radio-line' }, h('span', { class: 'radio-ico' }, '📻'), s.radio));
+  else if (!s.flags.hasRadio) r.appendChild(h('div', { class: 'muted' }, '（沒有收音機。外面的消息只能靠耳朵和運氣。）'));
+  const f = $('feed');
+  f.innerHTML = '';
+  for (const n of s.feed.slice(0, 14)) f.appendChild(h('div', { class: `feedline k-${n.kind}` }, h('span', { class: 'd' }, `D${n.day}`), n.text));
+}
+
+function renderTabs() {
+  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.dataset.tab === activeTab));
+  const host = $('tabBody');
+  host.innerHTML = '';
+  const s = game.state;
+  if (activeTab === 'quests') {
+    const qs = game.questProgress();
+    if (!qs.length) host.appendChild(h('div', { class: 'muted' }, '還沒有任務。活下去，世界會找上你。'));
+    for (const q of qs) {
+      const box = h('div', { class: `quest${q.done ? ' done' : ''}` }, h('div', { class: 'q-title' }, q.title), q.summary ? h('div', { class: 'muted' }, q.summary) : null);
+      q.stages.forEach((st, i) => { if (i <= q.reached) box.appendChild(h('div', { class: `q-stage${i === q.reached ? ' cur' : ''}` }, st.text)); });
+      host.appendChild(box);
+    }
+  } else if (activeTab === 'factions') {
+    const metMap = { nightmarket: 'metNightmarket', students: 'metStudents', military: 'metMilitary', blackrain: 'metBlackrain' };
+    for (const f of data.world.factions) {
+      const met = s.flags[metMap[f.id]];
+      host.appendChild(h('div', { class: 'faction' },
+        h('div', { class: 'q-title' }, met ? f.name : '？？？', h('span', { class: 'badge' }, `聲望 ${s.factions[f.id]}`)),
+        h('div', { class: 'muted' }, met ? f.desc : `據說盤踞在${s.world.discovered[f.home] ? game.locName(f.home) : '某處'}。`),
+        relBar(s.factions[f.id])));
+    }
+  } else {
+    for (const l of s.log.slice(0, 120)) host.appendChild(h('div', { class: `logline k-${l.kind}` }, h('span', { class: 'd' }, `D${l.day}`), l.text));
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Save / load
+
+function persist() {
+  try { localStorage.setItem(SAVE_KEY, game.serialize()); } catch { /* storage unavailable */ }
+}
+
+function save() {
+  persist();
+  game.log('（已存檔）');
+  render();
+}
+
+function load() {
+  let raw = null;
+  try { raw = localStorage.getItem(SAVE_KEY); } catch { /* ignore */ }
+  if (!raw) return alert('沒有存檔。');
+  try {
+    attach(Game.deserialize(data, raw));
+    game.log('（已讀檔）');
+    render();
+  } catch (e) {
+    alert(e.message);
+  }
+}
+
+function newGame() {
+  if (game && game.state.phase !== 'intro' && game.state.phase !== 'ended' && !confirm('放棄目前的進度，重新開始？')) return;
+  scavengeHandle?.abort();
+  scavengeHandle = null;
+  selectedLoc = null;
+  attach(new Game(data));
+  persist();
+  render();
+}
+
+function attach(g) {
+  game = g;
+  game.onChange(() => render());
+  // A save made mid-scavenge can't resume the minigame; fall back to the intro.
+  if (game.state.phase === 'scavenge') game.state.phase = 'intro';
+}
+
+// ---------------------------------------------------------------------------
+// Boot
+
+async function fetchJSON(p) {
+  const res = await fetch(p);
+  if (!res.ok) throw new Error(`${p}: ${res.status}`);
+  return res.json();
+}
 
 async function boot() {
-  const res = await fetch('./data/events.json');
-  EVENTS = await res.json();
-  renderAll();
-  logLine('原型已就緒：先分配飲食，再面對事件。');
+  const manifest = await fetchJSON('./data/manifest.json');
+  const [world, characters, endings, flavor, ...contentFiles] = await Promise.all([
+    fetchJSON('./data/world.json'),
+    fetchJSON('./data/characters.json'),
+    fetchJSON('./data/endings.json'),
+    fetchJSON(`./data/${manifest.flavor}`).catch(() => ({})),
+    ...manifest.content.map(f => fetchJSON(`./data/${f}`).catch(err => { console.warn('content missing', f, err); return { events: [] }; })),
+  ]);
+  data = buildData({ world, characters, endings, flavor, contentFiles });
+
+  $('btnNew').addEventListener('click', newGame);
+  $('btnSave').addEventListener('click', save);
+  $('btnLoad').addEventListener('click', load);
+  document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => { activeTab = b.dataset.tab; renderTabs(); }));
+
+  let raw = null;
+  try { raw = localStorage.getItem(SAVE_KEY); } catch { /* ignore */ }
+  try { attach(raw ? Game.deserialize(data, raw) : new Game(data)); }
+  catch { attach(new Game(data)); }
+  render();
 }
 
-boot();
+boot().catch(err => {
+  $('stage').textContent = `載入失敗：${err.message}（請用本地伺服器開啟，例如 npx serve 或 python -m http.server）`;
+  console.error(err);
+});

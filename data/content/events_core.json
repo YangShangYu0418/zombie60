@@ -1,0 +1,296 @@
+{
+  "events": [
+    {
+      "id": "CORE_001",
+      "pool": "shelter",
+      "title": "水箱的怪聲",
+      "weight": 10,
+      "text": "夜裡，你聽見牆後的水箱傳來『嗒…嗒…』的敲擊聲。\n聲音不大，但足夠讓人想像：如果它擴大，會不會把外面的東西引來？\n\n黎霜說：『先修。』\n宋寧說：『先睡，明天再說。』\n夏見把手放在門邊，像在等你一句話。",
+      "choices": [
+        {
+          "label": "立即檢修（花時間、降低噪音）",
+          "outcomes": {
+            "always": {
+              "text": "你們拆開蓋板，找到鬆動的固定栓。聲音止住了。代價是睡眠不足。",
+              "effects": {
+                "status": {
+                  "Stress": 5
+                },
+                "resources": {
+                  "Noise": -2
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": 3
+                  },
+                  "songNing": {
+                    "Affection": -1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "先忍耐（不增加壓力，但噪音風險上升）",
+          "outcomes": {
+            "always": {
+              "text": "你決定先睡。敲擊聲像是在算時間。",
+              "effects": {
+                "resources": {
+                  "Noise": 2
+                },
+                "relations": {
+                  "songNing": {
+                    "Trust": 2
+                  },
+                  "liShuang": {
+                    "Affection": -1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "CORE_002",
+      "pool": "shelter",
+      "title": "罐頭的去向",
+      "weight": 10,
+      "conditions": {
+        "minDay": 2
+      },
+      "text": "早晨清點時，你發現少了一罐高熱量罐頭。\n沒有人承認。\n\n封閉的空間會把人逼到最小的縫隙裡，然後讓縫隙變成裂痕。",
+      "choices": [
+        {
+          "label": "公開搜查（壓住恐慌，但傷關係）",
+          "outcomes": {
+            "always": {
+              "text": "你要求所有人把私人物品攤開。你找到了罐頭，但你也找到了『彼此不信任』。",
+              "effects": {
+                "status": {
+                  "Stress": 6
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": 2
+                  },
+                  "songNing": {
+                    "Affection": -3
+                  },
+                  "xiaJian": {
+                    "Trust": -1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "私下談（消耗時間，但保住表面和平）",
+          "outcomes": {
+            "always": {
+              "text": "你一個個聊。你沒有抓到『犯人』，但你抓到了一點點情緒的溫度。",
+              "effects": {
+                "status": {
+                  "Stress": 2
+                },
+                "relations": {
+                  "songNing": {
+                    "Trust": 2
+                  },
+                  "liShuang": {
+                    "Affection": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "CORE_003",
+      "pool": "world",
+      "title": "外面有光",
+      "weight": 10,
+      "text": "窗縫外有一抹反射光，像是車窗或鏡面。\n夏見說：『出去看看。也許是物資。』\n黎霜皺眉：『我們不需要每個『也許』。』\n\n探索會帶回希望，也會帶回座標。",
+      "choices": [
+        {
+          "label": "派人短探索（+ExploreRisk，可能換到資源）",
+          "outcomes": {
+            "always": {
+              "text": "你們做了最短路線、最快回來。帶回一些物資，也帶回一點風險。\n回來的人說，國小操場的帳篷裡好像還有東西。",
+              "effects": {
+                "resources": {
+                  "Food": 1,
+                  "Water": 1,
+                  "ExploreRisk": 2,
+                  "Noise": 1
+                },
+                "relations": {
+                  "xiaJian": {
+                    "Affection": 2
+                  },
+                  "liShuang": {
+                    "Trust": -1
+                  }
+                },
+                "discover": [
+                  "shenkeng_school"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "label": "按兵不動（保守降低風險）",
+          "outcomes": {
+            "always": {
+              "text": "你把那抹光當作不存在。\n不冒險，就不會立刻受傷——但也不會立刻變好。",
+              "effects": {
+                "resources": {
+                  "ExploreRisk": -1
+                },
+                "relations": {
+                  "liShuang": {
+                    "Trust": 1
+                  },
+                  "xiaJian": {
+                    "Trust": -1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "CORE_HORDE",
+      "pool": "queued",
+      "title": "屍潮來襲",
+      "once": false,
+      "text": "先是狗叫，然後是玻璃碎裂的聲音，從巷口一路往這裡推進。\n你從鐵門的縫隙往外看——不是一隻、兩隻。是一整片會走路的影子，肩膀擠著肩膀，像漲潮。\n\n夏見已經握緊了斧頭。黎霜在算時間。宋寧把燈一盞一盞地關掉，回頭看你：『怎麼做？』",
+      "choices": [
+        {
+          "label": "死守鐵門（彈藥 −2，最強戰力 COM 檢定）",
+          "requires": {
+            "resources": {
+              "Ammo": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Ammo": 2
+          },
+          "check": {
+            "who": "best",
+            "stat": "COM",
+            "dc": 8
+          },
+          "outcomes": {
+            "success": {
+              "text": "槍聲、斧頭、嘶吼。不知道過了多久，撞擊聲變稀了，最後只剩下雨一樣的喘息。\n你們守住了。鐵門凹了一大塊，但還站著。",
+              "effects": {
+                "resources": {
+                  "Defense": -4,
+                  "Morale": 6,
+                  "Noise": 4
+                },
+                "status": {
+                  "Stress": 6
+                }
+              }
+            },
+            "fail": {
+              "text": "鐵門的鉸鍊先撐不住。你們在樓梯口用身體和桌子堵出第二道牆，一直撐到天亮。\n活下來了。但每個人身上都多了一些不想看的傷。",
+              "effects": {
+                "resources": {
+                  "Defense": -12,
+                  "Morale": -6,
+                  "Noise": 6
+                },
+                "status": {
+                  "Health": -10,
+                  "Stress": 12,
+                  "Infection": 6
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "熄燈、屏息，等它們過去（最理性者 LOG 檢定）",
+          "check": {
+            "who": "best",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "四個人擠在最裡面的角落，連呼吸都數著節拍。\n外面的腳步聲經過、停下、又經過。天亮的時候，巷子空了。",
+              "effects": {
+                "resources": {
+                  "Noise": -8
+                },
+                "status": {
+                  "Stress": 10
+                }
+              }
+            },
+            "fail": {
+              "text": "有人的肚子叫了一聲。很小，但夠了。\n抓門聲在你們頭頂持續了一整夜，鐵門下緣被扒開一道縫，一隻手伸了進來——",
+              "effects": {
+                "resources": {
+                  "Defense": -8,
+                  "Food": -2,
+                  "Noise": 4
+                },
+                "status": {
+                  "Health": -8,
+                  "Stress": 14
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "從後巷撤到老街廟裡躲一夜（食物 −2、飲水 −2）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 2
+              },
+              "Water": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Food": 2,
+            "Water": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "你們摸黑穿過後巷，躲進集應廟的神桌底下。香爐裡的灰還是溫的。\n回來的時候，地下室被翻得亂七八糟，但沒有人受傷。",
+              "effects": {
+                "resources": {
+                  "Defense": -15,
+                  "ExploreRisk": 3,
+                  "Noise": -5
+                },
+                "status": {
+                  "Stress": 12
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

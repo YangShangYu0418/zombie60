@@ -1,0 +1,1655 @@
+{
+  "events": [
+    {
+      "id": "LW_NCCU_01",
+      "pool": "loc:nccu",
+      "title": "床單上的求救",
+      "once": true,
+      "conditions": {
+        "notFlags": [
+          "metStudents"
+        ]
+      },
+      "text": "坡道盡頭的鐵絲網後面，三個人端著東西對準{actor}。\n最前面是研究生溫書言，手裡的美工刀抖得厲害，眼神卻很穩。\n『別再靠近。』溫書言說，『宿舍窗口那些字，是我們寫的。後面被劃掉的，也是。』\n風吹過，宿舍的床單翻了一下，『別來』兩個字露了出來。",
+      "choices": [
+        {
+          "label": "放低武器，先報上名字",
+          "outcomes": {
+            "always": {
+              "text": "{actor}慢慢放下手，報上名字。溫書言聽完，把刀收進口袋，肩膀卻沒有放鬆。",
+              "effects": {
+                "flagsSet": [
+                  "metStudents"
+                ],
+                "factions": {
+                  "students": 5
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "拿出一包乾糧當見面禮（Food -1）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "乾糧被接過去，對方的肩膀鬆了一點。『有誠意。』溫書言把鐵絲網的扣環解開一個缺口。",
+              "effects": {
+                "flagsSet": [
+                  "metStudents"
+                ],
+                "factions": {
+                  "students": 5
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "用 CHA 談條件（CHA 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "{actor}把話說得很慢，每一句都留了餘地。溫書言終於點頭：『可以談。』",
+              "effects": {
+                "flagsSet": [
+                  "metStudents"
+                ],
+                "factions": {
+                  "students": 5
+                },
+                "resources": {
+                  "Morale": 3
+                }
+              }
+            },
+            "fail": {
+              "text": "話才說到一半，後面的男生突然拉栓。{actor}的後背一陣冰涼。",
+              "effects": {
+                "flagsSet": [
+                  "metStudents"
+                ],
+                "factions": {
+                  "students": 5
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 6
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_NCCU_02",
+      "pool": "loc:nccu",
+      "title": "舊館的地圖櫃",
+      "conditions": {
+        "flags": [
+          "metStudents"
+        ]
+      },
+      "text": "圖書館的中庭積著一層水，玻璃門上貼著手寫的借閱公告，日期停在爆發那一週。\n溫書言說，舊館三樓還有一排地圖櫃，是學校早年測量系留下的。\n『要去山下的人，』對方把鑰匙拋過來，『別只看路，要看哪裡有水。』\n{actor}推開櫃門，灰塵嗆得人直咳，抽屜底下壓著一張泛黃的紙。",
+      "choices": [
+        {
+          "label": "翻找地圖櫃（LOG 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "泛黃的紙是一張手繪路網，哪條溪谷能走、哪座橋該繞，標得清清楚楚。",
+              "effects": {
+                "flagsSet": [
+                  "hasMap"
+                ],
+                "discover": [
+                  "zoo"
+                ]
+              }
+            },
+            "fail": {
+              "text": "櫃子卡在牆角，{actor}硬拉的時候整個櫃身往前傾，肩膀被砸個正著。",
+              "effects": {
+                "chars": {
+                  "$actor": {
+                    "Health": -6
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "請溫書言口頭指路（不翻櫃）",
+          "outcomes": {
+            "always": {
+              "text": "溫書言在紙角畫了幾條線：『這些是我們的人走過的，別踩進紅圈。』路線標得不完整。",
+              "effects": {
+                "discover": [
+                  "freeway3_checkpoint"
+                ],
+                "factions": {
+                  "students": 2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "趁沒人注意，把閱覽區的罐頭塞進背包",
+          "outcomes": {
+            "always": {
+              "text": "罐頭被一罐罐塞進背包，溫書言只看了一眼，沒有說話。",
+              "effects": {
+                "resources": {
+                  "Food": 2
+                },
+                "factions": {
+                  "students": -3
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_NCCU_03",
+      "pool": "loc:nccu",
+      "title": "宿舍三樓的門",
+      "conditions": {
+        "flags": [
+          "metStudents"
+        ]
+      },
+      "text": "宿舍三樓的走廊燈還亮著，每扇門後都有抓撓的聲音。\n自治會的人守在樓梯口，說三樓有十幾隻被關在寢室裡的東西，再不清，樓下撐不過今晚。\n『從外面頂住門，我們就能慢慢收。』溫書言說，『只是需要有人先衝進去。』\n{actor}握緊手邊的東西，走到第一扇門前。",
+      "choices": [
+        {
+          "label": "衝進去，和自治會一起清（COM 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "COM",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "門一開，{actor}的動作又快又乾淨，走廊很快安靜下來。溫書言點頭：『這次算我們欠{actor}的。』",
+              "effects": {
+                "resources": {
+                  "Parts": 1,
+                  "ExploreRisk": -2
+                },
+                "factions": {
+                  "students": 6
+                }
+              }
+            },
+            "fail": {
+              "text": "門後的東西撲了出來，{actor}被逼退到樓梯間，手臂上劃開一道口子。",
+              "effects": {
+                "resources": {
+                  "Noise": 3
+                },
+                "factions": {
+                  "students": 3
+                },
+                "chars": {
+                  "$actor": {
+                    "Health": -8,
+                    "Infection": 5
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "守在樓梯口，只負責搬桌椅頂門（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}把桌椅一張張搬過去抵住門，吵了一陣，三樓慢慢安靜下來。自治會的人沒有多說什麼。",
+              "effects": {
+                "resources": {
+                  "Noise": 2
+                },
+                "factions": {
+                  "students": 2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "趁人手不夠，溜去三樓儲藏室（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}從儲藏室拖出兩箱泡麵，樓下的人正忙著，沒人注意。溫書言晚點才看見，只是看著{actor}，很久沒說話。",
+              "effects": {
+                "resources": {
+                  "Food": 3
+                },
+                "factions": {
+                  "students": -4
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_NCCU_04",
+      "pool": "loc:nccu",
+      "title": "一箱零件的價碼",
+      "conditions": {
+        "flags": [
+          "metStudents"
+        ]
+      },
+      "text": "自治會的倉庫堆著一箱箱零件，電線、保險絲、整捲的銅線，整齊得像在賣場。\n溫書言把清單遞過來：『我們缺的是食物。零件要多少，數字寫在這。』\n旁邊的研究生小聲抱怨，說存糧只夠撐到下個月。\n{actor}拿著清單，手指停在一行字上。",
+      "choices": [
+        {
+          "label": "用 Food 3 換零件 2（交易）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 3
+              }
+            }
+          },
+          "cost": {
+            "Food": 3
+          },
+          "outcomes": {
+            "always": {
+              "text": "箱子被推過來，兩捲銅線和一組保險絲。溫書言沒有說謝謝，也沒有收回去。",
+              "effects": {
+                "resources": {
+                  "Parts": 2
+                },
+                "factions": {
+                  "students": 3
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "只換一捲銅線（Food -1）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "{actor}只挑了一捲銅線，把清單還回去。『下次再來。』溫書言說得很平淡。",
+              "effects": {
+                "resources": {
+                  "Parts": 1
+                },
+                "factions": {
+                  "students": 1
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "殺價（Food -2，CHA 檢定 困難 9）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Food": 2
+          },
+          "check": {
+            "who": "actor",
+            "stat": "CHA",
+            "dc": 9
+          },
+          "outcomes": {
+            "success": {
+              "text": "{actor}把話說得一點也不讓，溫書言被逗笑，多塞了一箱保險絲。",
+              "effects": {
+                "resources": {
+                  "Parts": 3
+                },
+                "factions": {
+                  "students": 4
+                }
+              }
+            },
+            "fail": {
+              "text": "溫書言把清單收回去，語氣冷下來：『這個價已經很低了。』{actor}只拿到一捲銅線。",
+              "effects": {
+                "resources": {
+                  "Parts": 1
+                },
+                "factions": {
+                  "students": -2
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "只聊天、交換情報，什麼都不換",
+          "outcomes": {
+            "always": {
+              "text": "學生們有點失望，但還是把最近幾天屍潮的動向畫在白板上給{actor}看。",
+              "effects": {
+                "factions": {
+                  "students": -1
+                },
+                "resources": {
+                  "ExploreRisk": -2
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_NCCU_05",
+      "pool": "loc:nccu",
+      "title": "半夜的發電機",
+      "conditions": {
+        "flags": [
+          "metStudents"
+        ],
+        "minDay": 2
+      },
+      "text": "發電機藏在宿舍後面的防空洞裡，轟隆聲大到地面都在震。\n對方說這台機器已經連續運轉三天，排氣管不太對勁，再這樣下去會爆缸。\n溫書言看向{actor}，語氣有點試探：『這附近，還有會修這種東西的人嗎？』\n機器的聲音一陣高一陣低，遠處似乎有什麼被吵醒了。",
+      "choices": [
+        {
+          "label": "蹲下檢查排氣管（LOG 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "{actor}拆開積碳的濾網，清出一團黑泥。機器的聲音順了不少，空氣裡的焦味淡了。",
+              "effects": {
+                "resources": {
+                  "Parts": 1,
+                  "Noise": -2
+                },
+                "factions": {
+                  "students": 5
+                }
+              }
+            },
+            "fail": {
+              "text": "排氣管突然噴出一股熱氣，{actor}的手背被燙出水泡，機器也差點停擺。",
+              "effects": {
+                "resources": {
+                  "Noise": 4
+                },
+                "chars": {
+                  "$actor": {
+                    "Health": -5
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "請對方先關機，天亮再修（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "發電機停下來，四周一下子暗了。黑暗裡，對方的聲音很小：『謝謝……這幾天大家都沒睡。』",
+              "effects": {
+                "resources": {
+                  "Noise": -3,
+                  "Morale": -2
+                },
+                "factions": {
+                  "students": 2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "說修理太危險，轉身離開（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}搖頭，轉身往回走。身後的發電機還在轟，沒有人追上來。",
+              "effects": {
+                "factions": {
+                  "students": -3
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_NCCU_06",
+      "pool": "loc:nccu",
+      "title": "夜裡的守門人",
+      "conditions": {
+        "flags": [
+          "metStudents"
+        ],
+        "minDay": 3
+      },
+      "text": "深夜的操場站滿了人，有人握著掃把，有人拿拖把桿，沒有一把槍是真的能上膛。\n自治會的點名表上，只剩三個名字還寫著『可以站崗』。\n『我們需要會開槍的人。』對方說，語氣平得像在道歉，『不一定要守整夜。』\n遠處的山林傳來一聲長長的嚎叫，所有人同時回頭。",
+      "choices": [
+        {
+          "label": "主動站第一班崗（COM 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "COM",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "{actor}在鐵絲網後面站了整夜，一隻接一隻地擋下來。天亮時，有人遞來一杯熱水。",
+              "effects": {
+                "resources": {
+                  "Morale": 3
+                },
+                "factions": {
+                  "students": 6
+                }
+              }
+            },
+            "fail": {
+              "text": "一隻腐爛的手從鐵絲網下伸出來，抓住{actor}的袖子。拚命拉開的時候，布料已經被扯爛。",
+              "effects": {
+                "factions": {
+                  "students": 2
+                },
+                "chars": {
+                  "$actor": {
+                    "Infection": 8,
+                    "Stress": 5
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把名字劃掉，回去路口守著（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}把名字劃掉，回到路口。溫書言沒有生氣，只是把名單折好收進口袋。",
+              "effects": {
+                "factions": {
+                  "students": -3
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "用 Food 2 換一把手電筒，順便留下守夜（Food -2）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Food": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "{actor}把食物放在桌上，換來一把手電筒和一句『辛苦了』。整夜的風很冷，手電筒卻很亮。",
+              "effects": {
+                "resources": {
+                  "Morale": 2
+                },
+                "factions": {
+                  "students": 4
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_HOSP_01",
+      "pool": "loc:wanfang_hospital",
+      "title": "自動門後的走廊",
+      "text": "急診室的自動門卡在半開，門縫裡推車翻倒，點滴袋被踩得稀爛。\n走廊盡頭傳來拖行的聲音，一隻、兩隻，數也數不清。\n藥櫃就在走廊那頭，偏偏正中屍群的位置。\n{actor}把手電筒夾在肩上，握緊手裡的棍子。",
+      "choices": [
+        {
+          "label": "正面衝進去，搶下藥櫃（COM 檢定 困難 9）",
+          "check": {
+            "who": "actor",
+            "stat": "COM",
+            "dc": 9
+          },
+          "outcomes": {
+            "success": {
+              "text": "棍子一下一下敲開前路，等衝到藥櫃前，抽屜裡的藥品還沒被動過。",
+              "effects": {
+                "resources": {
+                  "Med": 3,
+                  "Noise": 4
+                }
+              }
+            },
+            "fail": {
+              "text": "一隻從病床底下竄出來的東西咬住{actor}的小腿，拖著退回門口才脫身。",
+              "effects": {
+                "resources": {
+                  "Noise": 5
+                },
+                "chars": {
+                  "$actor": {
+                    "Health": -10,
+                    "Infection": 10
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "等屍群往大廳移動，貼著牆溜進去（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "屍群慢慢往大廳挪，{actor}貼著牆邊走，只拿到門邊的紗布和一瓶消毒水。",
+              "effects": {
+                "resources": {
+                  "Med": 1,
+                  "ExploreRisk": 2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把自動門用推車頂死，什麼都不拿（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}把推車推到門口頂死，回頭看著那條走廊，什麼都沒有帶走。",
+              "effects": {
+                "chars": {
+                  "$actor": {
+                    "Stress": 2
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_HOSP_02",
+      "pool": "loc:wanfang_hospital",
+      "title": "藥局的抽屜",
+      "text": "藥局的鐵捲門被撬開過，架子上空了一半，剩下的都是沒人要的東西。\n檯面底下有一排上鎖的抽屜，鑰匙早不知道掉到哪裡。\n{actor}看著標籤，上頭的字跡還很新：『管制，勿取』。\n後方的更衣室傳來一聲很輕的敲擊。",
+      "choices": [
+        {
+          "label": "用細鐵絲撬鎖（LOG 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "鎖芯轉了一圈，抽屜拉開。抗生素和止痛藥整齊排好，底下壓著一張便條：『景美夜市 阿嬤 收藥』。",
+              "effects": {
+                "resources": {
+                  "Med": 2
+                },
+                "discover": [
+                  "jingmei_market"
+                ]
+              }
+            },
+            "fail": {
+              "text": "鐵絲斷在鎖孔裡，更衣室的敲擊聲忽然變快，急促得像在催促什麼。",
+              "effects": {
+                "resources": {
+                  "Noise": 4
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "先去更衣室看看（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}推開更衣室的門，裡面是一隻穿著護士服的東西。它沒有聽見門響，只是一直撞著櫃子。{actor}把它解決了，手上多了一道汙漬。",
+              "effects": {
+                "resources": {
+                  "Med": 1
+                },
+                "chars": {
+                  "$actor": {
+                    "Infection": 3,
+                    "Stress": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "不碰抽屜，只拿櫃檯上的散裝藥（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "櫃檯上散著幾板沒開封的止痛藥，{actor}隨手抓了一把，沒有多看那扇鎖著的抽屜。",
+              "effects": {
+                "resources": {
+                  "Med": 1
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_HOSP_03",
+      "pool": "loc:wanfang_hospital",
+      "title": "地下三層的車陣",
+      "text": "地下停車場的入口拉著封鎖線，線頭被風吹得一晃一晃。\n車陣擠成一團，有幾台車門敞著，車頂還擺著吃剩的便當盒。\n最深處的救護車，車尾鐵門半開，裡面的燈竟然還亮著。\n{actor}踩過一灘積水，腳步聲在空蕩的停車場裡迴盪得太大聲。",
+      "choices": [
+        {
+          "label": "搬開擋路的車，衝向救護車（STR 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "STR",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "車尾的鐵箱被拖出來，裡面整整齊齊堆著點滴、紗布和兩罐氧氣。",
+              "effects": {
+                "resources": {
+                  "Med": 2,
+                  "Noise": 3
+                }
+              }
+            },
+            "fail": {
+              "text": "車門突然被拉開，一隻手從車裡伸出來，把{actor}的袖子扯破，人被拖得踉蹌。",
+              "effects": {
+                "resources": {
+                  "Noise": 5
+                },
+                "chars": {
+                  "$actor": {
+                    "Health": -7
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "只拆救護箱的小包，拿能帶的（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}把救護箱裡的小包一個個拆出來，塞進背包，沒有去翻別的車。",
+              "effects": {
+                "resources": {
+                  "Med": 1,
+                  "ExploreRisk": 1
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "翻找附近的車，看有沒有電池和電線（LOG 檢定 簡單 5）",
+          "check": {
+            "who": "actor",
+            "stat": "LOG",
+            "dc": 5
+          },
+          "outcomes": {
+            "success": {
+              "text": "{actor}拆下一顆車用電池，接線的手法熟練得像在工作。",
+              "effects": {
+                "resources": {
+                  "Parts": 2
+                }
+              }
+            },
+            "fail": {
+              "text": "電線短路，火花濺出來，停車場的警報器突然響了一聲。",
+              "effects": {
+                "resources": {
+                  "Noise": 6
+                },
+                "chars": {
+                  "$actor": {
+                    "Health": -3
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_HOSP_04",
+      "pool": "loc:wanfang_hospital",
+      "title": "冰櫃的第三格",
+      "text": "太平間的冷藏櫃還在運轉，嗡嗡聲在黑暗裡特別清楚。\n牆上的名牌一排排，有些寫著日期，有些只寫著編號。\n第三格的拉把上綁著一條褪色的紅繩，像是有人刻意留下的記號。\n{actor}伸手，指尖碰到冰冷的金屬，就在這時，冰櫃裡傳來輕輕的敲擊聲。",
+      "choices": [
+        {
+          "label": "拉開第三格（STR 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "STR",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "裡面只有一個裹好的藥箱，角落還塞著一包乾燥的止痛藥。{actor}鬆了口氣，手卻抖個不停。",
+              "effects": {
+                "resources": {
+                  "Med": 2
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 4
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "拉把卡住，冰櫃門猛地彈開，一隻手從裡面抓出來，{actor}狠狠撞上牆才掙脫。",
+              "effects": {
+                "resources": {
+                  "Noise": 4
+                },
+                "chars": {
+                  "$actor": {
+                    "Health": -8,
+                    "Stress": 8,
+                    "Infection": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把紅繩解下來，不開櫃（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "紅繩很舊，像是孩子的東西。{actor}把它收進口袋，轉身離開太平間，腳步快了起來。",
+              "effects": {
+                "resources": {
+                  "Morale": 2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "從配電箱拔掉冷藏櫃的電源（LOG 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "冷藏櫃停了，黑暗中的敲擊也停了。配電箱上貼著一張字條：『別再拉』。",
+              "effects": {
+                "resources": {
+                  "Noise": -2
+                },
+                "flagsSet": [
+                  "lw_morgue_sealed"
+                ]
+              }
+            },
+            "fail": {
+              "text": "插頭冒出火花，{actor}的手心被燙了一下，附近的鐵櫃跟著晃動。",
+              "effects": {
+                "resources": {
+                  "Noise": 3
+                },
+                "chars": {
+                  "$actor": {
+                    "Health": -4
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_HOSP_05",
+      "pool": "loc:wanfang_hospital",
+      "title": "十點的頂樓燈",
+      "once": true,
+      "conditions": {
+        "notFlags": [
+          "lw_hospital_light"
+        ]
+      },
+      "text": "值班台只剩一個護理師，她縮在桌子底下，懷裡抱著一本沒寫完的交接簿。\n『每天晚上十點，頂樓會亮一盞燈，』她的聲音很小，『亮十分鐘，然後就熄了。我數過，每一天都沒少。』\n{actor}順著護理師指的方向往上看。大樓的最頂層，黑得像一塊墨。\n交接簿的最後一頁，有人用紅筆寫了一行字：『有人在等，別放棄。』",
+      "choices": [
+        {
+          "label": "等到十點，親眼看一看（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "時間一分一秒過去，十點整，頂樓的窗口亮起一盞燈，微弱卻很穩。{actor}把那個畫面牢牢記住。",
+              "effects": {
+                "flagsSet": [
+                  "lw_hospital_light"
+                ],
+                "resources": {
+                  "ExploreRisk": 2
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 5
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "翻找交接簿，對出通往頂樓的路（LOG 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "LOG",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "{actor}把病歷和樓層平面圖對起來，找到一條通往頂樓的安全梯。",
+              "effects": {
+                "flagsSet": [
+                  "lw_hospital_light"
+                ],
+                "resources": {
+                  "Med": 1
+                }
+              }
+            },
+            "fail": {
+              "text": "交接簿的紙張碎了一半，剩下的字模糊不清。{actor}只確定了一件事：頂樓有人。",
+              "effects": {
+                "flagsSet": [
+                  "lw_hospital_light"
+                ],
+                "chars": {
+                  "$actor": {
+                    "Stress": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把交接簿塞進背包，不理會頂樓（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "交接簿塞進背包，{actor}沒有抬頭看樓頂，連護理師藏著的藥也一併帶走。",
+              "effects": {
+                "flagsSet": [
+                  "lw_hospital_light"
+                ],
+                "resources": {
+                  "Med": 1,
+                  "Morale": -2
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_HOSP_06",
+      "pool": "loc:wanfang_hospital",
+      "title": "隔離病房的呻吟",
+      "text": "隔離病房的門上貼著黃色警示條，門縫底下滲著乾掉的血跡。\n裡面的呻吟很弱，像有人用最後的力氣說話。\n玻璃窗上慢慢貼上一隻手掌，指紋還清楚得很。\n『給我……一點藥……』聲音從門縫飄出來，{actor}站在門口，沒辦法假裝沒聽見。",
+      "choices": [
+        {
+          "label": "隔著門縫，推一包止痛藥進去（Med -1）",
+          "requires": {
+            "resources": {
+              "Med": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Med": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "藥從門縫推進去，呻吟聲小了一點。{actor}站了很久才離開。",
+              "effects": {
+                "resources": {
+                  "Morale": 2
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "開門，把人帶出來（STR 檢定 困難 9）",
+          "check": {
+            "who": "actor",
+            "stat": "STR",
+            "dc": 9
+          },
+          "outcomes": {
+            "success": {
+              "text": "那人拽住{actor}的手腕，拚命往外爬。{actor}咬牙把那人扛上背，走到安全的走廊才放下，對方只說了一句『謝謝』。",
+              "effects": {
+                "resources": {
+                  "Morale": 4
+                },
+                "chars": {
+                  "$actor": {
+                    "Health": -3,
+                    "Infection": 3
+                  }
+                }
+              }
+            },
+            "fail": {
+              "text": "他的牙齒咬進{actor}的手臂，兩人一起摔進病房，門在身後砰地關上。",
+              "effects": {
+                "resources": {
+                  "Noise": 4
+                },
+                "chars": {
+                  "$actor": {
+                    "Health": -8,
+                    "Infection": 10
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把門鎖上，順手把櫃子裡的抗生素全帶走（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}把抗生素塞進背包，沒有回頭。玻璃窗上的那隻手慢慢滑了下去。",
+              "effects": {
+                "resources": {
+                  "Med": 2,
+                  "Morale": -4
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_MKT_01",
+      "pool": "loc:jingmei_market",
+      "title": "阿嬤的圍牆",
+      "once": true,
+      "conditions": {
+        "notFlags": [
+          "metNightmarket"
+        ]
+      },
+      "text": "攤車圍成一圈，中間的空地亮著一排燈泡，照得人眼睛發酸。\n燈下坐著一位頭髮花白的阿嬤，手裡握著鐵夾，夾著一塊焦黃的蚵仔煎。\n『只收物資，不收鈔票。』她頭也不抬，『帶了什麼來？』\n{actor}看著那塊蚵仔煎，喉嚨不由自主地動了一下。",
+      "choices": [
+        {
+          "label": "拿出一份食物當見面禮（Food -1）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "阿嬤把食物收進圍裙，點點頭：『有誠意，以後可以來逛。』",
+              "effects": {
+                "flagsSet": [
+                  "metNightmarket"
+                ],
+                "factions": {
+                  "nightmarket": 5
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "直接談長期交易（CHA 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "阿嬤把鐵夾放下，笑出聲：『嘴很甜，我喜歡。』",
+              "effects": {
+                "flagsSet": [
+                  "metNightmarket"
+                ],
+                "factions": {
+                  "nightmarket": 5
+                },
+                "resources": {
+                  "Morale": 3
+                }
+              }
+            },
+            "fail": {
+              "text": "阿嬤只回了一句：『先拿東西來，再說話。』{actor}的臉一陣發燙。",
+              "effects": {
+                "flagsSet": [
+                  "metNightmarket"
+                ],
+                "factions": {
+                  "nightmarket": 5
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把背包放在地上，任阿嬤挑（Parts -1）",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Parts": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "阿嬤翻了翻，抽出一把扳手在手上掂了掂。『老實人，』她說，『這樣的我們要。』",
+              "effects": {
+                "flagsSet": [
+                  "metNightmarket"
+                ],
+                "factions": {
+                  "nightmarket": 5
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_MKT_02",
+      "pool": "loc:jingmei_market",
+      "title": "彈藥的價目表",
+      "conditions": {
+        "flags": [
+          "metNightmarket"
+        ]
+      },
+      "text": "攤商把彈藥裝在保麗龍箱裡，箱子上貼著手寫的價目表，每一格都用紅筆改過。\n『一盒子彈，換一組扳手。』攤商指著表，『子彈是硬通貨，不講價。』\n旁邊有人偷偷算數，聲音小到像怕被聽見。\n{actor}拿起一盒彈藥，重量比想像中輕。",
+      "choices": [
+        {
+          "label": "用 Parts 1 換 Ammo 2（交易）",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Parts": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "攤商把兩盒彈藥推過來，紅筆在價目表上劃了一道。",
+              "effects": {
+                "resources": {
+                  "Ammo": 2
+                },
+                "factions": {
+                  "nightmarket": 2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "用 Food 2 換 Ammo 1（交易）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 2
+              }
+            }
+          },
+          "cost": {
+            "Food": 2
+          },
+          "outcomes": {
+            "always": {
+              "text": "食物交出去，彈藥只拿到一盒。攤商笑得很客氣，價目表上的數字卻沒有改。",
+              "effects": {
+                "resources": {
+                  "Ammo": 1
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "殺價（Parts -1，CHA 檢定 困難 9）",
+          "requires": {
+            "resources": {
+              "Parts": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Parts": 1
+          },
+          "check": {
+            "who": "actor",
+            "stat": "CHA",
+            "dc": 9
+          },
+          "outcomes": {
+            "success": {
+              "text": "{actor}把價目表指給攤商看，句句講得有條理。攤商咬牙，最後多給了一盒。",
+              "effects": {
+                "resources": {
+                  "Ammo": 3
+                },
+                "factions": {
+                  "nightmarket": 3
+                }
+              }
+            },
+            "fail": {
+              "text": "攤商冷笑，只肯給一盒，還順手把那張價目表收回去。",
+              "effects": {
+                "resources": {
+                  "Ammo": 1
+                },
+                "factions": {
+                  "nightmarket": -2
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "只看不買，記下今天的行情",
+          "outcomes": {
+            "always": {
+              "text": "{actor}在攤車間繞了一圈，把每樣東西的「價格」默記在心裡。阿嬤的眼神一直跟著。",
+              "effects": {
+                "factions": {
+                  "nightmarket": -1
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_MKT_03",
+      "pool": "loc:jingmei_market",
+      "title": "阿嬤的冷凍箱",
+      "conditions": {
+        "flags": [
+          "metNightmarket"
+        ]
+      },
+      "text": "阿嬤把一張紙條塞進{actor}手裡，上面畫著路線，終點是隔壁巷子的冷凍車。\n『車上有一箱冷凍肉，』阿嬤咳了一聲，『放著會壞，我的人不敢去。』\n巷子那頭隱約有抓門的聲音，一下，又一下。\n『拿回來，我給三份食物。不拿，就別再來排隊。』",
+      "choices": [
+        {
+          "label": "接下委託，走一趟（COM 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "COM",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "{actor}貼著牆走進巷子，抓門的聲音停了。冷凍車的門拉開，寒氣撲面，一箱肉還結著霜。",
+              "effects": {
+                "resources": {
+                  "Food": 3
+                },
+                "factions": {
+                  "nightmarket": 6
+                },
+                "flagsSet": [
+                  "lw_ama_favor"
+                ]
+              }
+            },
+            "fail": {
+              "text": "巷子裡的東西突然撲出來，{actor}被撞倒在地，拚命爬回牆邊。阿嬤只看著，什麼也沒說。",
+              "effects": {
+                "resources": {
+                  "Noise": 3
+                },
+                "factions": {
+                  "nightmarket": 1
+                },
+                "chars": {
+                  "$actor": {
+                    "Health": -7
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "請阿嬤改派別人（CHA 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "阿嬤挑了挑眉：『行，嘴巧也是本事。』攤商裡有人拿著鐵管走出去。",
+              "effects": {
+                "resources": {
+                  "Morale": 2
+                },
+                "factions": {
+                  "nightmarket": 1
+                }
+              }
+            },
+            "fail": {
+              "text": "阿嬤把紙條收回去，語氣淡淡的：『那就站著看吧。』",
+              "effects": {
+                "resources": {
+                  "Morale": -2
+                },
+                "factions": {
+                  "nightmarket": -4
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "婉拒，什麼都不做（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}把紙條還回去，阿嬤沒有接。『下次別來了。』攤位那一排燈，似乎暗了一格。",
+              "effects": {
+                "factions": {
+                  "nightmarket": -3
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_MKT_04",
+      "pool": "loc:jingmei_market",
+      "title": "攤車縫裡的小偷",
+      "conditions": {
+        "flags": [
+          "metNightmarket"
+        ]
+      },
+      "text": "攤車另一頭傳來一陣騷動，有人在大喊『抓賊』。\n一個瘦小的身影正鑽過攤車之間的縫隙，懷裡緊緊抱著一袋罐頭。\n攤主跪在地上，手裡只剩一個空紙箱，哭得很大聲。\n{actor}已經站在那條縫隙前面了。",
+      "choices": [
+        {
+          "label": "上前攔住，直接制伏（COM 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "COM",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "{actor}一個箭步扣住那人的手腕，罐頭滾了一地。攤主撿起來，一個勁地道謝。",
+              "effects": {
+                "resources": {
+                  "Food": 2
+                },
+                "factions": {
+                  "nightmarket": 5
+                }
+              }
+            },
+            "fail": {
+              "text": "那人一縮身，從攤車底下溜走，反手甩出一根鐵管，正中{actor}的肩膀。",
+              "effects": {
+                "factions": {
+                  "nightmarket": 1
+                },
+                "chars": {
+                  "$actor": {
+                    "Health": -5
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "喊住對方，先問清楚（CHA 檢定 普通 7）",
+          "check": {
+            "who": "actor",
+            "stat": "CHA",
+            "dc": 7
+          },
+          "outcomes": {
+            "success": {
+              "text": "那人愣了一下，把罐頭放回攤主的箱子，低聲說：『家裡還有小孩……』{actor}沉默很久，最後說：『下次帶東西來換。』",
+              "effects": {
+                "factions": {
+                  "nightmarket": 3
+                },
+                "resources": {
+                  "Morale": 2
+                }
+              }
+            },
+            "fail": {
+              "text": "那人聽都不聽，拔腿就跑，攤主在後面罵得更大聲。",
+              "effects": {
+                "factions": {
+                  "nightmarket": -2
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "假裝沒看到，轉身離開（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}轉身走開。身後的哭聲越來越小，像被什麼淹沒。",
+              "effects": {
+                "factions": {
+                  "nightmarket": -4
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_MKT_05",
+      "pool": "loc:jingmei_market",
+      "title": "攤位的分界線",
+      "conditions": {
+        "flags": [
+          "metNightmarket"
+        ]
+      },
+      "text": "兩個攤商為了一塊塑膠布吵了起來，一個說是自己的攤位，一個說界線早就被推過去了。\n吵到最後，有人抓起菜刀，周圍的人全都退了一步。\n燈下的阿嬤沒有起身，只說：『誰先動手，明天就別來了。』\n所有人的視線，都落在{actor}身上。",
+      "choices": [
+        {
+          "label": "走過去調停（CHA 檢定 困難 9）",
+          "check": {
+            "who": "actor",
+            "stat": "CHA",
+            "dc": 9
+          },
+          "outcomes": {
+            "success": {
+              "text": "{actor}蹲下來，用鞋尖在地上重新畫了一條線。兩人都沒再說話，只是各自退了半步。",
+              "effects": {
+                "factions": {
+                  "nightmarket": 6
+                },
+                "resources": {
+                  "Morale": 3
+                }
+              }
+            },
+            "fail": {
+              "text": "話還沒說完，菜刀已經揮過來，{actor}被逼到攤車邊，手臂被擦出一道血痕。",
+              "effects": {
+                "factions": {
+                  "nightmarket": 1
+                },
+                "chars": {
+                  "$actor": {
+                    "Health": -6,
+                    "Stress": 5
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "拿 Food 1 當補償，讓雙方各分一份（Food -1）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "食物被分成兩份，兩人接過去，怒氣慢慢壓了下來。界線的事，還是沒人說得清。",
+              "effects": {
+                "factions": {
+                  "nightmarket": 3
+                },
+                "resources": {
+                  "Morale": 2
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "把場子讓給阿嬤處理（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "阿嬤起身，兩句話就讓場子安靜下來。{actor}站在後面，覺得自己什麼也沒做成。",
+              "effects": {
+                "factions": {
+                  "nightmarket": -2
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": 2
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LW_MKT_06",
+      "pool": "loc:jingmei_market",
+      "title": "熱騰騰的蚵仔煎",
+      "weight": 5,
+      "conditions": {
+        "flags": [
+          "metNightmarket"
+        ]
+      },
+      "text": "轉過最後一排攤車，一股熟悉的香味撲了過來：蛋香、蔥香，還有鐵板上的焦油味。\n小攤子還在冒煙，鐵鏟敲在鐵板上，一下，又一下，像是很多年前的夜市。\n攤主沒有回頭，只說：『最後幾份，要吃就快。』\n{actor}的肚子叫了一聲，這才想起上一次吃到熱食，已經是什麼時候的事。",
+      "choices": [
+        {
+          "label": "花 Food 1 買一份（Food -1）",
+          "requires": {
+            "resources": {
+              "Food": {
+                "gte": 1
+              }
+            }
+          },
+          "cost": {
+            "Food": 1
+          },
+          "outcomes": {
+            "always": {
+              "text": "一口下去，燙得舌頭發麻，蚵仔的鮮味在嘴裡炸開。{actor}坐在矮凳上，吃了很久，沒有說話。",
+              "effects": {
+                "resources": {
+                  "Morale": 6
+                },
+                "chars": {
+                  "$actor": {
+                    "Stress": -5
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "幫忙收攤，換一份蚵仔煎（STR 檢定 簡單 5）",
+          "check": {
+            "who": "actor",
+            "stat": "STR",
+            "dc": 5
+          },
+          "outcomes": {
+            "success": {
+              "text": "{actor}把鐵板刷得乾乾淨淨，攤主拿出最後一份，還多塞了一小碗湯。",
+              "effects": {
+                "resources": {
+                  "Morale": 5
+                },
+                "factions": {
+                  "nightmarket": 2
+                }
+              }
+            },
+            "fail": {
+              "text": "鐵鏟燙到了手，{actor}悶哼一聲，最後只拿到半份，攤主嘆了口氣。",
+              "effects": {
+                "resources": {
+                  "Morale": 2
+                },
+                "chars": {
+                  "$actor": {
+                    "Health": -3
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": "趁攤主不注意，把一罐醬油塞進背包（不檢定）",
+          "outcomes": {
+            "always": {
+              "text": "醬油被塞進背包，{actor}轉身就走，沒有回頭看攤主的臉色。",
+              "effects": {
+                "resources": {
+                  "Food": 1
+                },
+                "factions": {
+                  "nightmarket": -5
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

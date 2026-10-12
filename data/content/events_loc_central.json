@@ -1,0 +1,903 @@
+{
+  "events": [
+    {
+      "id": "LC_001",
+      "pool": "loc:freeway3_checkpoint",
+      "title": "三號哨的燈",
+      "weight": 10,
+      "once": true,
+      "conditions": { "notFlags": ["metMilitary"] },
+      "text": "拒馬後面有一盞手電筒，規律地閃了三下，停住，再閃三下。\n廣播喇叭在這時自己響了一聲，雜音裡擠出幾個字：『……三號哨……收到……』\n一個穿迷彩的男人從悍馬車斗後站起來，槍口沒有抬，也沒有放下。胸牌上寫著『鄭岳』。\n他的視線先落在{actor}的袖口，再慢慢往上移。『袖子沒血，』他說，『從深坑來的？』",
+      "choices": [
+        {
+          "label": "舉起雙手，把撤離名單的殘片遞過去（CHA 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "CHA", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "鄭岳盯著那張被雨泡皺的紙看了很久，才把槍口壓低幾公分。『這是我們的編號。』他說，像在確認一件早就知道的事，『跟上，別亂動。』",
+              "effects": { "resources": { "Ammo": 1 }, "factions": { "military": 5 }, "flagsSet": ["metMilitary"] }
+            },
+            "fail": {
+              "text": "聲音卡在喉嚨裡。身後兩名士兵同時拉開保險，鄭岳抬了抬下巴，把{actor}押進哨所，盤問了整整三個小時。",
+              "effects": { "factions": { "military": 5 }, "flagsSet": ["metMilitary"], "chars": { "$actor": { "Stress": 8 } } }
+            }
+          }
+        },
+        {
+          "label": "推出背包裡的罐頭，換一個開口的機會（Food -2）",
+          "requires": { "resources": { "Food": { "gte": 2 } } },
+          "cost": { "Food": 2 },
+          "outcomes": {
+            "always": {
+              "text": "罐頭被鄭岳的手接住，他沒說謝謝，只把一包軍用口糧扔回來。『三號哨不欠人。』他說，『下次帶你們的人來，我們談。』",
+              "effects": { "resources": { "Food": 1, "Ammo": 1 }, "factions": { "military": 5 }, "flagsSet": ["metMilitary"] }
+            }
+          }
+        },
+        {
+          "label": "用手電筒回敬那串閃光（LOG 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "LOG", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}照著他的節奏回了一串閃光。鄭岳的手電筒停了兩秒，接著閃出一組新數字，是撤離點的座標。『看得懂，』他說，『那就表示船不等人。』",
+              "effects": { "factions": { "military": 5 }, "flagsSet": ["metMilitary", "lc_evac_rumor"] }
+            },
+            "fail": {
+              "text": "節奏打亂了。鄭岳以為那是挑釁，哨所的人立刻散開，把{actor}圍在拒馬之間。過了很久，他才冷冷地說：『下次先學會好好打信號。』",
+              "effects": { "factions": { "military": 5 }, "flagsSet": ["metMilitary"], "chars": { "$actor": { "Stress": 5 } } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_002",
+      "pool": "loc:freeway3_checkpoint",
+      "title": "廣播的名單",
+      "weight": 8,
+      "once": true,
+      "conditions": { "flags": ["metMilitary"] },
+      "text": "悍馬上的廣播又響了。這次不是雜音，是一個女人平穩的聲音，一個一個念著編號：『三十七、四十一、五十二……』\n念到一半，喇叭斷了。鄭岳從哨所衝出來，把電線扯斷，動作快得像早就等這一刻。\n『有人在念死人的號碼。』他說，沒有看{actor}，『撤離點還在，但名單上的人，已經不在了。』",
+      "choices": [
+        {
+          "label": "把編號抄下來，對照撤離點（LOG 檢定，困難 9）",
+          "check": { "who": "actor", "stat": "LOG", "dc": 9 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}把編號一個個對回紙上的座標，發現好幾個號碼都指向同一棟大樓。鄭岳看完，把紙折起來收進胸口。『明天，帶你們去看那棟樓。』",
+              "effects": { "flagsSet": ["lc_evac_rumor"], "factions": { "military": 3 } }
+            },
+            "fail": {
+              "text": "紙上只抄到一半，就被雜音蓋過去。{actor}咬著筆，把剩下的數字憑記憶亂補。鄭岳看了一眼，搖搖頭，什麼也沒說。",
+              "effects": { "flagsSet": ["lc_list_partial"], "chars": { "$actor": { "Stress": 4 } } }
+            }
+          }
+        },
+        {
+          "label": "把喇叭拆下來，帶回去當零件（Parts +2，Noise +4）",
+          "outcomes": {
+            "always": {
+              "text": "喇叭的外殼很重，裡面的電路板倒是完整。{actor}把它拆成三塊塞進背包，過了很久，廣播再也沒有響過。",
+              "effects": { "resources": { "Parts": 2, "Noise": 4 }, "factions": { "military": -3 } }
+            }
+          }
+        },
+        {
+          "label": "什麼都不做，從後門繞走（Stress +3）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}把手從喇叭上移開，繞過哨所的後門。背後的名單還在念，一個編號一個編號地，像在替誰點名。",
+              "effects": { "chars": { "$actor": { "Stress": 3 } } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_003",
+      "pool": "loc:freeway3_checkpoint",
+      "title": "拒馬後的士兵",
+      "weight": 10,
+      "conditions": { "minDay": 2 },
+      "text": "拒馬底下趴著三個穿制服的人，衣服破爛，皮膚泛著灰，聽見動靜時，喉嚨裡發出空洞的嘶聲。\n最靠近的那個，胸前的名牌還寫著『哨兵』兩個字。\n他們慢慢站起來，動作僵硬，卻很整齊，像還沒忘記服從的姿勢。\n悍馬的車頭就在{actor}右手邊，油箱還剩半箱。",
+      "choices": [
+        {
+          "label": "躲到悍馬後面，靠近偷襲（COM 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "COM", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}的第一刀從側面切入，三隻全數倒下。翻找屍體時，摸出幾發還沒拆封的子彈。",
+              "effects": { "resources": { "Ammo": 2, "Noise": 1 } }
+            },
+            "fail": {
+              "text": "車頭撞上拒馬，聲音大得像敲鐘。其中一隻撲上來，咬住{actor}的手臂，血順著袖口滴到地上。",
+              "effects": { "resources": { "Noise": 5 }, "chars": { "$actor": { "Health": -10, "Infection": 8 } } }
+            }
+          }
+        },
+        {
+          "label": "繞路，從排水溝那頭走（ExploreRisk +2）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}退回草叢，沿著排水溝繞了一大圈。路變長了，草叢裡的腳步聲，也跟著變多。",
+              "effects": { "resources": { "ExploreRisk": 2 } }
+            }
+          }
+        },
+        {
+          "label": "丟出罐頭引開注意（Food -1）",
+          "requires": { "resources": { "Food": { "gte": 1 } } },
+          "cost": { "Food": 1 },
+          "outcomes": {
+            "always": {
+              "text": "罐頭滾過柏油路，三隻怪物同時轉頭。{actor}趁機溜過拒馬的縫隙，背後只剩罐頭被啃碎的聲音。"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_004",
+      "pool": "loc:freeway3_checkpoint",
+      "title": "被當成感染者",
+      "weight": 10,
+      "conditions": { "flags": ["metMilitary"] },
+      "text": "哨所的探照燈照到{actor}臉上時，有人喊了一聲『別動！』\n鄭岳沒有拿槍，只拿出一支體溫計。『發燒的人，天亮前不准進哨所。』他說，聲音平穩得像在念公文。\n{actor}的喉嚨還乾著，咳了一聲。全場的士兵，同時往後退了半步。",
+      "choices": [
+        {
+          "label": "讓對方抽血驗一下（Med -1）",
+          "requires": { "resources": { "Med": { "gte": 1 } } },
+          "cost": { "Med": 1 },
+          "outcomes": {
+            "always": {
+              "text": "採血針扎進指尖，試紙慢慢變色。鄭岳看完結果，把試紙折起來丟掉。『只是感冒，』他說，『別再咳了，嚇到我的人。』",
+              "effects": { "factions": { "military": 2 }, "chars": { "$actor": { "Stress": -4 } } }
+            }
+          }
+        },
+        {
+          "label": "說實話，把這幾天的事一樁樁講清楚（CHA 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "CHA", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}把超市、老街和河堤的事，一樁樁講清楚。鄭岳聽完，難得地點了點頭。『撤離點的消息，你們要不要？』",
+              "effects": { "factions": { "military": 4 }, "flagsSet": ["lc_evac_rumor"] }
+            },
+            "fail": {
+              "text": "說到一半就被打斷。有人在後面低聲說『這人在撒謊』，士兵的槍口齊齊對了過來。{actor}被關進鐵皮屋，待了一整夜。",
+              "effects": { "factions": { "military": -3 }, "chars": { "$actor": { "Stress": 10 } } }
+            }
+          }
+        },
+        {
+          "label": "硬撐著站直，不讓人看出異樣（STR 檢定，困難 9）",
+          "check": { "who": "actor", "stat": "STR", "dc": 9 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}咬牙挺直背脊，連呼吸都壓成平穩的節奏。鄭岳盯著看了很久，最後把探照燈移開。『放行。』",
+              "effects": { "resources": { "Morale": 3 } }
+            },
+            "fail": {
+              "text": "膝蓋一軟，{actor}跪倒在碎石上。哨兵一擁而上綁人，鄭岳只說了一句：『先隔離。』",
+              "effects": { "chars": { "$actor": { "Health": -5, "Stress": 6 } } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_005",
+      "pool": "loc:freeway3_checkpoint",
+      "title": "悍馬的後車斗",
+      "weight": 12,
+      "text": "悍馬的後車斗翻開了一半。沙包堆在車斗邊，被雨泡成一塊塊灰泥。裡頭的鐵箱用鐵絲鎖死，箱蓋上貼著『彈藥．勿開』的標籤。\n箱角有暗紅色的液體滲出來，早就乾了，黏在鐵皮上像一道疤。\n遠處的拒馬還在，鐵絲網鬆鬆地掛在上面，風一吹就發出刺耳的聲音。",
+      "choices": [
+        {
+          "label": "撬開鐵箱，把彈藥搬出來（STR 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "STR", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "鐵箱的鎖在{actor}的撬棍下應聲斷開。裡面是兩盒步槍彈，還有一小盒拆開一半的電池。",
+              "effects": { "resources": { "Ammo": 2, "Parts": 1 } }
+            },
+            "fail": {
+              "text": "撬棍滑了一下，{actor}的手掌擦過鐵皮，血順著指縫流下來。鐵箱裡只拿出一盒子彈，其他的散在地上。",
+              "effects": { "resources": { "Ammo": 1 }, "chars": { "$actor": { "Health": -6 } } }
+            }
+          }
+        },
+        {
+          "label": "向哨所借鑰匙開鎖（需已認識鄭岳）",
+          "requires": { "flags": ["metMilitary"] },
+          "outcomes": {
+            "always": {
+              "text": "鄭岳的部下沒有攔人，只把一把鑰匙丟過來。『開完還回來。』{actor}轉動鑰匙，聽見鐵箱裡的藥瓶互相碰撞的聲音。",
+              "effects": { "resources": { "Ammo": 1, "Med": 1 }, "factions": { "military": 2 } }
+            }
+          }
+        },
+        {
+          "label": "放棄鐵箱，只拆下鐵絲網（Parts +1，Noise +2）",
+          "outcomes": {
+            "always": {
+              "text": "鐵絲網被扯下來的時候，發出一串刺耳的聲音。{actor}把它捲成一團，扛在肩上，沒有回頭看那口鐵箱。",
+              "effects": { "resources": { "Parts": 1, "Noise": 2 } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_006",
+      "pool": "loc:muzha_depot",
+      "title": "機廠的雨傘",
+      "weight": 10,
+      "once": true,
+      "conditions": { "notFlags": ["metBlackrain"] },
+      "text": "鐵門上的黑色雨滴噴漆還沒乾，門縫裡伸出一把黑傘。傘下站著一個瘦高的年輕人，手裡握著一根撬棍。\n他沒有先開口。傘面慢慢往後偏，露出後面整排黑色雨衣，還有高架上一個人影。有人低聲叫他『老鴉』。\n『雨會落在每個人身上，』人影開口了，聲音很輕，『只是我們先撐傘。』\n年輕人用撬棍敲了敲地面：『過路費，或者留下來幹活。』",
+      "choices": [
+        {
+          "label": "放下背包，付過路費（Food -2）",
+          "requires": { "resources": { "Food": { "gte": 2 } } },
+          "cost": { "Food": 2 },
+          "outcomes": {
+            "always": {
+              "text": "年輕人接過罐頭，數了數，沒有道謝。他把一張寫著編號的紙條塞進{actor}手裡：『機廠裡面，別碰紅色的門。』",
+              "effects": { "flagsSet": ["metBlackrain"], "factions": { "blackrain": 3 } }
+            }
+          }
+        },
+        {
+          "label": "拿出口才，跟老鴉談條件（CHA 檢定，困難 9）",
+          "check": { "who": "actor", "stat": "CHA", "dc": 9 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}把話說得又快又穩，從河堤的水位講到機廠的抽水馬達。高架上的人影笑了一聲：『談得不錯。』",
+              "effects": { "flagsSet": ["metBlackrain"], "factions": { "blackrain": 5 }, "resources": { "Parts": 1 } }
+            },
+            "fail": {
+              "text": "話講到一半，年輕人已經把撬棍架在{actor}肩上。『老鴉不喜歡囉嗦的人。』",
+              "effects": { "flagsSet": ["metBlackrain"], "factions": { "blackrain": -3 }, "chars": { "$actor": { "Health": -4, "Stress": 8 } } }
+            }
+          }
+        },
+        {
+          "label": "轉身就走，繞去河堤那頭（Stress +3）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}轉身的時候，背後有人吹了一聲口哨。傘沒有追上來，但那聲口哨一直跟到河堤邊。",
+              "effects": { "flagsSet": ["metBlackrain"], "factions": { "blackrain": -4 }, "chars": { "$actor": { "Stress": 3 } } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_007",
+      "pool": "loc:muzha_depot",
+      "title": "抽水馬達",
+      "weight": 10,
+      "conditions": { "flags": ["metBlackrain"], "notFlags": ["blackrainHostile"] },
+      "text": "機廠深處，抽水馬達的聲音一直在響，像有人在用力咳嗽。黑雨的人說，那台馬達壞了三天，沒有人敢去修。\n『你們有人會修電機？』老鴉靠在鐵架上，手裡捧著一杯熱水，『我們有槍，你們有腦子。這筆生意，對兩邊都划算。』\n空氣裡有雨水和機油的味道。{actor}看向角落，那裡堆著一排還沒拆封的零件箱。",
+      "choices": [
+        {
+          "label": "談成長期合作，替他們修馬達（CHA 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "CHA", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}把條件一條條列出來：每週一次零件，互不搶地盤。老鴉笑了，把零件箱推到{actor}腳邊。『成交。』",
+              "effects": { "factions": { "blackrain": 6 }, "resources": { "Parts": 2 } }
+            },
+            "fail": {
+              "text": "談到一半，老鴉的人開始算成本。最後只給了一箱零件，還順手拿走了一桶油。",
+              "effects": { "factions": { "blackrain": 2 }, "resources": { "Parts": 1 }, "chars": { "$actor": { "Stress": 4 } } }
+            }
+          }
+        },
+        {
+          "label": "用藥品換他們的子彈（Med -1）",
+          "requires": { "resources": { "Med": { "gte": 1 } } },
+          "cost": { "Med": 1 },
+          "outcomes": {
+            "always": {
+              "text": "{actor}把止痛藥放上桌。老鴉的手指在藥盒上停了一下，然後慢慢把一盒子彈推過來。『這藥比子彈貴。』",
+              "effects": { "resources": { "Ammo": 2 }, "factions": { "blackrain": 4 } }
+            }
+          }
+        },
+        {
+          "label": "假裝答應，趁機把零件拖走（COM 檢定，困難 9）",
+          "check": { "who": "actor", "stat": "COM", "dc": 9 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}趁著一陣雨聲，把零件箱推進陰影裡。等老鴉發現時，只看見一排溼掉的腳印通往河堤。",
+              "effects": { "resources": { "Parts": 2 }, "factions": { "blackrain": -6 } }
+            },
+            "fail": {
+              "text": "零件箱才挪了一半，就被黑雨的人抓個正著。老鴉沒有發脾氣，只是嘆了口氣。『下次，就不談了。』",
+              "effects": { "factions": { "blackrain": -8 }, "chars": { "$actor": { "Stress": 6 } } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_008",
+      "pool": "loc:muzha_depot",
+      "title": "夜裡的油庫",
+      "weight": 6,
+      "conditions": { "minDay": 4, "flags": ["metBlackrain"], "notFlags": ["blackrainHostile"] },
+      "text": "夜裡十一點，機廠的油庫還亮著一盞燈。守衛在鐵門前來回踱步，槍管用布條纏過，怕被雨淋濕。\n油桶排成一排，整齊得像在展示。{actor}蹲在圍牆外，聞得到柴油混著雨水的酸味。\n如果在這裡點一把火，整個機廠都會跟著燒起來。",
+      "choices": [
+        {
+          "label": "從排水溝摸進去，趁換班偷幾桶油（COM 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "COM", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}貼著牆根走，在換班的空檔抱走兩桶油。油桶底下還壓著一箱零件，也一併拖走了。",
+              "effects": { "resources": { "Parts": 2 }, "factions": { "blackrain": -4 } }
+            },
+            "fail": {
+              "text": "守衛的手電筒照進排水溝。槍聲在雨裡炸開，{actor}翻過圍牆時，大腿被鐵絲網劃開一道口子。",
+              "effects": { "factions": { "blackrain": -6 }, "chars": { "$actor": { "Health": -8, "Stress": 6 } } }
+            }
+          }
+        },
+        {
+          "label": "潑油點火，燒掉他們的油庫（COM 檢定，困難 9）",
+          "check": { "who": "actor", "stat": "COM", "dc": 9 },
+          "outcomes": {
+            "success": {
+              "text": "火勢比想像中快。黑雨的人衝出來滅火，{actor}趁亂拖走最後一箱零件。遠處的老鴉站在高架上，沒有追，只慢慢地說：『這是宣戰。』",
+              "effects": { "resources": { "Parts": 2, "Noise": 5 }, "factions": { "blackrain": -10 }, "flagsSet": ["blackrainHostile"] }
+            },
+            "fail": {
+              "text": "火柴在雨裡只閃了一下就熄了。守衛發現了{actor}，整個機廠的警鈴同時響起。",
+              "effects": { "resources": { "Noise": 5 }, "factions": { "blackrain": -10 }, "flagsSet": ["blackrainHostile"], "chars": { "$actor": { "Health": -6 } } }
+            }
+          }
+        },
+        {
+          "label": "原路退回，身後有人一路跟著（ExploreRisk +2）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}轉身離開，沒有留下任何痕跡。只是那股柴油味，一路跟到了河堤。",
+              "effects": { "resources": { "ExploreRisk": 2 } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_009",
+      "pool": "loc:muzha_depot",
+      "title": "雨傘的埋伏",
+      "weight": 8,
+      "conditions": { "flags": ["blackrainHostile"] },
+      "text": "回程的路上，雨突然大了起來。高架橋下，有人一把一把撐開黑色的傘，傘面底下露出槍口。\n『老鴉說，燒油庫的人可以走，但要留下手。』有個聲音在傘後面說。\n牆上噴著新的黑色雨滴，顏色順著水流往下淌。身後的路被封住，前面要穿過一整片積水的鐵軌。",
+      "choices": [
+        {
+          "label": "正面硬闖，衝過積水的鐵軌（COM 檢定，困難 9）",
+          "check": { "who": "actor", "stat": "COM", "dc": 9 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}踢翻了第一把傘，撞開守衛，從鐵軌上衝了出去。背後的槍聲一直追到河堤才停。",
+              "effects": { "resources": { "Ammo": 2, "Noise": 4 }, "chars": { "$actor": { "Health": -4 } } }
+            },
+            "fail": {
+              "text": "槍托砸在肩上，{actor}被推進積水裡。黑雨的人搜走了背包，只留下一句：『老鴉說，下次就不用留手了。』",
+              "effects": { "resources": { "Food": -2, "Med": -1 }, "chars": { "$actor": { "Health": -10, "Stress": 8 } } }
+            }
+          }
+        },
+        {
+          "label": "舉起白旗，請求談判（CHA 檢定，困難 9）",
+          "check": { "who": "actor", "stat": "CHA", "dc": 9 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}把武器扔進積水，用最平靜的聲音說話。過了很久，傘陣才慢慢收起。『老鴉要的不是命，』有人說，『是下次還記得打招呼。』",
+              "effects": { "flagsClear": ["blackrainHostile"], "flagsSet": ["lc_truce"], "factions": { "blackrain": 4 } }
+            },
+            "fail": {
+              "text": "談判還沒開口，就有人從後面把{actor}的手壓到背後。『談判？』有人笑，『老鴉不跟燒油庫的人談。』",
+              "effects": { "factions": { "blackrain": -4 }, "chars": { "$actor": { "Stress": 8 } } }
+            }
+          }
+        },
+        {
+          "label": "丟下背包，趁他們搶東西時從河堤逃走（Food -3，Med -1）",
+          "outcomes": {
+            "always": {
+              "text": "背包落地，黑雨的人一擁而上。{actor}沿著河堤跑了三公里，回頭時只看見一地被撕開的包裝紙。",
+              "effects": { "resources": { "Food": -3, "Med": -1, "ExploreRisk": 2 } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_010",
+      "pool": "loc:muzha_depot",
+      "title": "想離開的年輕人",
+      "weight": 8,
+      "once": true,
+      "conditions": { "flags": ["metBlackrain"] },
+      "text": "機廠側門的縫隙裡，有人壓低聲音叫了一聲。\n是那個拿撬棍的年輕人。雨衣少了一截袖子，手裡攥著一小包用膠帶纏緊的藥。\n『我不想再噴那種雨滴了，』他說，眼睛一直往門裡看，『求你們，帶我走。』\n門後面，有人在喊他的名字，聲音越來越近。",
+      "choices": [
+        {
+          "label": "收下藥，從河堤那頭帶他走（Stress +3）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}把他推進排水溝，兩人貼著牆根往外跑。藥包在掌心很沉，像整個機廠的重量。",
+              "effects": { "resources": { "Med": 2 }, "factions": { "blackrain": -5 }, "chars": { "$actor": { "Stress": 3 } } }
+            }
+          }
+        },
+        {
+          "label": "叫他回去，假裝什麼都沒看見（CHA 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "CHA", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}壓低聲音，說了幾句讓他安心的話。他咬著嘴唇縮回門後，留下的藥包被悄悄收進{actor}的口袋。",
+              "effects": { "resources": { "Med": 1 }, "factions": { "blackrain": 2 } }
+            },
+            "fail": {
+              "text": "他一聽就慌了，轉身撞上門框。門裡的人聞聲衝出來，{actor}被逼著退到鐵軌邊。",
+              "effects": { "factions": { "blackrain": -3 }, "chars": { "$actor": { "Stress": 6 } } }
+            }
+          }
+        },
+        {
+          "label": "把他交給夜市聯盟（需夜市聯盟聲望 10 以上）",
+          "requires": { "factions": { "nightmarket": { "gte": 10 } } },
+          "outcomes": {
+            "always": {
+              "text": "夜市的攤商收下了年輕人，只用一張寫著『不收鈔票』的紙條當回禮。『以後，雨會落在別人身上。』有人這麼說，語氣很輕。",
+              "effects": { "factions": { "nightmarket": 4, "blackrain": -4 } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_011",
+      "pool": "loc:zoo",
+      "title": "黑熊的呼吸",
+      "weight": 6,
+      "once": true,
+      "text": "熊舍的鐵門只推開一半。裡面，一隻黑熊側躺在乾草上，胸口有三道深深的爪痕，呼吸又快又淺。\n牠的耳朵還在動。看見{actor}時，鼻子抽了一下，卻沒有爬起來。\n牆上掛著獸醫留下的麻醉槍，槍管積著一層灰，像很久沒人碰過。",
+      "choices": [
+        {
+          "label": "拿起麻醉槍，讓牠安靜睡去（LOG 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "LOG", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "麻醉針打進後腿，黑熊三十秒內慢慢垂下頭。{actor}花了一個下午，把能帶走的肉切成條，手一直在抖。",
+              "effects": { "resources": { "Food": 3 }, "chars": { "$actor": { "Stress": 3 } } }
+            },
+            "fail": {
+              "text": "針頭偏了一寸。黑熊猛地站起來，爪子掃過鐵欄。{actor}被撞進角落，好不容易才從熊舍的破窗爬出來。",
+              "effects": { "resources": { "Noise": 4 }, "chars": { "$actor": { "Health": -10 } } }
+            }
+          }
+        },
+        {
+          "label": "拉開鐵門，放牠去林子裡（Morale +4）",
+          "outcomes": {
+            "always": {
+              "text": "鐵門拉開，黑熊拖著腳步走進樹林。牠沒有回頭，只在林子邊停了一下，像在記住什麼。",
+              "effects": { "resources": { "Morale": 4 } }
+            }
+          }
+        },
+        {
+          "label": "一刀了結，把肉全部取走（Food +4，Noise +5）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}沒有再猶豫。熊肉很重，剝皮時手一直在抖，但接下來的幾天，大家都有飯吃。",
+              "effects": { "resources": { "Food": 4, "Noise": 5 }, "chars": { "$actor": { "Stress": 6 } } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_012",
+      "pool": "loc:zoo",
+      "title": "企鵝館的阿青",
+      "weight": 8,
+      "once": true,
+      "conditions": { "notFlags": ["lc_azing_met"] },
+      "text": "企鵝館的玻璃早就碎了，水池裡漂著一層綠色浮藻。\n冷藏櫃後面，有一雙眼睛從縫隙裡盯著{actor}。過了很久，一個壓低的聲音說：『別動，先讓我看看你們的手。』\n是園區的飼育員。袖子捲到手肘，腰間掛著一串鑰匙，名牌上寫著『阿青』。她說，山上的泉水還沒有斷。",
+      "choices": [
+        {
+          "label": "報上身分，請她出來談（CHA 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "CHA", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "阿青的肩膀慢慢放下來。『山上有泉，茶園還有老人家在。』她說，『要去就走纜車站，別走下面那條路。』",
+              "effects": { "flagsSet": ["lc_azing_met"], "discover": ["maokong"], "resources": { "Med": 1 } }
+            },
+            "fail": {
+              "text": "阿青看見{actor}身上的裝備，立刻把冷藏櫃推倒擋住門。『來搶的？』她的聲音在發抖，尾音卻很硬。",
+              "effects": { "resources": { "Noise": 2 }, "chars": { "$actor": { "Stress": 5 } } }
+            }
+          }
+        },
+        {
+          "label": "把自己的水分她一半（Water -2）",
+          "requires": { "resources": { "Water": { "gte": 2 } } },
+          "cost": { "Water": 2 },
+          "outcomes": {
+            "always": {
+              "text": "{actor}把水壺遞過去。阿青沒有道謝，只是飛快地擰緊瓶蓋。『山上的路，我告訴你。』",
+              "effects": { "flagsSet": ["lc_azing_met"], "discover": ["maokong"], "resources": { "Food": 1 } }
+            }
+          }
+        },
+        {
+          "label": "不管她，直接從正門離開（ExploreRisk +2）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}把槍收回肩上，從正門走出去。背後的玻璃碎裂聲，一直跟到出口。",
+              "effects": { "resources": { "ExploreRisk": 2 } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_013",
+      "pool": "loc:zoo",
+      "title": "獼猴的牙",
+      "weight": 10,
+      "text": "遊客中心的屋頂上，一群獼猴擠在一起。牠們的毛塌成一綹一綹的，眼白泛著黃，發出的叫聲，不太像獼猴。\n其中一隻猛地跳下來，爪子抓裂了草皮，直直衝向{actor}。\n牠的嘴角掛著血絲，齒縫間卡著一截布料，像是從誰身上扯下來的。",
+      "choices": [
+        {
+          "label": "拿鐵棍驅趕（COM 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "COM", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}一棍掃過去，獼猴摔進草叢，好一陣子才爬起來。屋頂上的同伴尖叫著散開。",
+              "effects": { "resources": { "Noise": 2 } }
+            },
+            "fail": {
+              "text": "棍子沒有打中。那隻獼猴撲上來，牙齒咬穿了{actor}的袖子，傷口很快就紅腫起來。",
+              "effects": { "chars": { "$actor": { "Infection": 10, "Health": -5 } } }
+            }
+          }
+        },
+        {
+          "label": "繞開遊客中心，走園區後門（ExploreRisk +2）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}沿著圍欄往後門走，屋頂上的叫聲一路跟到轉角才停。",
+              "effects": { "resources": { "ExploreRisk": 2 } }
+            }
+          }
+        },
+        {
+          "label": "丟出罐頭引開牠們（Food -1）",
+          "requires": { "resources": { "Food": { "gte": 1 } } },
+          "cost": { "Food": 1 },
+          "outcomes": {
+            "always": {
+              "text": "罐頭滾下屋頂，獼猴們爭先恐後撲了過去，撕咬聲一直響到{actor}走遠都沒停。",
+              "effects": { "resources": { "ExploreRisk": -1 } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_014",
+      "pool": "loc:zoo",
+      "title": "停車場的長頸鹿",
+      "weight": 8,
+      "text": "停車場的白線上，一頭長頸鹿低著頭，慢慢嚼著路邊的行道樹。脖子高過路燈，腳步輕得幾乎沒有聲音。\n遠處遊蕩的喪屍，全都被牠的身影吸引，轉向停車場的方向，卻沒有人敢靠近。\n遊客中心的門開著。櫃檯後面，藥櫃還鎖著。",
+      "choices": [
+        {
+          "label": "趁喪屍分心，溜進去撬藥櫃（LOG 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "LOG", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}用細鐵絲撥開鎖芯，藥櫃吱呀一聲開了。裡面的紗布和止痛藥，夠用好幾天。",
+              "effects": { "resources": { "Med": 2 } }
+            },
+            "fail": {
+              "text": "撬鎖的聲音太大，喪屍群裡有幾顆頭轉了過來。{actor}只抓到一瓶碘酒，就從後門跌跌撞撞地衝出去。",
+              "effects": { "resources": { "Noise": 4 }, "chars": { "$actor": { "Health": -5 } } }
+            }
+          }
+        },
+        {
+          "label": "慢慢走到長頸鹿旁，把水分給牠（Water -1）",
+          "requires": { "resources": { "Water": { "gte": 1 } } },
+          "cost": { "Water": 1 },
+          "outcomes": {
+            "always": {
+              "text": "長頸鹿低下頭，舌頭捲過{actor}的手心，溫熱而粗糙。那一刻，停車場好像安靜了很多。",
+              "effects": { "resources": { "Morale": 3 }, "chars": { "$actor": { "Stress": -6 } } }
+            }
+          }
+        },
+        {
+          "label": "蹲在車後等牠走遠（ExploreRisk +1，Stress +3）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}蹲在車後，等了一個多小時。長頸鹿終於走進林子，喪屍也慢慢散開。手心還留著汗，腿卻麻得站不起來。",
+              "effects": { "resources": { "ExploreRisk": 1 }, "chars": { "$actor": { "Stress": 3 } } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_015",
+      "pool": "loc:zoo",
+      "title": "獅子館的鐵柵",
+      "weight": 9,
+      "text": "獅子館的鐵柵門焊死了一半，裡面傳來斷斷續續的敲擊聲，還有男人壓抑的咳嗽。\n鐵縫裡塞著一張字條，寫著『志工老周，右腳被卡住，有水沒吃的』。字跡被雨泡得發糊。\n地上散著比人掌還大的腳印。牠們不在這裡，但腳印是新的。",
+      "choices": [
+        {
+          "label": "撬開鐵柵，把老周拖出來（STR 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "STR", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "鐵柵發出刺耳的聲音，終於扳開一條縫。老周被拖出來，懷裡還抱著一袋乾糧，笑得滿臉是淚。",
+              "effects": { "resources": { "Food": 2, "Morale": 4 } }
+            },
+            "fail": {
+              "text": "鐵柵反彈回來，{actor}的手被夾在縫隙裡。遠處傳來低吼，腳印越來越近。",
+              "effects": { "resources": { "Noise": 3 }, "chars": { "$actor": { "Health": -8, "Stress": 5 } } }
+            }
+          }
+        },
+        {
+          "label": "從鐵縫丟進藥包（Med -1）",
+          "requires": { "resources": { "Med": { "gte": 1 } } },
+          "cost": { "Med": 1 },
+          "outcomes": {
+            "always": {
+              "text": "藥包滑進鐵縫，老周的手抓住了它。他沒有出來，但敲擊聲終於慢了下來。",
+              "effects": { "resources": { "Morale": 3 } }
+            }
+          }
+        },
+        {
+          "label": "不救，把字條塞回鐵縫（Morale -3）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}把字條揉成一團，塞回鐵縫裡。走出獅子館時，身後的敲擊聲停了很久，才慢慢又響起來。",
+              "effects": { "resources": { "Morale": -3 }, "chars": { "$actor": { "Stress": 4 } } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_016",
+      "pool": "loc:maokong",
+      "title": "纜車車廂",
+      "weight": 8,
+      "once": true,
+      "text": "纜車的鋼索在半空中晃，車廂停在第三根支柱上，像一顆被遺忘的果實。\n車窗上貼滿求救的紙條，最下面一張寫著：『還有三個人，第四天了。』\n車廂裡傳來一聲很輕的敲擊，接著是虛弱的咳嗽。風一吹，車廂又晃了一下。",
+      "choices": [
+        {
+          "label": "沿著鋼索爬上去，撬開車門（STR 檢定，困難 9）",
+          "check": { "who": "actor", "stat": "STR", "dc": 9 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}的手掌被鋼索磨出血，終於抓住車門把手。車廂裡的三個人一個個爬出來，懷裡抱著一袋發黴的麵包，一直說謝謝。",
+              "effects": { "resources": { "Food": 2, "Morale": 5 }, "flagsSet": ["lc_cable_rescued"] }
+            },
+            "fail": {
+              "text": "鋼索突然一沉，{actor}從半空滑下來，撞在支柱上。車廂裡的人隔著玻璃看著，沒有人敢出聲。",
+              "effects": { "resources": { "Morale": -2 }, "chars": { "$actor": { "Health": -12, "Stress": 5 } } }
+            }
+          }
+        },
+        {
+          "label": "從下面丟上水瓶，讓他們自己爬（Water -2）",
+          "requires": { "resources": { "Water": { "gte": 2 } } },
+          "cost": { "Water": 2 },
+          "outcomes": {
+            "always": {
+              "text": "水瓶撞在車窗上，裡面的人慌忙去接。沒有人下來，但那聲咳嗽，停了一會兒。",
+              "effects": { "resources": { "Morale": 2 } }
+            }
+          }
+        },
+        {
+          "label": "裝作沒聽見，繼續往山上走（Morale -3，Stress +6）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}把頭轉開，沿著登山步道往上走。風裡還是那聲咳嗽，一直跟到山頂的茶園。",
+              "effects": { "resources": { "Morale": -3 }, "chars": { "$actor": { "Stress": 6 } } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_017",
+      "pool": "loc:maokong",
+      "title": "茶農的水桶",
+      "weight": 8,
+      "once": true,
+      "text": "茶園小屋的門口，掛著一串乾辣椒。老夫妻坐在矮凳上，老頭子手裡拿著一把剪刀，剪的是還沒收完的茶葉。\n他抬起頭，看見{actor}身上的槍，卻沒有站起來，只慢慢把剪刀放在膝上。『山下來的？』聲音像一根曬乾的竹子，『我們有水，缺藥。』\n老婆婆的手腕纏著繃帶，繃帶邊緣已經發黑。",
+      "choices": [
+        {
+          "label": "拿藥換泉水（Med -1）",
+          "requires": { "resources": { "Med": { "gte": 1 } } },
+          "cost": { "Med": 1 },
+          "outcomes": {
+            "always": {
+              "text": "藥瓶被老婆婆接過去，她一顆一顆數完，才點了點頭。老頭子把水桶搬出來，水很涼，帶著山裡的泥土味，還塞了一小袋烤番薯。",
+              "effects": { "resources": { "Water": 4, "Food": 1 } }
+            }
+          }
+        },
+        {
+          "label": "討價還價，把水價壓下來（CHA 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "CHA", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}把價錢一句句說下來，從山下的米價講到繃帶的價錢。老頭子笑了，搬出兩桶水，還多給一包乾菜。",
+              "effects": { "resources": { "Water": 3, "Food": 2 } }
+            },
+            "fail": {
+              "text": "老婆婆一句話也沒說，只把繃帶又纏緊了些。老頭子冷冷地說：『不要就走。』最後只換到一桶水。",
+              "effects": { "resources": { "Water": 2 }, "chars": { "$actor": { "Stress": 3 } } }
+            }
+          }
+        },
+        {
+          "label": "趁他們不注意，把水桶拖走（COM 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "COM", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "水桶很沉。{actor}趁老頭子轉身的空檔，把兩桶水拖進草叢。背後傳來一聲很輕的嘆息，沒有人追過來。",
+              "effects": { "resources": { "Water": 4, "Morale": -3 }, "chars": { "$actor": { "Stress": 4 } } }
+            },
+            "fail": {
+              "text": "老頭子看見了。他沒有罵人，只是把剪刀重新拿起來。那眼神，讓{actor}想起山下那些被趕出去的人。",
+              "effects": { "resources": { "Morale": -2 }, "chars": { "$actor": { "Stress": 8 } } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_018",
+      "pool": "loc:maokong",
+      "title": "岩縫裡的泉眼",
+      "weight": 12,
+      "text": "山腰的岩縫裡，泉水一滴一滴滲出來，匯進一個生鏽的鐵盆。水面很清，清得能看見底下的落葉。\n泉旁的泥地上，有幾串腳印通往下坡，鞋底的紋路是拖鞋的。\n{actor}把手伸進水裡，指尖一陣冰涼。水聲很大，大到聽不見遠方的腳步聲。",
+      "choices": [
+        {
+          "label": "慢慢煮沸過濾，裝滿水壺（LOG 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "LOG", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}把水倒進帶來的濾布，再用小火煮開。裝滿的水壺沉甸甸的，喝起來帶著一點甘甜。",
+              "effects": { "resources": { "Water": 4 } }
+            },
+            "fail": {
+              "text": "火太弱，水沒有完全煮開。{actor}喝了兩口，肚子很快開始絞痛。",
+              "effects": { "resources": { "Water": 2 }, "chars": { "$actor": { "Health": -5 } } }
+            }
+          }
+        },
+        {
+          "label": "一趟一趟把水桶扛回營地（STR 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "STR", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "{actor}來回跑了四趟，肩膀磨得發紅。水桶排成一列放在石頭上，整座山頭都聽得見水的聲音。",
+              "effects": { "resources": { "Water": 4 }, "chars": { "$actor": { "Stress": -3 } } }
+            },
+            "fail": {
+              "text": "下坡的石階太滑，{actor}摔了一跤，水桶滾進草叢，只救回一桶。",
+              "effects": { "resources": { "Water": 2 }, "chars": { "$actor": { "Health": -3 } } }
+            }
+          }
+        },
+        {
+          "label": "順著腳印往下坡找（ExploreRisk +2）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}跟著腳印往下走，在溝邊找到一個翻倒的水桶和一包泡爛的餅乾。水桶還是滿的，人卻已經不見了。",
+              "effects": { "resources": { "Food": 2, "ExploreRisk": 2 } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_019",
+      "pool": "loc:maokong",
+      "title": "濃霧裡的歌",
+      "weight": 10,
+      "conditions": { "weather": ["fog"] },
+      "text": "山上的霧濃得像牛奶，連茶樹的輪廓都糊成一團。遠處有人哼歌，調子慢，是山下老一輩才會唱的台語歌。\n歌聲一會兒在左邊，一會兒在右邊，像被霧拆成了好幾段。\n霧裡還有另一種聲音，很輕、很慢，是拖著腳步的聲音。",
+      "choices": [
+        {
+          "label": "循著歌聲找過去（LOG 檢定，普通 7）",
+          "check": { "who": "actor", "stat": "LOG", "dc": 7 },
+          "outcomes": {
+            "success": {
+              "text": "霧裡走出一個老茶農，背著一簍茶葉，看見{actor}也不驚訝。『霧裡跟著歌走，就不會踩到坑。』他塞來一把乾菜，轉身又消失在白色裡。",
+              "effects": { "resources": { "Food": 2, "ExploreRisk": -2 } }
+            },
+            "fail": {
+              "text": "歌聲忽然停了。{actor}在茶園的田埂間繞了整整一個小時，直到腳底踩到一個冰冷的東西。",
+              "effects": { "resources": { "ExploreRisk": 2 }, "chars": { "$actor": { "Stress": 6 } } }
+            }
+          }
+        },
+        {
+          "label": "原地蹲下，等霧散再走（Stress +2）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}把背包抱在胸前，一動也不動。霧一直沒有散，但拖步聲慢慢遠去。天快亮時，歌聲又響了一次，這次很近。",
+              "effects": { "resources": { "Morale": 2 }, "chars": { "$actor": { "Stress": 2 } } }
+            }
+          }
+        },
+        {
+          "label": "打開手電筒朝聲音照（Noise +4，ExploreRisk +3）",
+          "outcomes": {
+            "always": {
+              "text": "光束刺進白霧裡，拖步聲忽然停住。下一秒，霧裡傳來很多人同時發出的低吼。{actor}趕緊關掉手電筒，背靠著茶樹屏住呼吸。",
+              "effects": { "resources": { "Noise": 4, "ExploreRisk": 3 }, "world": { "density": { "maokong": 10 } } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "LC_020",
+      "pool": "loc:maokong",
+      "title": "茶廠的倉庫",
+      "weight": 10,
+      "text": "茶廠倉庫半開著，木門上貼著一張泛黃的公告：『本年度春茶收購，不收現金。』\n裡面堆著一袋袋乾燥的茶葉，角落有一箱罐裝紅豆湯，標籤還沒有脫落。\n地板上有一道拖痕，一路通到倉庫後面的小門。小門沒有鎖。",
+      "choices": [
+        {
+          "label": "把罐頭和乾糧全部搬走（Stress +2）",
+          "outcomes": {
+            "always": {
+              "text": "{actor}把能搬的都裝進背包，重得肩膀發痛。紅豆湯的罐頭壓在箱底，摸起來冰涼，標籤還完好。",
+              "effects": { "resources": { "Food": 3 }, "chars": { "$actor": { "Stress": 2 } } }
+            }
+          }
+        },
+        {
+          "label": "打開後門，查看那道拖痕（COM 檢定，困難 9）",
+          "check": { "who": "actor", "stat": "COM", "dc": 9 },
+          "outcomes": {
+            "success": {
+              "text": "後門外是一片被踩平的草地，草地中央躺著一個穿制服的人，身上插著一把茶剪。{actor}翻了他的口袋，找到一包藥和一張寫著地址的紙。",
+              "effects": { "resources": { "Med": 2 } }
+            },
+            "fail": {
+              "text": "門後有東西猛撲出來。{actor}反射性把門撞回去，聽見一聲悶響，卻沒有人喊痛。背上的汗把衣服貼在身上。",
+              "effects": { "chars": { "$actor": { "Health": -4, "Stress": 6 } } }
+            }
+          }
+        },
+        {
+          "label": "留下半袋乾糧，把門鎖回去給後來的人（Food -1）",
+          "requires": { "resources": { "Food": { "gte": 1 } } },
+          "cost": { "Food": 1 },
+          "outcomes": {
+            "always": {
+              "text": "{actor}留下半袋乾糧，在門板上用粉筆寫下『有水，勿拿完』，把門鎖回去。如果之後還有人走上來，至少不會白跑一趟。",
+              "effects": { "resources": { "Morale": 3 } }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
